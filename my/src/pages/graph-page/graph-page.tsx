@@ -1,0 +1,233 @@
+import { SetStateAction, useCallback, useState } from "react";
+import Graph from "react-graph-vis";
+import grapf from "../../grapf.json"
+// import { AutoComplete } from 'primereact/autocomplete';
+
+type Node = {
+    id: number,
+    label: string,
+    type: string,
+    class: string,
+    group: string
+}
+type Edge = {
+    from: number,
+    to: number,
+    id: null,
+    arrows: string,
+    tests: string[]
+}
+type graphData = { nodes: Node[], edges: Edge[] }
+
+interface Props {
+	filteredData: graphData,
+	selectedData: graphData | any
+}
+
+
+export const GraphPage = ({ filteredData}: Props) => {
+	const default_graph = grapf
+
+    let searcher: SetStateAction<string[]> = []
+
+    for (let i = 0; i < default_graph.nodes?.length; i ++){
+      	searcher.push(default_graph.nodes[i].label)
+    }
+
+    //hooks
+    const [searchData, setSearchData] = useState(searcher)
+    const [data, setData] = useState(filteredData);
+    const [networkNodes, setNetwortNodes] = useState([]);
+    const [selectedOption, setSelectedOption] = useState("")
+    const [filtered, setFiltered] = useState<graphData[] | any>([])
+	const [mainNetwork, setMainNetwork] = useState<any>(null)
+	const [lastSelected, setLastSelected] = useState(null)
+	const [visibleList, setVisibleList] = useState(false)
+
+    //callback func
+    const getNodes = useCallback((a: any) => { //пофиксить тип
+      	setNetwortNodes(a);
+    }, []);
+    
+    const handleGetNodes = useCallback(() => {
+      	console.log(networkNodes);
+    }, [networkNodes]);
+
+
+    //graph options
+    const options = {
+		layout: {
+			hierarchical: {
+				enabled: false,
+			}
+		},
+		physics: {
+			forceAtlas2Based: {
+				gravitationalConstant: -1500,
+				centralGravity: 0.005,
+				springConstant: 0.01,
+				springLength: 100,
+				damping: 1,
+				avoidOverlap: 1
+			},
+			maxVelocity: 146,
+			minVelocity: 0.1,
+			solver: "forceAtlas2Based",
+			timestep: 0.35,
+			stabilization: { 
+				iterations: 50, 
+				updateInterval: 25
+			},
+			repulsion: {
+				centralGravity: 0.,
+				springLength: 200,
+				springConstant: 0.05,
+				nodeDistance: 100,
+				damping: 0.09
+			},
+		},
+		autoResize: true,
+		edges: {
+			length: 600,
+			color: {
+				opacity: 0.2
+			}
+		},
+		nodes: {
+			shape: "dot",
+			size: 50,
+			margin: 7,
+			color:{
+				background: "#F03967",
+				highlight: "#3FBAC2",
+				border: "#F03967"
+			}, 
+			opacity: 0.2,
+			font: {
+				size: 30,
+				color: "white"
+			}
+        }
+    };
+    
+
+    //event graph
+    const events = {
+		deselectNode: function (params: { event: string; previousSelection: { nodes: any; edges: any; }; }) {
+			params.event = "[original event]"
+			// console.log(params)
+			Recolor(params.previousSelection.nodes, 'del')
+			RecolorEdges(params.previousSelection.edges, 'del')
+		},
+        select: function (params: { nodes: any; edges: any; }) {
+			Recolor(params.nodes, 'sel')
+			RecolorEdges(params.edges, 'sel')
+        },
+    };
+
+	function Recolor(arr: string | any[], flag: string){
+		for (let i = 0; i < arr?.length; i++){
+			// console.log(arr[i])
+			if (flag == 'sel'){
+				mainNetwork.updateClusteredNode(arr[i], {opacity: 1})
+			}
+			else {
+				mainNetwork.updateClusteredNode(arr[i].id, {opacity : 0.2})
+			}
+		}
+	}
+
+	function RecolorEdges(arr: string | any[], flag: string){
+		for (let i = 0; i< arr?.length; i++)
+		if (flag == 'sel'){
+			mainNetwork.updateEdge(arr[i], {color:{opacity: 1}})
+		}
+		else{
+			mainNetwork.updateEdge(arr[i].id, {color: {opacity: 0.1}})
+		}
+	}
+
+
+	
+
+    //graph camera mover
+    function CameraMover(e: string){		
+		
+        for (let i = 0; i < default_graph.nodes?.length; i++) {
+			if (default_graph.nodes[i].label.split('|')[0] === e) {				
+				let id = default_graph.nodes[i].id
+
+				mainNetwork.focus(id, {scale: 1.5})
+				mainNetwork.selectNodes([id])
+			}
+		}
+		
+	}
+
+	function openList(state_list: boolean) {
+		setVisibleList(state_list)
+	}
+
+	function setSearchValue(value: string) {	
+		setSelectedOption(value)
+		search(value)
+		openList(false)
+	}
+	
+	// CameraMover(selectedOption)
+
+    // input search graph peak
+	const search = (str: string) => {		
+		const filteredResults = searchData.filter(label => label.toLowerCase().startsWith(str.toLowerCase()));		
+		setSearchData(filteredResults);
+		CameraMover(selectedOption)
+	};
+		
+	const setInputValue = (e: any) => {
+		const inputValue = e.target.value;
+		setSelectedOption(inputValue);
+	  
+		if (e.nativeEvent.inputType === 'deleteContentBackward' && inputValue) {
+		  setSearchData(searcher);
+
+		} else {
+
+		  search(inputValue);
+		}
+	}
+	  
+	return (
+		<>
+			<span className="search-input">
+				<svg onClick={() => {search(selectedOption)}} className="pi pi-search search-input__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<path d="M18.677 19.607L12.962 13.891C10.4196 15.6985 6.91642 15.2564 4.90285 12.8739C2.88929 10.4915 3.03714 6.96361 5.24298 4.75802C7.44824 2.55147 10.9765 2.40298 13.3594 4.41644C15.7422 6.42989 16.1846 9.93347 14.377 12.476L20.092 18.192L18.678 19.606L18.677 19.607ZM9.48498 5.00001C7.58868 4.99958 5.95267 6.3307 5.56745 8.18745C5.18224 10.0442 6.15369 11.9163 7.89366 12.6703C9.63362 13.4242 11.6639 12.8528 12.7552 11.3021C13.8466 9.75129 13.699 7.64734 12.402 6.26402L13.007 6.86402L12.325 6.18402L12.313 6.17202C11.5648 5.4192 10.5464 4.99715 9.48498 5.00001Z" fill="#ffffff"/>
+				</svg>
+				<div className="search-input__field">
+					<input 
+						type="text" 
+						placeholder="Вершина"
+						value={selectedOption}
+						onFocus={() => openList(true)}
+						onChange={(e: any) => setInputValue(e)}
+					/>
+				</div>
+				{ visibleList && 
+					<div className="search-input__list">
+						{searchData.slice(0, 3).map((name: string) => (
+							<span key={name} onClick={() => setSearchValue(name.split('|')[0])}>{name.split('|')[0]}</span>
+						))}
+					</div>
+				}
+			</span>
+			<Graph 
+				graph={filteredData}
+				options={options}
+				events={events}
+				getNodes={getNodes}
+				getNetwork={network => setMainNetwork(network)}
+			/>
+		</>
+	);	  
+}
+  
+ 

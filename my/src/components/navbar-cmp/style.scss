@@ -1,0 +1,69 @@
+@use "../../style/params.scss" as *;
+
+.navbar {
+    background-color: rgb(29, 29, 29);
+    display: flex;
+    justify-content: space-between;
+    height: toRem(48);
+}
+
+.company{
+    padding-left: toRem(16);
+    padding-top: toRem(8);
+    color: $primary-color;
+    font-size: toRem(24);
+}
+
+.elements{
+    padding-top: toRem(11);
+    padding-right: toRem(16);
+    color: $text-color;
+}
+
+.search-input {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border-radius: toRem(8);
+    max-height: toRem(42);
+    margin-left: toRem(12);
+    position: relative;
+    z-index: 10;
+    &__field {
+        height: 28px;
+        padding: toRem(5);
+        display: flex;
+        align-items: center;
+    }
+    &__icon {
+        // margin-left: toRem(12);
+        // margin-right: toRem(12);
+        padding: toRem(3);
+        transition: transform .2s;
+        cursor: pointer;
+        background-color: $primary-color;
+        height: 100%;
+        width: 100%;
+        border-radius: toRem(8) 0 0 toRem(8);
+        transition: background .2s;
+        &:hover { 
+            background-color: $dark-primary;
+        }
+    }
+    &__list {
+        position: absolute;
+        top: toRem(38);
+        display: flex;
+        flex-direction: column;
+        background-color: $background-color;
+        padding: toRem(10);
+        gap: toRem(5);
+        border-radius: toRem(8);
+        width: calc(100% - toRem(20));
+        transition: height .2s;
+        span {
+            color: $headers-color;
+            cursor: pointer;
+        }
+    }
+}
