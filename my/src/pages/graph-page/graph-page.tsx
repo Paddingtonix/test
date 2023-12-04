@@ -1,7 +1,6 @@
 import { SetStateAction, useCallback, useState } from "react";
 import Graph from "react-graph-vis";
 import grapf from "../../grapf.json"
-// import { AutoComplete } from 'primereact/autocomplete';
 
 type Node = {
     id: number,
@@ -35,7 +34,10 @@ export const GraphPage = ({ filteredData}: Props) => {
     }
 
     //hooks
-    const [searchData, setSearchData] = useState(searcher)
+    const [originalData, setOriginalData] = useState(searcher);
+	const [searchData, setSearchData] = useState(originalData);
+
+
     const [data, setData] = useState(filteredData);
     const [networkNodes, setNetwortNodes] = useState([]);
     const [selectedOption, setSelectedOption] = useState("")
@@ -77,6 +79,10 @@ export const GraphPage = ({ filteredData}: Props) => {
 			stabilization: { 
 				iterations: 50, 
 				updateInterval: 25
+			},
+			barnesHut: {
+				gravitationalConstant: 10,
+				springLength: 200
 			},
 			repulsion: {
 				centralGravity: 0.,
@@ -122,7 +128,12 @@ export const GraphPage = ({ filteredData}: Props) => {
         select: function (params: { nodes: any; edges: any; }) {
 			Recolor(params.nodes, 'sel')
 			RecolorEdges(params.edges, 'sel')
+			console.log(params);
+			
         },
+		init: (e: any) => {
+			console.log('qwerty', e);
+		}
     };
 
 	function Recolor(arr: string | any[], flag: string){
@@ -152,7 +163,6 @@ export const GraphPage = ({ filteredData}: Props) => {
 
     //graph camera mover
     function CameraMover(e: string){		
-		
         for (let i = 0; i < default_graph.nodes?.length; i++) {
 			if (default_graph.nodes[i].label.split('|')[0] === e) {				
 				let id = default_graph.nodes[i].id
@@ -161,7 +171,6 @@ export const GraphPage = ({ filteredData}: Props) => {
 				mainNetwork.selectNodes([id])
 			}
 		}
-		
 	}
 
 	function openList(state_list: boolean) {
@@ -170,6 +179,8 @@ export const GraphPage = ({ filteredData}: Props) => {
 
 	function setSearchValue(value: string) {	
 		setSelectedOption(value)
+		console.log(value);
+		
 		search(value)
 		openList(false)
 	}
@@ -177,25 +188,35 @@ export const GraphPage = ({ filteredData}: Props) => {
 	// CameraMover(selectedOption)
 
     // input search graph peak
-	const search = (str: string) => {		
-		const filteredResults = searchData.filter(label => label.toLowerCase().startsWith(str.toLowerCase()));		
-		setSearchData(filteredResults);
-		CameraMover(selectedOption)
-	};
+	const searchFromClick = (e: React.KeyboardEvent<HTMLInputElement>, value: string) => {
+		if(e.key === 'Enter') {
+			search(value)
+			openList(false)
+		}
+	}
+
+	const search = (str: string) => {
+		let filteredResults = originalData.filter(label => label.toLowerCase().startsWith(str.toLowerCase()));
 		
+		setSelectedOption(str)
+		setSearchData(filteredResults);
+
+		CameraMover(selectedOption);
+	};
+	  
 	const setInputValue = (e: any) => {
 		const inputValue = e.target.value;
 		setSelectedOption(inputValue);
 	  
 		if (e.nativeEvent.inputType === 'deleteContentBackward' && inputValue) {
-		  setSearchData(searcher);
-
+		  setSearchData(originalData);
+		  search(inputValue);
 		} else {
-
 		  search(inputValue);
 		}
-	}
-	  
+	};
+
+	
 	return (
 		<>
 			<span className="search-input">
@@ -208,11 +229,13 @@ export const GraphPage = ({ filteredData}: Props) => {
 						placeholder="Вершина"
 						value={selectedOption}
 						onFocus={() => openList(true)}
+						// onBlur={() => openList(false)}
+						onKeyDown={(e) => searchFromClick(e, selectedOption)}
 						onChange={(e: any) => setInputValue(e)}
 					/>
 				</div>
-				{ visibleList && 
-					<div className="search-input__list">
+				{visibleList && searchData.length > 0 &&
+					<div className='search-input__list'>
 						{searchData.slice(0, 3).map((name: string) => (
 							<span key={name} onClick={() => setSearchValue(name.split('|')[0])}>{name.split('|')[0]}</span>
 						))}

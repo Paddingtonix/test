@@ -60,7 +60,7 @@
         gap: toRem(5);
         border-radius: toRem(8);
         width: calc(100% - toRem(20));
-        transition: height .2s;
+        transition: height 2s ease-in-out;
         span {
             color: $headers-color;
             cursor: pointer;
