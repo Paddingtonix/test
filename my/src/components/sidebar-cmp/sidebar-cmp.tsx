@@ -9,6 +9,9 @@ interface Props {
 }
 
 export const SidebarCmp = ({active, setActive, children}: Props) => {
+
+    console.log(active);
+    
     return (
         <div className={active ? 'modal active' : "modal closed"}>
             <div className={active? "content act" : "cls content"}>

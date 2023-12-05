@@ -1,4 +1,4 @@
-import { SetStateAction, useCallback, useState } from "react";
+import { SetStateAction, useCallback, useState, useEffect } from "react";
 import Graph from "react-graph-vis";
 import grapf from "../../grapf.json"
 
@@ -20,11 +20,12 @@ type graphData = { nodes: Node[], edges: Edge[] }
 
 interface Props {
 	filteredData: graphData,
-	selectedData: graphData | any
+	selectedData: graphData | any,
+	callBack: Function
 }
 
 
-export const GraphPage = ({ filteredData}: Props) => {
+export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 	const default_graph = grapf
 
     let searcher: SetStateAction<string[]> = []
@@ -46,6 +47,8 @@ export const GraphPage = ({ filteredData}: Props) => {
 	const [lastSelected, setLastSelected] = useState(null)
 	const [visibleList, setVisibleList] = useState(false)
 
+	const [physicsEnabled, setPhysicsEnabled] = useState(true);
+
     //callback func
     const getNodes = useCallback((a: any) => { //пофиксить тип
       	setNetwortNodes(a);
@@ -56,6 +59,14 @@ export const GraphPage = ({ filteredData}: Props) => {
     }, [networkNodes]);
 
 
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setPhysicsEnabled(false);
+		}, 10000)
+
+		return () => clearTimeout(timeoutId);
+	}, [])
+
     //graph options
     const options = {
 		layout: {
@@ -63,7 +74,16 @@ export const GraphPage = ({ filteredData}: Props) => {
 				enabled: false,
 			}
 		},
+		clusterin: {
+			enabled: true,
+			clusterEdgeProperties: {
+				// Опции для рёбер между узлами внутри кластера
+				color: "#000000", // Цвет ребер
+				thickness: 1,      // Толщина ребер
+			},
+		},
 		physics: {
+			enabled: physicsEnabled,
 			forceAtlas2Based: {
 				gravitationalConstant: -1500,
 				centralGravity: 0.005,
@@ -115,7 +135,14 @@ export const GraphPage = ({ filteredData}: Props) => {
 			}
         }
     };
-    
+	
+	function GetNameByID(id: number){
+		for (let i = 0; i < default_graph.nodes?.length; i++){
+			if (default_graph.nodes[i].id == id){
+				return (default_graph.nodes[i].label)
+			}
+		}
+	}
 
     //event graph
     const events = {
@@ -128,8 +155,7 @@ export const GraphPage = ({ filteredData}: Props) => {
         select: function (params: { nodes: any; edges: any; }) {
 			Recolor(params.nodes, 'sel')
 			RecolorEdges(params.edges, 'sel')
-			console.log(params);
-			
+			callBack(GetNameByID(params.nodes))
         },
 		init: (e: any) => {
 			console.log('qwerty', e);
@@ -219,7 +245,7 @@ export const GraphPage = ({ filteredData}: Props) => {
 	
 	return (
 		<>
-			<span className="search-input">
+			<div className="search-input">
 				<svg onClick={() => {search(selectedOption)}} className="pi pi-search search-input__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 					<path d="M18.677 19.607L12.962 13.891C10.4196 15.6985 6.91642 15.2564 4.90285 12.8739C2.88929 10.4915 3.03714 6.96361 5.24298 4.75802C7.44824 2.55147 10.9765 2.40298 13.3594 4.41644C15.7422 6.42989 16.1846 9.93347 14.377 12.476L20.092 18.192L18.678 19.606L18.677 19.607ZM9.48498 5.00001C7.58868 4.99958 5.95267 6.3307 5.56745 8.18745C5.18224 10.0442 6.15369 11.9163 7.89366 12.6703C9.63362 13.4242 11.6639 12.8528 12.7552 11.3021C13.8466 9.75129 13.699 7.64734 12.402 6.26402L13.007 6.86402L12.325 6.18402L12.313 6.17202C11.5648 5.4192 10.5464 4.99715 9.48498 5.00001Z" fill="#ffffff"/>
 				</svg>
@@ -241,7 +267,7 @@ export const GraphPage = ({ filteredData}: Props) => {
 						))}
 					</div>
 				}
-			</span>
+			</div>
 			<Graph 
 				graph={filteredData}
 				options={options}

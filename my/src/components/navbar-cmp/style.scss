@@ -5,6 +5,28 @@
     display: flex;
     justify-content: space-between;
     height: toRem(48);
+    padding: 0 toRem(48);
+    &__left-side {
+        display: flex;
+        align-items: center;
+        gap: toRem(88);
+        &__logo {
+            color: $headers-color;
+        }
+        &__visible-option {
+            display: flex;
+            align-items: center;
+            gap: toRem(12);
+            &__text {
+                color: $headers-color
+            }
+            button {
+                height: toRem(24);
+                padding: 0;
+                width: toRem(120);
+            }
+        }
+    }
 }
 
 .company{
@@ -29,11 +51,15 @@
     margin-left: toRem(12);
     position: relative;
     z-index: 10;
+    position: absolute;
+    right: 0;
+    top: toRem(55);
     &__field {
         height: 28px;
         padding: toRem(5);
         display: flex;
         align-items: center;
+        background-color: $background-color;
     }
     &__icon {
         // margin-left: toRem(12);

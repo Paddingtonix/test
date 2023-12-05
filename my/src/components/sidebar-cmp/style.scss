@@ -15,6 +15,7 @@
     opacity: 1;
     width: toRem(560);
     transition: width .2s;
+    z-index: 11;
 }
 
 .modal.closed{

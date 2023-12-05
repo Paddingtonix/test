@@ -159,8 +159,11 @@
 }
 
 .sidebar{
-    padding: toRem(32);
+    height: fit-content;
+    // padding: toRem(32);
     background-color: $background-color;
+    position: absolute;
+    z-index: 10;
 }
 
 .sidebar-content{
@@ -187,10 +190,11 @@
     min-width: toRem(800);
 }
 
-.modal-container{
+.modal-container {
     flex-direction: row;
     justify-content: space-between;
     display: flex;
+    position: relative;
 }
 
 .header-container{
@@ -207,11 +211,47 @@
     margin-top: toRem(48)
 }
 
-.close-container{
+.close-container {
     display: flex;
     position: absolute;
     right: toRem(24);
-    top: toRem(24)
+    top: toRem(24);
+    z-index: 11;
+    &:hover {
+        > div {
+            background-color: $primary-color;
+        }
+    }
+    &__back-arrow {
+        &:nth-child(2) {
+            width: toRem(6);
+            transform: rotate(-135deg);
+            height: 1px;
+            background-color: $headers-color;
+        }
+        &:first-child {
+            // transform: rotate(-135deg);
+            background-color: $headers-color;
+            width: toRem(15);
+            height: 1px;
+            position: absolute;
+            cursor: pointer;
+        }
+    }
+    &__line {
+        width: 15px;
+        height: 1px;
+        background-color: $headers-color;
+        transition: background .2s;
+        position: absolute;
+        cursor: pointer;
+        &:first-child {
+            transform: rotate(-135deg);
+        }
+        &:last-child {
+            transform: rotate(135deg);
+        }  
+    }
 }
 
 .button-container{
