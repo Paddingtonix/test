@@ -1,5 +1,6 @@
 import "../../index.scss"
 import { ButtonCmp } from "../button-cmp/button-cmp"
+import { selectorCmp } from "../selector-cmp/selector-cmp";
 import { useState } from 'react'
 
 interface NavbarProps {
@@ -8,6 +9,28 @@ interface NavbarProps {
 
 export const NavbarCmp: React.FC<NavbarProps>  = ({ graph_state }) => {
 	const [visState, setVisState] = useState(true)
+	const [selectorType] = useState([
+		{
+			placeholder: 'Типы вершин',
+			list: [
+				{
+					text: 'PVT',
+				},
+				{
+					text: 'Керн',
+				},
+				{
+					text: 'Петрофизика',
+				},
+				{
+					text: 'Сейсмика',
+				},
+				{
+					text: 'скв.иссл',
+				},
+			]
+		}
+	])
 
 	const change_option = () => {
 		setVisState(!visState)
@@ -23,6 +46,12 @@ export const NavbarCmp: React.FC<NavbarProps>  = ({ graph_state }) => {
 					<span className='navbar__left-side__visible-option__text'>Вариант отображения</span>
 					<ButtonCmp OnClick={change_option} name={visState ? "Таблица" : "Граф"}></ButtonCmp>
 				</div>
+			</div>
+			<div className="navbar__center-side">
+				{selectorType.map(selector_type => {
+					<selectorCmp selector_placeholder={selector_type.placeholder} selector_list={selector_type.list}></selectorCmp>
+				})}
+				
 			</div>
                     {/* <MultiSelect value={selectedClassFilters} onChange={(e) => Filter(e.value)} options={classFilters} optionLabel="name" placeholder="Типы вершин" maxSelectedLabels={6}  style={{backgroundColor: "#3FBAC2", color: "#FFFFFF"}} className="mb-4"/>
                     <MultiSelect value={selectedEdgesFilters} onChange={(e) => EdgesFilter(e.value)} options={edgesFilters} optionLabel="name" placeholder="Типы связей" maxSelectedLabels={6}  style={{backgroundColor: "#3FBAC2", color: "#FFFFFF"}}/> */}
