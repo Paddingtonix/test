@@ -1,0 +1,15 @@
+@use "../../style/params.scss" as *;
+    
+.selector {
+    position: relative;
+    &-list {
+        position: absolute;
+        bottom: -40px;
+        background-color: $dark-background-color;
+        padding: 20px;
+        color: $headers-color;
+        display: flex;
+        flex-direction: column;
+        gap: toRem(8)
+    }
+}

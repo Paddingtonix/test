@@ -6,6 +6,11 @@
     justify-content: space-between;
     height: toRem(48);
     padding: 0 toRem(48);
+    overflow: hidden;
+    &__center-side {
+        display: flex;
+        align-items: center;
+    }
     &__left-side {
         display: flex;
         align-items: center;
