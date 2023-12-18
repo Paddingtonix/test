@@ -5,10 +5,13 @@ import { useState } from 'react'
 
 interface NavbarProps {
 	graph_state: (state: boolean | ((prevState: boolean) => boolean)) => void;
+	filter_graph: (state: string) => void;
 }
 
-export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state }) => {
+export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph }) => {
 	const [visState, setVisState] = useState(true);
+
+
 	const [selectorType] = useState([
 	  {
 		placeholder: 'Типы вершин',
@@ -21,7 +24,14 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state }) => {
 		],
 	  },
 	  {
-		placeholder: 'Типы вершин',
+		placeholder: 'Типы связи',
+		list: [
+		  { text: 'Односторонняя' },
+		  { text: 'Двусторонняя' },
+		],
+	  },
+	  {
+		placeholder: 'Типы аттрибутам',
 		list: [
 		  { text: 'Односторонняя' },
 		  { text: 'Двусторонняя' },
@@ -57,11 +67,10 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state }) => {
 				key={selector_type.placeholder}
 				selector_placeholder={selector_type.placeholder}
 				selector_list={selector_type.list}
-				selector_value={'qwerty'}
+				selector_value={filter_graph}
 			></SelectorCmp>
 		  ))}
 		</div>
-		{/* Добавьте обратно ваш блок MultiSelect, если это необходимо */}
 		<div className="elements">Выход</div>
 	  </div>
 	);

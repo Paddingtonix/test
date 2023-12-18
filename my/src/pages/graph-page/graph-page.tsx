@@ -26,7 +26,7 @@ interface Props {
 
 
 export const GraphPage = ({ callBack, filteredData}: Props, ) => {
-	const default_graph = grapf
+	const default_graph = grapf	
 
     let searcher: SetStateAction<string[]> = []
 
@@ -60,12 +60,18 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 
 
 	useEffect(() => {
-		const timeoutId = setTimeout(() => {
-			setPhysicsEnabled(false);
-		}, 10000)
+		if(physicsEnabled) {
+			const timeoutId = setTimeout(() => {
+				setPhysicsEnabled(false);
+			}, 10000)
 
-		return () => clearTimeout(timeoutId);
-	}, [])
+			return () => clearTimeout(timeoutId);
+		}
+	}, [physicsEnabled])
+
+	useEffect(() => {
+		setPhysicsEnabled(true);
+	}, [filteredData])
 
     //graph options
     const options = {

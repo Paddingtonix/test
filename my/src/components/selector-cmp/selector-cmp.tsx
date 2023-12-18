@@ -2,9 +2,9 @@ import './style.scss'
 import { useState } from 'react'
 
 interface SelectorCmpProps {
-    selector_value: any;
     selector_placeholder: any;
     selector_list: any;
+    selector_value: (value: string) => void;
 }
 
 export const SelectorCmp = ({ selector_value, selector_placeholder, selector_list }: SelectorCmpProps) => {
@@ -17,6 +17,7 @@ export const SelectorCmp = ({ selector_value, selector_placeholder, selector_lis
 
     const setSelectorValue = (text: string) => {
         setSelectorState(text)
+        selector_value(text)
     }
 
     return (

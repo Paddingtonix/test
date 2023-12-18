@@ -121,11 +121,76 @@ function ModalHelp() {
         // Обновляем состояние в родительском компоненте
         setDisplayOption(state);
     };
+
+    function Filter(par: filterType){
+        setSelectedClassFilters(par)
+        // подумай, как можно оптимизировать код // нинаю(
+        if (filteredData !== basicData){
+            if (par.length !==0 ){
+                let new_data: graphData = {nodes: [], edges: filteredData.edges}
+                for (let i = 0; i < par?.length; i++){
+                    for (let j = 0; j < grafp.nodes?.length; j++){
+                        if (grafp.nodes[j].class == par[i].name){
+                            new_data.nodes.push(grafp.nodes[j])
+                        }
+                    }
+                }
+                setFilteredData(new_data)
+            }
+        }
+        else{
+            if (par.length !== 0){
+                let new_data: graphData = { nodes: [], edges : grafp.edges}
+                for (let i = 0; i < par?.length; i++){
+                    for (let j = 0; j< grafp.nodes?.length; j++){
+                        if (grafp.nodes[j].class == par[i].name){
+                            new_data.nodes.push(grafp.nodes[j])
+                        }
+                    }
+                }
+                setFilteredData(new_data)
+            }
+        }
+    }
+
+    function EdgesFilter(par: filterType){
+        setSelectedEdgesFilters(par)
+
+        if (par.length !==0){
+            let new_data: graphData = {nodes: filteredData.nodes, edges: []}
+            for (let i = 0; i < par?.length; i++){
+                for (let j = 0; j < grafp.edges?.length; j++){
+                    if ((grafp.edges[j].arrows == "to" && par[i].name == "Связь комлесирования") || (grafp.edges[j].arrows == "to, from" && par[i].name == "Связь функциональная")){
+                        new_data.edges.push(grafp.edges[j])
+                    }
+                }
+            }
+            setFilteredData(new_data)
+        }
+    }
+
+    ///////////////////nodes
+    function filteredDataTest(str: string) {
+        console.log(str);
+        
+        if(str.length > 0) {
+            let filter_nodes: any = { nodes: [], edge: grafp.edges} 
+
+            for(let i = 0; i < grafp.nodes.length; i++) {
+                if(grafp.nodes[i].class === str)
+                filter_nodes.nodes.push(grafp.nodes[i])
+            }
+
+            console.log(filter_nodes);
+            
+            setFilteredData(filter_nodes)
+        }
+    }
         
 
   return (
     <>
-        <NavbarCmp graph_state={changeState}></NavbarCmp>
+        <NavbarCmp graph_state={changeState} filter_graph={filteredDataTest}></NavbarCmp>
         <div className='container'>
             {displayOption ?  
                 <div className='graph-grid'>

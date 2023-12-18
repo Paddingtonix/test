@@ -2,14 +2,29 @@
     
 .selector {
     position: relative;
+    border: toRem(1) solid $text-color;
+    border-radius: toRem(8);
+    padding: toRem(4) toRem(8);
     &-list {
         position: absolute;
-        bottom: -40px;
         background-color: $dark-background-color;
-        padding: 20px;
-        color: $headers-color;
+        padding: toRem(15);
+        color: $text-color;
         display: flex;
         flex-direction: column;
-        gap: toRem(8)
+        gap: toRem(10);
+        border-radius: toRem(8);
+        border: toRem(1) solid $text-color;
+        top: toRem(40);
+        left: 0;
+        right: 0;
+        min-width: toRem(110);
+        span {
+            cursor: pointer;
+            transition: color .2s;
+            &:hover {
+                color: $headers-color
+            }
+        }
     }
 }
