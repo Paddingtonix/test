@@ -180,8 +180,6 @@ function ModalHelp() {
                 if(grafp.nodes[i].class === str)
                 filter_nodes.nodes.push(grafp.nodes[i])
             }
-
-            console.log(filter_nodes);
             
             setFilteredData(filter_nodes)
         }
