@@ -4,7 +4,7 @@ import { useState } from 'react'
 interface SelectorCmpProps {
     selector_placeholder: any;
     selector_list: any;
-    selector_value: (value: string) => void;
+    selector_value: any;
 }
 
 export const SelectorCmp = ({ selector_value, selector_placeholder, selector_list }: SelectorCmpProps) => {
@@ -18,6 +18,11 @@ export const SelectorCmp = ({ selector_value, selector_placeholder, selector_lis
     const setSelectorValue = (text: string) => {
         setSelectorState(text)
         selector_value(text)
+    }
+
+    const clearField = () => {
+        setSelectorState('')
+        selector_value('')
     }
 
     return (
@@ -35,6 +40,10 @@ export const SelectorCmp = ({ selector_value, selector_placeholder, selector_lis
                         })}
                     </div>
                 }
+                <div className='selector__clear' onClick={clearField}>
+                    <div className='selector__clear__line'></div>
+                    <div className='selector__clear__line'></div>
+                </div>
             </div>
         </>
     )

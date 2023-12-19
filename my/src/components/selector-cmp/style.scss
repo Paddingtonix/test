@@ -27,4 +27,31 @@
             }
         }
     }
+    &__clear {
+        display: flex;
+        position: absolute;
+        right: toRem(24);
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 11;
+        &:hover {
+            > div {
+                background-color: $primary-color;
+            }
+        }
+        &__line {
+            width: 15px;
+            height: 1px;
+            background-color: $headers-color;
+            transition: background .2s;
+            position: absolute;
+            cursor: pointer;
+            &:first-child {
+                transform: rotate(-135deg);
+            }
+            &:last-child {
+                transform: rotate(135deg);
+            }  
+        }
+    }
 }

@@ -170,9 +170,7 @@ function ModalHelp() {
     }
 
     ///////////////////nodes
-    function filteredDataTest(str: string) {
-        console.log(str);
-        
+    function filteredDataTest(str: string) {        
         if(str.length > 0) {
             let filter_nodes: any = { nodes: [], edge: grafp.edges} 
 
@@ -182,13 +180,31 @@ function ModalHelp() {
             }
             
             setFilteredData(filter_nodes)
+        } else {
+            setFilteredData(basicData)
+        }
+    }
+
+    function filteredEdgesTest(str: string) {
+        console.log(str);
+        
+        let filter_edges: graphData = {nodes: grafp.nodes, edges: []}
+        if(str.length > 0) {
+            for (let i = 0; i < grafp.edges.length; i++) {
+                if ((grafp.edges[i].arrows === "to" && str === "Односторонняя") || (grafp.edges[i].arrows == "to, from" && str == "Двусторонняя")) {
+                    filter_edges.edges.push(grafp.edges[i])
+                }
+            }            
+            setFilteredData(filter_edges)
+        } else {
+            setFilteredData(basicData)
         }
     }
         
 
   return (
     <>
-        <NavbarCmp graph_state={changeState} filter_graph={filteredDataTest}></NavbarCmp>
+        <NavbarCmp graph_state={changeState} filter_graph={filteredDataTest} filter_edge={filteredEdgesTest}></NavbarCmp>
         <div className='container'>
             {displayOption ?  
                 <div className='graph-grid'>
