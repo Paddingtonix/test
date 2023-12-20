@@ -37,6 +37,7 @@ type graphData = { nodes: Node[], edges: Edge[] }
 
 export default function Main() {
 
+
     //states
    const [modalActive, setModalActive] = useState(false)
    const [node, setNode] = useState<any | null>(null)
@@ -172,11 +173,12 @@ function ModalHelp() {
     ///////////////////nodes
     function filteredDataTest(str: string) {        
         if(str.length > 0) {
-            let filter_nodes: any = { nodes: [], edge: grafp.edges} 
+            let filter_nodes: any = { nodes: [], edges: grafp.edges} 
 
             for(let i = 0; i < grafp.nodes.length; i++) {
-                if(grafp.nodes[i].class === str)
-                filter_nodes.nodes.push(grafp.nodes[i])
+                if(grafp.nodes[i].class === str) {
+                    filter_nodes.nodes.push(grafp.nodes[i])
+                }
             }
             
             setFilteredData(filter_nodes)
@@ -185,11 +187,10 @@ function ModalHelp() {
         }
     }
 
-    function filteredEdgesTest(str: string) {
-        console.log(str);
-        
-        let filter_edges: graphData = {nodes: grafp.nodes, edges: []}
+    function filteredEdgesTest(str: string) {        
         if(str.length > 0) {
+            let filter_edges: any = {nodes: grafp.nodes, edges: []}
+
             for (let i = 0; i < grafp.edges.length; i++) {
                 if ((grafp.edges[i].arrows === "to" && str === "Односторонняя") || (grafp.edges[i].arrows == "to, from" && str == "Двусторонняя")) {
                     filter_edges.edges.push(grafp.edges[i])
@@ -331,4 +332,3 @@ function ModalHelp() {
     </>
   );
 }
-

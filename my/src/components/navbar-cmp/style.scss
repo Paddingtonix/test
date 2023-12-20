@@ -4,11 +4,17 @@
     background-color: rgb(29, 29, 29);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     height: toRem(48);
     padding: 0 toRem(48);
     position: fixed;
     width: calc(100% - 64px);
     z-index: 10;
+    button {
+        height: toRem(24);
+        padding: toRem(2) toRem(7);
+        min-width: toRem(120);
+    }
     &__center-side {
         display: flex;
         align-items: center;
@@ -27,11 +33,6 @@
             gap: toRem(12);
             &__text {
                 color: $headers-color
-            }
-            button {
-                height: toRem(24);
-                padding: 0;
-                width: toRem(120);
             }
         }
     }

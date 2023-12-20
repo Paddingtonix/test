@@ -18,11 +18,13 @@ export const SelectorCmp = ({ selector_value, selector_placeholder, selector_lis
     const setSelectorValue = (text: string) => {
         setSelectorState(text)
         selector_value(text)
+        setSelectorList(false)
     }
 
     const clearField = () => {
         setSelectorState('')
         selector_value('')
+        setSelectorList(false)
     }
 
     return (
