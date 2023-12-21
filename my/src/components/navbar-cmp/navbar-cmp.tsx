@@ -1,4 +1,5 @@
 import axios from "axios";
+import grafp from "../../grapf.json"
 import "../../index.scss"
 import { ButtonCmp } from "../button-cmp/button-cmp"
 import { SelectorCmp } from "../selector-cmp/selector-cmp";
@@ -8,16 +9,20 @@ interface NavbarProps {
 	graph_state: (state: boolean | ((prevState: boolean) => boolean)) => void;
 	filter_graph: (state: string) => void;
 	filter_edge: (state: string) => void;
+	filter_attribute: (state: string) => void;
 }
 
-export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, filter_edge }) => {
+export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, filter_edge, filter_attribute }) => {
 	const [visState, setVisState] = useState(true);
 	const [selectedFile, setSelectedFile] = useState(null)
+	const [graph] = useState(grafp)
 
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
 		setSelectedFile(file);
 	};
+
+
 
 	const handleUpload = () => {
 		// Здесь вы можете выполнить необходимую логику для обработки загруженного файла
@@ -27,14 +32,30 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 
 			axios
 				.post('http://localhost:3001/upload', fd)
-				.then(res => console.log(res))
-		  		console.log('Selected File:', selectedFile);
+				.then(() => {
+					axios
+						.post('http://localhost:3001/parser')
+						.then(res => {
+							console.log(res);
+						}
+					)
+				})
 		  // Ваш код для обработки файла
 		} else {
 		  	console.log('No file selected');
 		}
 	};
 
+	console.log(graph);
+	
+	
+	
+	const uniqueType = new Set(graph.nodes.map(item => item.type)) 
+	
+
+	console.log(uniqueType);
+	
+	
 	const [selectorType] = useState([
 	  	{
 			placeholder: 'Типы вершин',
@@ -56,11 +77,13 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 			filter: (state: string) => filter_edge(state)
 		},
 		{
-			placeholder: 'Типы аттрибутам',
+			placeholder: 'Типы атрибутам',
 			list: [
-				{ text: 'Односторонняя' },
-				{ text: 'Двусторонняя' },
+				{ text: 'Атрибут 1' },
+				{ text: 'Атрибут 2' },
+				{ text: 'Атрибут 3' },
 			],
+			filter: (state: string) => filter_attribute(state)
 		},
 	]);
   

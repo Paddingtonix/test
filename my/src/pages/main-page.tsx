@@ -154,20 +154,50 @@ function ModalHelp() {
         }
     }
 
-    function EdgesFilter(par: filterType){
-        setSelectedEdgesFilters(par)
+    function filterAttributeTest(par: string) {
+        console.log(par);
 
-        if (par.length !==0){
-            let new_data: graphData = {nodes: filteredData.nodes, edges: []}
-            for (let i = 0; i < par?.length; i++){
-                for (let j = 0; j < grafp.edges?.length; j++){
-                    if ((grafp.edges[j].arrows == "to" && par[i].name == "Связь комлесирования") || (grafp.edges[j].arrows == "to, from" && par[i].name == "Связь функциональная")){
-                        new_data.edges.push(grafp.edges[j])
-                    }
-                }
+        if(par.length > 0 && par === 'Атрибут 2') {
+            let filter_type: any = { nodes: [], edges: grafp.edges} 
+
+            for(let i = 0; i < grafp.nodes.length; i++) {
+                filter_type.nodes.push(grafp.nodes[i]) 
             }
-            setFilteredData(new_data)
+
+            for(let i = 0; i < filter_type.nodes.length; i++) {
+                let prev_value = filter_type.nodes[i].class
+                
+                filter_type.nodes[i].class = filter_type.nodes[i].type 
+                console.log(filter_type.nodes[i].group);
+                
+                filter_type.nodes[i].type = prev_value
+            }
+
+            // grafp.nodes.((item: { class: any; group: any; type: any; }) => {
+            //     const prev_value = item.class
+            //     item.group = item.type 
+            //     item.type = prev_value
+
+            //     filter_type.nodes.push(item)
+            // })            
+
+            setFilteredData(filter_type)
         }
+
+    // function EdgesFilter(par: filterType){
+    //     setSelectedEdgesFilters(par)
+
+    //     if (par.length !==0){
+    //         let new_data: graphData = {nodes: filteredData.nodes, edges: []}
+    //         for (let i = 0; i < par?.length; i++){
+    //             for (let j = 0; j < grafp.edges?.length; j++){
+    //                 if ((grafp.edges[j].arrows == "to" && par[i].name == "Связь комлесирования") || (grafp.edges[j].arrows == "to, from" && par[i].name == "Связь функциональная")){
+    //                     new_data.edges.push(grafp.edges[j])
+    //                 }
+    //             }
+    //         }
+    //         setFilteredData(new_data)
+    //     }
     }
 
     ///////////////////nodes
@@ -205,7 +235,7 @@ function ModalHelp() {
 
   return (
     <>
-        <NavbarCmp graph_state={changeState} filter_graph={filteredDataTest} filter_edge={filteredEdgesTest}></NavbarCmp>
+        <NavbarCmp graph_state={changeState} filter_graph={filteredDataTest} filter_edge={filteredEdgesTest} filter_attribute={filterAttributeTest}></NavbarCmp>
         <div className='container'>
             {displayOption ?  
                 <div className='graph-grid'>

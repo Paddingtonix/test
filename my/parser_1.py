@@ -21,7 +21,7 @@ if __name__ == '__main__':
     #     'data': [{"node_name": k, **v} for k, v in json_data.items()]
     # }
 
-    with open('./public/api/output.json', 'w+', encoding='utf-8') as json_file:
+    with open('./public/api/output_old.json', 'w+', encoding='utf-8') as json_file:
         json_file.write(str(json_data)
                         .replace('\'', '\"')
                         .replace('nan', 'null'))

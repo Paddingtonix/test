@@ -11,7 +11,7 @@ app.use(express.json());
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads'); // Путь, куда сохранять файлы
+    cb(null, './public'); // Путь, куда сохранять файлы
   },
   filename: (req, file, cb) => {
     cb(null, 'test.xlsx'); // Имя файла
@@ -21,31 +21,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post('/upload', upload.single('file'), (req, res) => {
-  const uploadedFilePath = req.file.path;
-
-  // Удаление предыдущего файла test.xlsx
-  const previousFilePath = './uploads/test.xlsx';
-  try {
-    if (fs.existsSync(previousFilePath)) {
-      fs.unlinkSync(previousFilePath);
-      console.log('Предыдущий файл успешно удален');
-    }
-  } catch (err) {
-    console.error('Ошибка при удалении предыдущего файла:', err);
-    return res.status(500).send('Ошибка при удалении предыдущего файла');
-  }
-
-  // Переименование загруженного файла в test.xlsx
-  const newFilePath = './uploads/test.xlsx';
-  try {
-    fs.renameSync(uploadedFilePath, newFilePath);
-    console.log('Загруженный файл успешно перемещен в test.xlsx');
-  } catch (err) {
-    console.error('Ошибка при перемещении загруженного файла:', err);
-    return res.status(500).send('Ошибка при перемещении загруженного файла');
-  }
-
-  res.send('Файл успешно загружен и заменен');
+  // const uploadedFilePath = req.file.path;
+  
+  res.status(200).send({success: true});
 });
 
 app.post('/parser', (req, res) => {

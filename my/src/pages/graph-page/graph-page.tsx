@@ -28,6 +28,9 @@ interface Props {
 export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 	const default_graph = grapf	
 
+	console.log(filteredData);
+	
+
     let searcher: SetStateAction<string[]> = []
 
     for (let i = 0; i < default_graph.nodes?.length; i ++){
@@ -70,7 +73,7 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 	}, [physicsEnabled])
 
 	useEffect(() => {
-		setPhysicsEnabled(true);
+		setPhysicsEnabled(true);		
 	}, [filteredData])
 
     //graph options
@@ -80,7 +83,7 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 				enabled: false,
 			}
 		},
-		clusterin: {
+		clustering: {
 			enabled: true,
 			clusterEdgeProperties: {
 				// Опции для рёбер между узлами внутри кластера
@@ -139,7 +142,10 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 				size: 30,
 				color: "white"
 			}
-        }
+        },
+		community: {
+			enabled: true,
+		},
     };
 	
 	function GetNameByID(id: number){
