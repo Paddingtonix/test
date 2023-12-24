@@ -85,7 +85,7 @@ def main():
                                      'tests': t2_tests})
                                 
     data = {"nodes": nodes, "edges": edges}
-    with open('./public/grapf.json', 'w', encoding="utf-8") as outfile:
+    with open('./src/grapf.json', 'w', encoding="utf-8") as outfile:
         json.dump(data, outfile, ensure_ascii=False)
 
     

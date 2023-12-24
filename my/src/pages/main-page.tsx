@@ -158,28 +158,34 @@ function ModalHelp() {
         console.log(par);
 
         if(par.length > 0 && par === 'Атрибут 2') {
-            let filter_type: any = { nodes: [], edges: grafp.edges} 
+            // let filter_type: any = { nodes: grafp.nodes, edges: grafp.edges} 
 
-            for(let i = 0; i < grafp.nodes.length; i++) {
-                filter_type.nodes.push(grafp.nodes[i]) 
+            let filter_type: any = {nodes: [], edges: []}
+
+            filter_type.edges = grafp.edges
+            
+            for (let i = 0; i < grafp.nodes.length; i++) {
+                let obj = grafp.nodes[i]
+
+                obj.group = grafp.nodes[i].type
+
+                // filter_type.nodes.push(grafp.nodes[i])
+
+                filter_type.nodes.push(obj)
+
+                // filter_type.nodes[i].group = grafp.nodes[i].type
             }
+            
+            console.log(filter_type);
+            
+            // for (let i = 0; i < grafp.nodes.length; i++) {
+            //     filter_type.nodes.push(grafp.nodes[i])
 
-            for(let i = 0; i < filter_type.nodes.length; i++) {
-                let prev_value = filter_type.nodes[i].class
-                
-                filter_type.nodes[i].class = filter_type.nodes[i].type 
-                console.log(filter_type.nodes[i].group);
-                
-                filter_type.nodes[i].type = prev_value
-            }
-
-            // grafp.nodes.((item: { class: any; group: any; type: any; }) => {
-            //     const prev_value = item.class
-            //     item.group = item.type 
-            //     item.type = prev_value
-
-            //     filter_type.nodes.push(item)
-            // })            
+            //     filter_type.nodes[i].group = grafp.nodes[i].type
+            // }
+            
+            // console.log(filter_type, 'wertyu');
+            
 
             setFilteredData(filter_type)
         }

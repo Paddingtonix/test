@@ -11,7 +11,7 @@ app.use(express.json());
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './public'); // Путь, куда сохранять файлы
+    cb(null, './uploads'); // Путь, куда сохранять файлы
   },
   filename: (req, file, cb) => {
     cb(null, 'test.xlsx'); // Имя файла
@@ -22,7 +22,11 @@ const upload = multer({ storage });
 
 app.post('/upload', upload.single('file'), (req, res) => {
   // const uploadedFilePath = req.file.path;
+
+  console.log(req, res);
   
+  fs.open()
+
   res.status(200).send({success: true});
 });
 

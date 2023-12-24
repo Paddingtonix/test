@@ -1,7 +1,7 @@
 import pandas as pd
 
 if __name__ == '__main__':
-    df = pd.read_excel('test.xlsx', index_col=0, skiprows=1)
+    df = pd.read_excel('test.xlsx', index_col=0, skiprows=1, engine='openpyxl')
 
     json_data = {
         row_label: {col_label: df.loc[row_label, col_label]
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     #     'data': [{"node_name": k, **v} for k, v in json_data.items()]
     # }
 
-    with open('./public/api/output_old.json', 'w+', encoding='utf-8') as json_file:
+    with open('./public/api/output.json', 'w+', encoding='utf-8') as json_file:
         json_file.write(str(json_data)
                         .replace('\'', '\"')
                         .replace('nan', 'null'))
