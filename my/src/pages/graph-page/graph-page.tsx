@@ -28,7 +28,6 @@ interface Props {
 export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 	const default_graph = grapf	
 
-	console.log(filteredData);
 	
 
     let searcher: SetStateAction<string[]> = []
@@ -67,6 +66,7 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 			const timeoutId = setTimeout(() => {
 				setPhysicsEnabled(false);
 			}, 10000)
+			clearTimeout(timeoutId);
 
 			return () => clearTimeout(timeoutId);
 		}
@@ -217,7 +217,6 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 
 	function setSearchValue(value: string) {	
 		setSelectedOption(value)
-		console.log(value);
 		
 		search(value)
 		openList(false)

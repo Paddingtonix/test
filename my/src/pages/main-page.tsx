@@ -155,12 +155,11 @@ function ModalHelp() {
     }
 
     function filterAttributeTest(par: string) {
-        console.log(par);
+        let filter_type: any = {nodes: [], edges: []}
 
-        if(par.length > 0 && par === 'Атрибут 2') {
+        if(par.length > 0 && par === 'По формату') {
             // let filter_type: any = { nodes: grafp.nodes, edges: grafp.edges} 
 
-            let filter_type: any = {nodes: [], edges: []}
 
             filter_type.edges = grafp.edges
             
@@ -169,41 +168,34 @@ function ModalHelp() {
 
                 obj.group = grafp.nodes[i].type
 
-                // filter_type.nodes.push(grafp.nodes[i])
 
                 filter_type.nodes.push(obj)
 
-                // filter_type.nodes[i].group = grafp.nodes[i].type
             }
             
-            console.log(filter_type);
-            
-            // for (let i = 0; i < grafp.nodes.length; i++) {
-            //     filter_type.nodes.push(grafp.nodes[i])
+            setFilteredData({nodes: [], edges: []})
+            setTimeout(() => {                
+                setFilteredData(filter_type)
+            }, 100);
+        } else {
+            filter_type.edges = grafp.edges
 
-            //     filter_type.nodes[i].group = grafp.nodes[i].type
-            // }
-            
-            // console.log(filter_type, 'wertyu');
-            
+            for (let i = 0; i < grafp.nodes.length; i++) {
+                let obj = grafp.nodes[i]
 
-            setFilteredData(filter_type)
+                obj.group = grafp.nodes[i].class
+
+
+                filter_type.nodes.push(obj)
+
+            }            
+
+            setFilteredData({nodes: [], edges: []})
+            setTimeout(() => {                
+                setFilteredData(filter_type)
+                
+            }, 300);
         }
-
-    // function EdgesFilter(par: filterType){
-    //     setSelectedEdgesFilters(par)
-
-    //     if (par.length !==0){
-    //         let new_data: graphData = {nodes: filteredData.nodes, edges: []}
-    //         for (let i = 0; i < par?.length; i++){
-    //             for (let j = 0; j < grafp.edges?.length; j++){
-    //                 if ((grafp.edges[j].arrows == "to" && par[i].name == "Связь комлесирования") || (grafp.edges[j].arrows == "to, from" && par[i].name == "Связь функциональная")){
-    //                     new_data.edges.push(grafp.edges[j])
-    //                 }
-    //             }
-    //         }
-    //         setFilteredData(new_data)
-    //     }
     }
 
     ///////////////////nodes
@@ -216,7 +208,6 @@ function ModalHelp() {
                     filter_nodes.nodes.push(grafp.nodes[i])
                 }
             }
-            
             setFilteredData(filter_nodes)
         } else {
             setFilteredData(basicData)

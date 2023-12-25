@@ -36,7 +36,6 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 					axios
 						.post('http://localhost:3001/parser')
 						.then(res => {
-							console.log(res);
 						}
 					)
 				})
@@ -46,14 +45,12 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 		}
 	};
 
-	console.log(graph);
 	
 	
 	
 	const uniqueType = new Set(graph.nodes.map(item => item.type)) 
 	
 
-	console.log(uniqueType);
 	
 	
 	const [selectorType] = useState([
@@ -79,9 +76,8 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 		{
 			placeholder: 'Типы атрибутам',
 			list: [
-				{ text: 'Атрибут 1' },
-				{ text: 'Атрибут 2' },
-				{ text: 'Атрибут 3' },
+				{ text: 'По формату' },
+				{ text: 'По типу вершин' },
 			],
 			filter: (state: string) => filter_attribute(state)
 		},
