@@ -3,7 +3,7 @@ import grafp from "../../grapf.json"
 import "../../index.scss"
 import { ButtonCmp } from "../button-cmp/button-cmp"
 import { SelectorCmp } from "../selector-cmp/selector-cmp";
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 interface NavbarProps {
 	graph_state: (state: boolean | ((prevState: boolean) => boolean)) => void;
@@ -17,7 +17,10 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 	const [selectedFile, setSelectedFile] = useState(null)
 	const [graph] = useState(grafp)
 
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 	const handleFileChange = (event: any) => {
+		
 		const file = event.target.files[0];
 		setSelectedFile(file);
 	};
@@ -25,23 +28,24 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 
 
 	const handleUpload = () => {
-		// Здесь вы можете выполнить необходимую логику для обработки загруженного файла
 		if (selectedFile) {
 			const fd = new FormData();
 			fd.append('file', selectedFile);
-
+			
 			axios
 				.post('http://localhost:3001/upload', fd)
 				.then(() => {
 					axios
 						.post('http://localhost:3001/parser')
 						.then(res => {
+							console.log(res);
 						}
 					)
 				})
-		  // Ваш код для обработки файла
 		} else {
-		  	console.log('No file selected');
+			if (fileInputRef && fileInputRef.current) {
+				fileInputRef.current.click();
+			}
 		}
 	};
 
@@ -49,9 +53,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 	
 	
 	const uniqueType = new Set(graph.nodes.map(item => item.type)) 
-	
-
-	
+		
 	
 	const [selectorType] = useState([
 	  	{
@@ -91,6 +93,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 			return newState;
 	  	});
 	};
+
   
 	return (
 	  	<div className="navbar">
@@ -123,9 +126,10 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 			</div>
 			<ButtonCmp
 				OnClick={handleUpload}
-				name={'Загрузить данные'}
+				name={!selectedFile ? 'Загрузить данные' : 'Отправить файл'}
 			></ButtonCmp>
-			<input type="file" onChange={handleFileChange} />
+
+			<input id='fileUpload' type="file" onChange={handleFileChange}  ref={fileInputRef} style={{ display: 'none' }} />
 			{/* <div className="elements">Выход</div> */}
 	  	</div>
 	);

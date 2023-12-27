@@ -5,14 +5,13 @@ import uuid
 import json
 
 def main():
-    grapf_np = pd.read_excel("test.xlsx",sheet_name='Sheet1').values
+    grapf_np = pd.read_excel("./public/api/output.xlsx",sheet_name='Sheet1').values
     nodes = []
     edges = []
     counter = 0
     help_dict = {}
     for node in grapf_np[0]:
-        if node is not np.nan:
-            print(node)
+        if node is not np.nan and node != '  ':
             _type, _class = node.split('|')[1:-1]
             nodes.append({'id': counter, 'label': node, 'type': _type, 'class': _class, 'group': _class})
             help_dict.update({node:counter})

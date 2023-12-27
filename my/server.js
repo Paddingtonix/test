@@ -48,13 +48,23 @@ app.post('/parser', (req, res) => {
       console.error(`Ошибка выполнения скрипта: ${error}`);
       return res.status(500).send('Ошибка выполнения скрипта');
     }
-    console.log(`Скрипт выполнен успешно: ${stdout}`);
+
+    console.log('Скрипт выполнен')
 
     // const dataToWrite = 'Некоторые данные для записи в файл';
     // fs.writeFileSync('./test.xlsx', dataToWrite, 'utf-8');
 
-    // res.send('Скрипт выполнен успешно');
+    res.send('Скрипт выполнен успешно');
   });
+  exec('python parser_2.py', (err) => {
+    if (err) {
+      console.error(`Ошибка выполнения скрипта: ${err}`);
+      return res.status(500).send('Ошибка выполнения скрипта');
+    }
+
+    console.log('Скрипт выполнен2')
+    res.send('Скрипт выполнен успешно');
+  })
 });
 
 app.listen(port, () => {

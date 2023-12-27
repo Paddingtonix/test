@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import axios from 'axios';
 
+// axios
+//     .post('http://localhost:3001/parser')
+//     .then(res => {
+//         console.log(res);
+//     })
 
 
 export const TablePage = () => {
-    axios
-        .post('http://localhost:3001/parser')
-        .then(res => {
-            console.log(res);
-        })
 
     // лучше переименовать свойство
     // для удобочитаемости лучше обозвать что-то в духе columns_table или что-то типа того
