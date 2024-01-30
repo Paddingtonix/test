@@ -62,11 +62,12 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 
 
 	useEffect(() => {
-		if(physicsEnabled) {
+		if(physicsEnabled) {			
+			
 			const timeoutId = setTimeout(() => {
-				setPhysicsEnabled(false);
+				
+				setPhysicsEnabled(false);				
 			}, 10000)
-			clearTimeout(timeoutId);
 
 			return () => clearTimeout(timeoutId);
 		}
@@ -82,14 +83,6 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 			hierarchical: {
 				enabled: false,
 			}
-		},
-		clustering: {
-			enabled: true,
-			clusterEdgeProperties: {
-				// Опции для рёбер между узлами внутри кластера
-				color: "#000000", // Цвет ребер
-				thickness: 1,      // Толщина ребер
-			},
 		},
 		physics: {
 			enabled: physicsEnabled,
@@ -143,9 +136,6 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
 				color: "white"
 			}
         },
-		community: {
-			enabled: true,
-		},
     };
 	
 	function GetNameByID(id: number){

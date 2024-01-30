@@ -33,12 +33,13 @@ export const SelectorCmp = ({ selector_value, selector_placeholder, selector_lis
                 <input 
                     placeholder={selector_placeholder}
                     value={selectorValue}
+                    readOnly={true}
                     onClick={openSelectorList}  
                 />
                 {selectorList && 
                     <div className="selector-list">
                         {selector_list.map((list: { text: string }) => {
-                            return <span onClick={() => setSelectorValue(list.text)}>{list.text}</span>
+                            return <span onClick={() => setSelectorValue(list.text)} key={list.text}>{list.text}</span>
                         })}
                     </div>
                 }

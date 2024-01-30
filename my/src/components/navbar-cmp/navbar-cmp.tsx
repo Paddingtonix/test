@@ -3,7 +3,7 @@ import grafp from "../../grapf.json"
 import "../../index.scss"
 import { ButtonCmp } from "../button-cmp/button-cmp"
 import { SelectorCmp } from "../selector-cmp/selector-cmp";
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 interface NavbarProps {
 	graph_state: (state: boolean | ((prevState: boolean) => boolean)) => void;
@@ -24,8 +24,6 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 		const file = event.target.files[0];
 		setSelectedFile(file);
 	};
-
-
 
 	const handleUpload = () => {
 		if (selectedFile) {
@@ -61,7 +59,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 			list: [
 				{ text: 'PVT' },
 				{ text: 'Керн' },
-				{ text: 'Петрофизика' },
+				{ text: 'ПЕТРОФИЗИКА' },
 				{ text: 'Сейсмика' },
 				{ text: 'скв.иссл' },
 			],
@@ -129,7 +127,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 				name={!selectedFile ? 'Загрузить данные' : 'Отправить файл'}
 			></ButtonCmp>
 
-			<input id='fileUpload' type="file" onChange={handleFileChange}  ref={fileInputRef} style={{ display: 'none' }} />
+			<input id='fileUpload' type="file" onChange={handleFileChange} ref={fileInputRef} style={{ display: 'none' }} />
 			{/* <div className="elements">Выход</div> */}
 	  	</div>
 	);

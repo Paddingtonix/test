@@ -189,6 +189,18 @@
     width: 100%;
     background-color: "#1E1E1E";
     min-width: toRem(800);
+    scroll-behavior: smooth;
+    .MuiTableContainer-root {
+        &::-webkit-scrollbar-thumb {
+            background-color: #1D1D1D;
+            border-radius: 10px;
+        }
+        &::-webkit-scrollbar {
+            background-color: $text-color;
+            height: 4px;
+            width: 4px
+        }
+    }
 }
 
 .modal-container {

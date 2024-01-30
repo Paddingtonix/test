@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import "../index.scss"
 
@@ -9,6 +10,8 @@ import grafp from "../grapf.json"
 import { GraphPage } from "./graph-page/graph-page"
 
 import { TablePage } from './table-page/table-page';
+
+import { ModalCmp } from '../components/modal-cmp/modal-cmp'
 
 // import { MultiSelect } from 'primereact/multiselect';
 import { ButtonCmp } from "../components/button-cmp/button-cmp"
@@ -49,7 +52,13 @@ export default function Main() {
    const [selectedClassFilters, setSelectedClassFilters] = useState<filterType>([])
    const [selectedEdgesFilters, setSelectedEdgesFilters] = useState<filterType>([])
 
-   const [displayOption, setDisplayOption] = useState(false)
+   const [edgesValues, setEdgesValues] = useState('')
+   const [nodesValues, setNodesValues] = useState('')
+   const [attribuiteValues, setAttribuiteValues] = useState('')
+
+
+    const [dataTable, setDataTable] = useState({})
+   const [displayOption, setDisplayOption] = useState(true)
 
 //    const classFilters: filterType = [
 //     {name: "PVT", code: "PVT"},
@@ -118,6 +127,11 @@ function ModalHelp() {
     //     }
     // }
 
+    useEffect(() => {
+        console.log('qwerytu');
+        
+    }, [attribuiteValues])
+
     const changeState = (state: boolean | ((prevState: boolean) => boolean)) => {
         // Обновляем состояние в родительском компоненте
         setDisplayOption(state);
@@ -138,8 +152,7 @@ function ModalHelp() {
                 }
                 setFilteredData(new_data)
             }
-        }
-        else{
+        } else {
             if (par.length !== 0){
                 let new_data: graphData = { nodes: [], edges : grafp.edges}
                 for (let i = 0; i < par?.length; i++){
@@ -174,7 +187,7 @@ function ModalHelp() {
             }
             
             setFilteredData({nodes: [], edges: []})
-            setTimeout(() => {                
+            setTimeout(() => {          
                 setFilteredData(filter_type)
             }, 100);
         } else {
@@ -198,6 +211,16 @@ function ModalHelp() {
         }
     }
 
+    useEffect(() => {
+        axios
+            .get('/api/output.json')
+            .then((table_response: { data: any; }) => {
+                console.log(table_response.data);
+                
+                setDataTable(table_response.data)                
+            })
+    }, [])
+
     ///////////////////nodes
     function filteredDataTest(str: string) {        
         if(str.length > 0) {
@@ -208,6 +231,7 @@ function ModalHelp() {
                     filter_nodes.nodes.push(grafp.nodes[i])
                 }
             }
+            setNodesValues(str)
             setFilteredData(filter_nodes)
         } else {
             setFilteredData(basicData)
@@ -223,6 +247,7 @@ function ModalHelp() {
                     filter_edges.edges.push(grafp.edges[i])
                 }
             }            
+            setEdgesValues(str)
             setFilteredData(filter_edges)
         } else {
             setFilteredData(basicData)
@@ -237,12 +262,13 @@ function ModalHelp() {
             {displayOption ?  
                 <div className='graph-grid'>
                     <div id="mynetwork" className="networkvis">
+                        <ModalCmp />
                         <GraphPage callBack={setNode} filteredData={filteredData} selectedData= {setSelectedData}></GraphPage>
                     </div>
                 </div>
                 :
                 <div className='table-grid' >
-                    <TablePage></TablePage>
+                    <TablePage table={dataTable}></TablePage>
                 </div>
             }
         </div>
