@@ -60,6 +60,9 @@ export default function Main() {
     const [dataTable, setDataTable] = useState({})
    const [displayOption, setDisplayOption] = useState(true)
 
+    const [name, setName] = useState('')
+
+
 //    const classFilters: filterType = [
 //     {name: "PVT", code: "PVT"},
 //     {name: "Керн", code: "Керн"},
@@ -253,6 +256,10 @@ function ModalHelp() {
             setFilteredData(basicData)
         }
     }
+
+    function setNameNodes(name: string) {
+        setName(name)
+    }
         
 
   return (
@@ -262,8 +269,7 @@ function ModalHelp() {
             {displayOption ?  
                 <div className='graph-grid'>
                     <div id="mynetwork" className="networkvis">
-                        <ModalCmp />
-                        <GraphPage callBack={setNode} filteredData={filteredData} selectedData= {setSelectedData}></GraphPage>
+                        <GraphPage setName={setNameNodes} callBack={setNode} filteredData={filteredData} selectedData= {setSelectedData}></GraphPage>
                     </div>
                 </div>
                 :
@@ -272,7 +278,9 @@ function ModalHelp() {
                 </div>
             }
         </div>
-        <SidebarCmp active={(node!= null) ? true : false} setActive={setModalActive}>
+        <ModalCmp nameNodes={name} />
+
+        {/* <SidebarCmp active={(node!= null) ? true : false} setActive={setModalActive}>
             {(loadedData == false) ? 
             <>
                 <div className='modal-container'>
@@ -282,12 +290,7 @@ function ModalHelp() {
                     <div className='close-container' onClick={() => ModalHelp()}>
                         <div className='close-container__line'></div>
                         <div className='close-container__line'></div>
-                        {/* <i className="pi pi-arrow-left pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => setTestsStarted(false)}></i>
-                        <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => ModalHelp()}></i> */}
                     </div>
-                    {/* <div className='close-container' onClick={() => ModalHelp()}>
-                        <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} ></i>
-                    </div> */}
                 </div>
                 <div className='button-container'>
                     <ButtonCmp name='Загрузить данные' OnClick={() => setLoadedData(true)}></ButtonCmp>
@@ -301,23 +304,15 @@ function ModalHelp() {
                                 <div className='close-container' onClick={() => ModalHelp()}>
                                     <div className='close-container__line'></div>
                                     <div className='close-container__line'></div>
-                                    {/* <i className="pi pi-arrow-left pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => setTestsStarted(false)}></i>
-                                    <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => ModalHelp()}></i> */}
+                                
                                 </div>
-                                {/* <div className='close-container'>
-                                    <div className='close-container__line'></div>
-                                    <div className='close-container__line'></div>
-                                    <i className="pi pi-arrow-left pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => setTestsStarted(false)}></i>
-                                    <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => ModalHelp()}></i>
-                                </div> */}
                                 <div className='header-container'>
                                     <p className='header'>{node}<i className={visible ? "pi pi-eye pl-4 ic" : "pi pi-eye-slash pl-4 ic"} style={{ fontSize: '1.2rem', color: "#3FBAC2" }} onClick={() => setVisible(!visible)}></i></p>
                                 </div>
                                 <div className='close-container'>
                                     <div className='close-container__line'></div>
                                     <div className='close-container__line'></div>
-                                    {/* <i className="pi pi-arrow-left pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => setTestsStarted(false)}></i>
-                                    <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => ModalHelp()}></i> */}
+                                
                                 </div>
                             </div>
                             <div className='data-container'>
@@ -337,12 +332,6 @@ function ModalHelp() {
                         :
                         <>
                         <div className='modal-container'>
-                            {/* <div className='close-container'>
-                                <div className='close-container__line'></div>
-                                <div className='close-container__line'></div>
-                                <i className="pi pi-arrow-left pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => setTestsStarted(false)}></i>
-                                <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => ModalHelp()}></i>
-                            </div> */}
                             <div className='close-container'>
                                 <div className='close-container__back-arrow'></div>
                                 <div className='close-container__back-arrow'></div>
@@ -351,8 +340,6 @@ function ModalHelp() {
                             <div className='close-container' onClick={() => ModalHelp()}>
                                 <div className='close-container__line'></div>
                                 <div className='close-container__line'></div>
-                                {/* <i className="pi pi-arrow-left pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => setTestsStarted(false)}></i>
-                                <i className="pi pi-times pr-4 ic" style={{ fontSize: '1.1rem' , color: "#FFFFFF"}} onClick={() => ModalHelp()}></i> */}
                             </div>
                             <div className='header-container'>
                                 <p className='header'>{node}<i className={visible ? "pi pi-eye pl-4 ic" : "pi pi-eye-slash pl-4 ic"} style={{ fontSize: '1.2rem', color: "#3FBAC2" }} onClick={() => setVisible(!visible)}></i></p>
@@ -381,7 +368,7 @@ function ModalHelp() {
                     }
                 </>
             }
-        </SidebarCmp>
+        </SidebarCmp> */}
     </>
   );
 }

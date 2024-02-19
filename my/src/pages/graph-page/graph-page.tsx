@@ -21,13 +21,13 @@ type graphData = { nodes: Node[], edges: Edge[] }
 interface Props {
 	filteredData: graphData,
 	selectedData: graphData | any,
+	setName: Function | any,
 	callBack: Function
 }
 
 
-export const GraphPage = ({ callBack, filteredData}: Props, ) => {
-	const default_graph = grapf	
-
+export const GraphPage = ({ callBack, filteredData, setName}: Props, ) => {
+	const default_graph = grapf		
 	
 
     let searcher: SetStateAction<string[]> = []
@@ -54,6 +54,8 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
     //callback func
     const getNodes = useCallback((a: any) => { //пофиксить тип
       	setNetwortNodes(a);
+		console.log(a);
+		
     }, []);
     
     const handleGetNodes = useCallback(() => {
@@ -149,7 +151,7 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
     //event graph
     const events = {
 		deselectNode: function (params: { event: string; previousSelection: { nodes: any; edges: any; }; }) {
-			params.event = "[original event]"
+			params.event = "[original event]"			
 			// console.log(params)
 			Recolor(params.previousSelection.nodes, 'del')
 			RecolorEdges(params.previousSelection.edges, 'del')
@@ -157,7 +159,7 @@ export const GraphPage = ({ callBack, filteredData}: Props, ) => {
         select: function (params: { nodes: any; edges: any; }) {
 			Recolor(params.nodes, 'sel')
 			RecolorEdges(params.edges, 'sel')
-			callBack(GetNameByID(params.nodes))
+			setName(GetNameByID(params.nodes))
         },
 		init: (e: any) => {
 			console.log('qwerty', e);

@@ -5,19 +5,11 @@ const path = require('path')
 const fs = require('fs');
 const app = express();
 const multer = require('multer');
-const port = 3001; // выберите подходящий порт
+const port = 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, './uploads'); // Путь, куда сохранять файлы
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, 'test.xlsx'); // Имя файла
-//   },
-// });
 
 const uploadFolder = './public/api'
 
@@ -50,9 +42,6 @@ app.post('/parser', (req, res) => {
     }
 
     console.log('Скрипт выполнен')
-
-    // const dataToWrite = 'Некоторые данные для записи в файл';
-    // fs.writeFileSync('./test.xlsx', dataToWrite, 'utf-8');
 
     res.send('Скрипт выполнен успешно');
   });
