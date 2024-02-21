@@ -9,18 +9,34 @@
     z-index: 10;
     background-color: $background-color;
     padding: toRem(36) toRem(12);
-    &__close {
+    &__navigation {
         position: absolute;
         right: toRem(12);
         top: toRem(12);
-        cursor: pointer;
         display: flex;
-        svg path {
-            transition: fill .2s;
-        }
-        &:hover {
+        gap: 12px;
+        &__back {
+            cursor: pointer;
+            display: flex;
             svg path {
-                fill: $primary-color
+                transition: fill .2s;
+            }
+            &:hover {
+                svg path {
+                    fill: $primary-color
+                }
+            }
+        }
+        &__close {
+            cursor: pointer;
+            display: flex;
+            svg path {
+                transition: fill .2s;
+            }
+            &:hover {
+                svg path {
+                    fill: $primary-color
+                }
             }
         }
     }
@@ -31,7 +47,12 @@
         margin-bottom: toRem(24);
         &__container {
             display: flex;
+            align-items: center;
             gap: 8px;
+            svg {
+                width: 20px;
+                height: 20px;
+            }
         }
         &__text {
             color: $headers-color;
@@ -39,6 +60,9 @@
         }
     }
     &__tests {
+        &__success {
+            margin-bottom: toRem(24);
+        }
         &__title {
             color: $headers-color
         }
@@ -52,6 +76,8 @@
             gap: 8px;
             svg {
                 cursor: pointer;
+                width: 20px;
+                height: 20px;
                 path {
                     transition: fill .2s;
                 }

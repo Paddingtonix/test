@@ -3,29 +3,35 @@
     "vertex_test": [
         {   
             "name": "Тест первого порядка",
-            "success": true
+            "success": true,
+            "id": 1
         },
         {   
             "name": "Тест второго порядка",
-            "success": true
+            "success": true,
+            "id": 2
         },
         {   
             "name": "Тест третьего порядка",
-            "success": false
+            "success": false,
+            "id": 3
         }
     ],
     "edges_test": [
         {   
             "name": "Тест первого порядка",
-            "success": false
+            "success": false,
+            "id": 4
         },
         {   
             "name": "Тест второго порядка",
-            "success": false
+            "success": false,
+            "id": 5
         },
         {   
             "name": "Тест третьего порядка",
-            "success": false
+            "success": false,
+            "id": 6
         }
     ]
 }

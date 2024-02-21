@@ -22,11 +22,13 @@ interface Props {
 	filteredData: graphData,
 	selectedData: graphData | any,
 	setName: Function | any,
-	callBack: Function
+	callBack: Function,
+	modalState: Function,
+	selectNode: Function
 }
 
 
-export const GraphPage = ({ callBack, filteredData, setName}: Props, ) => {
+export const GraphPage = ({ callBack, filteredData, setName, modalState, selectNode }: Props, ) => {
 	const default_graph = grapf		
 	
 
@@ -69,7 +71,7 @@ export const GraphPage = ({ callBack, filteredData, setName}: Props, ) => {
 			const timeoutId = setTimeout(() => {
 				
 				setPhysicsEnabled(false);				
-			}, 10000)
+			}, 1000)
 
 			return () => clearTimeout(timeoutId);
 		}
@@ -155,11 +157,15 @@ export const GraphPage = ({ callBack, filteredData, setName}: Props, ) => {
 			// console.log(params)
 			Recolor(params.previousSelection.nodes, 'del')
 			RecolorEdges(params.previousSelection.edges, 'del')
+			
 		},
         select: function (params: { nodes: any; edges: any; }) {
 			Recolor(params.nodes, 'sel')
 			RecolorEdges(params.edges, 'sel')
 			setName(GetNameByID(params.nodes))
+			modalState(true)
+			
+			selectNode(params.nodes[0])
         },
 		init: (e: any) => {
 			console.log('qwerty', e);

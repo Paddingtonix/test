@@ -51,6 +51,7 @@ export default function Main() {
    const [selectedData, setSelectedData] = useState(null)
    const [selectedClassFilters, setSelectedClassFilters] = useState<filterType>([])
    const [selectedEdgesFilters, setSelectedEdgesFilters] = useState<filterType>([])
+   const [openModal, setOpenModal] = useState(false)
 
    const [edgesValues, setEdgesValues] = useState('')
    const [nodesValues, setNodesValues] = useState('')
@@ -81,6 +82,10 @@ function ModalHelp() {
     setModalActive(false)
     setLoadedData(false)
     setTestsStarted(false)
+}
+
+function openModalState(state: boolean) {
+    setOpenModal(state)
 }
 
 //    function Filter(par: filterType){
@@ -257,6 +262,43 @@ function ModalHelp() {
         }
     }
 
+    function selectNode(id: number) {
+        let select_node: any = {nodes: grafp.nodes, edges: grafp.edges}
+
+        // select_node.nodes = select_node.nodes.filter((node: any) => node.id === id)
+
+        let filter_node = select_node.edges.map((edge: any) => {return edge.to})
+
+        select_node.edges = select_node.edges.filter((edge: any) => edge.from === id) 
+
+
+        setTimeout(() => {
+            
+            for(let i = 0; i < select_node.edges.length; i++) {                
+                console.log(select_node.edges[i]);
+
+                select_node.nodes = select_node.nodes.filter((item: any) => item.id === select_node.edges[i].to)
+
+                console.log(select_node.nodes);
+                
+                
+                // select_node.nodes = select_node.nodes.filter((item: any) => console.log(item, select_node.edges[i]))
+            }            
+
+            // console.log(select_node, 'qwey');
+            // setFilteredData(select_node)        
+            
+        }, 1000);
+
+        // for(let i = 0; i < filter_node.length; i++) {            
+        //     for(let j = 0; j < select_node.edges.length; j++) {                
+        //         if(select_node.edges[j].from === filter_node[i]) {                    
+        //             select_node.nodes = select_node.nodes.filter((node: any) => node.id === filter_node[i])
+        //         }
+        //     }
+        // }
+    }
+
     function setNameNodes(name: string) {
         setName(name)
     }
@@ -269,7 +311,14 @@ function ModalHelp() {
             {displayOption ?  
                 <div className='graph-grid'>
                     <div id="mynetwork" className="networkvis">
-                        <GraphPage setName={setNameNodes} callBack={setNode} filteredData={filteredData} selectedData= {setSelectedData}></GraphPage>
+                        <GraphPage 
+                            modalState={openModalState} 
+                            setName={setNameNodes} 
+                            callBack={setNode} 
+                            filteredData={filteredData} 
+                            selectedData= {setSelectedData}
+                            selectNode={selectNode}
+                        ></GraphPage>
                     </div>
                 </div>
                 :
@@ -278,7 +327,12 @@ function ModalHelp() {
                 </div>
             }
         </div>
-        <ModalCmp nameNodes={name} />
+        {
+            openModal ? 
+            <ModalCmp modalState={openModalState} nameNodes={name}  />
+            : 
+            ''
+        }
 
         {/* <SidebarCmp active={(node!= null) ? true : false} setActive={setModalActive}>
             {(loadedData == false) ? 
