@@ -7,12 +7,10 @@ import { useState, useRef, useEffect } from 'react'
 
 interface NavbarProps {
 	graph_state: (state: boolean | ((prevState: boolean) => boolean)) => void;
-	filter_graph: (state: string) => void;
-	filter_edge: (state: string) => void;
-	filter_attribute: (state: string) => void;
+	filter: any;
 }
 
-export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, filter_edge, filter_attribute }) => {
+export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter }) => {
 	const [visState, setVisState] = useState(true);
 	const [selectedFile, setSelectedFile] = useState(null)
 	const [graph] = useState(grafp)
@@ -63,7 +61,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 				{ text: 'Сейсмика' },
 				{ text: 'скв.иссл' },
 			],
-			filter: (state: string) => filter_graph(state)
+			filter: (state: string) => filter(state)
 	  	},
 		{
 			placeholder: 'Типы связи',
@@ -71,7 +69,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 				{ text: 'Односторонняя' },
 				{ text: 'Двусторонняя' },
 			],
-			filter: (state: string) => filter_edge(state)
+			filter: (state: string) => filter(state)
 		},
 		{
 			placeholder: 'Типы атрибутам',
@@ -79,7 +77,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, filter_graph, fi
 				{ text: 'По формату' },
 				{ text: 'По типу вершин' },
 			],
-			filter: (state: string) => filter_attribute(state)
+			filter: (state: string) => filter(state)
 		},
 	]);
   

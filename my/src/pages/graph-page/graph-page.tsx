@@ -71,7 +71,7 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 			const timeoutId = setTimeout(() => {
 				
 				setPhysicsEnabled(false);				
-			}, 1000)
+			}, 2000)
 
 			return () => clearTimeout(timeoutId);
 		}
@@ -154,16 +154,22 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
     const events = {
 		deselectNode: function (params: { event: string; previousSelection: { nodes: any; edges: any; }; }) {
 			params.event = "[original event]"			
-			// console.log(params)
 			Recolor(params.previousSelection.nodes, 'del')
 			RecolorEdges(params.previousSelection.edges, 'del')
+
+			modalState(false)
+
+			selectNode('original')
 			
 		},
-        select: function (params: { nodes: any; edges: any; }) {
+        selectNode: function (params: { nodes: any; edges: any; }) {
 			Recolor(params.nodes, 'sel')
 			RecolorEdges(params.edges, 'sel')
 			setName(GetNameByID(params.nodes))
 			modalState(true)
+
+			mainNetwork.focus(params.nodes[0], {scale: 0.2})
+			console.log(params.nodes[0]);
 			
 			selectNode(params.nodes[0])
         },
@@ -174,7 +180,6 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 
 	function Recolor(arr: string | any[], flag: string){
 		for (let i = 0; i < arr?.length; i++){
-			// console.log(arr[i])
 			if (flag == 'sel'){
 				mainNetwork.updateClusteredNode(arr[i], {opacity: 1})
 			}
@@ -203,6 +208,9 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 			if (default_graph.nodes[i].label.split('|')[0] === e) {				
 				let id = default_graph.nodes[i].id
 
+
+				console.log(e, id);
+				
 				mainNetwork.focus(id, {scale: 1.5})
 				mainNetwork.selectNodes([id])
 			}
@@ -264,7 +272,6 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 						placeholder="Вершина"
 						value={selectedOption}
 						onFocus={() => openList(true)}
-						// onBlur={() => openList(false)}
 						onKeyDown={(e) => searchFromClick(e, selectedOption)}
 						onChange={(e: any) => setInputValue(e)}
 					/>

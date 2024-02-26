@@ -16,6 +16,9 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
         }
     ]);
 
+    console.log(modalState);
+    
+
     const [selectedFile, setSelectedFile] = useState(null)
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [stepModal, setStepModal] = useState(1) as any
