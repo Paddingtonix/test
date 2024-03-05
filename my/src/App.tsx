@@ -3,7 +3,7 @@ import './App.css';
 
 
 //pages
-import Main from './pages/main-page';
+import Main from './pages/main-page-refactor';
 
 
 function App() {

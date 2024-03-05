@@ -43,9 +43,7 @@ export const TablePage = React.memo(({table}: any) => {
     })
 
     useEffect(() => {
-        console.log(table.data.length);
         if(table.data.length) {
-            console.log(table.data.length);
             
             setPreloaderState(false)
         }

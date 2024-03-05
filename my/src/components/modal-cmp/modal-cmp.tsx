@@ -16,7 +16,6 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
         }
     ]);
 
-    console.log(modalState);
     
 
     const [selectedFile, setSelectedFile] = useState(null)
@@ -84,7 +83,7 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
 
     useEffect(() => {
         axios
-            .get('/api/tests.json')
+            .get('http://localhost:3000/test/api/tests.json')
             .then(response_test => {
                 setTestsModal(response_test.data);
             })

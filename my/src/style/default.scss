@@ -152,16 +152,22 @@
     color: $headers-color;
 }
 
-.container{
-    flex-direction: row;
-    justify-content: flex-start;
-    display: flex;
-    padding-top: toRem(48);
+.qa-qc {
+    &__container {
+        flex-direction: row;
+        justify-content: flex-start;
+        display: flex;
+        height: 100vh;
+        // &__graph {
+        //     background-color: $dark-background-color;
+        //     width: 100%;
+        // }
+    }
 }
+
 
 .sidebar{
     height: fit-content;
-    // padding: toRem(32);
     background-color: $background-color;
     position: absolute;
     z-index: 10;

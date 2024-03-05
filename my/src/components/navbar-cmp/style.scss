@@ -1,7 +1,7 @@
 @use "../../style/params.scss" as *;
 
 .navbar {
-    background-color: rgb(29, 29, 29);
+    background-color: $background-color;
     display: flex;
     justify-content: space-between;
     align-items: center;

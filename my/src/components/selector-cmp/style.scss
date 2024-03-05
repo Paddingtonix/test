@@ -27,31 +27,41 @@
             }
         }
     }
-    &__clear {
-        display: flex;
+    &-clear {
+        // display: flex;
         position: absolute;
-        right: toRem(24);
+        width: 20px;
+        height: 20px;
         top: 50%;
         transform: translateY(-50%);
+        right: toRem(8);
         z-index: 11;
+        cursor: pointer;
         &:hover {
-            > div {
-                background-color: $primary-color;
+            .selector-clear__icon {
+                > div {
+                    background-color: $primary-color;
+                } 
             }
         }
-        &__line {
-            width: 15px;
-            height: 1px;
-            background-color: $headers-color;
-            transition: background .2s;
-            position: absolute;
-            cursor: pointer;
-            &:first-child {
-                transform: rotate(-135deg);
+        &__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &__line {
+                width: 15px;
+                height: 1px;
+                background-color: $headers-color;
+                transition: background .2s;
+                position: absolute;
+                top: 50%;
+                &:first-child {
+                    transform: rotate(-135deg);
+                }
+                &:last-child {
+                    transform: rotate(135deg);
+                }  
             }
-            &:last-child {
-                transform: rotate(135deg);
-            }  
         }
     }
 }

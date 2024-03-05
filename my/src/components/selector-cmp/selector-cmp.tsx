@@ -4,26 +4,29 @@ import { useState } from 'react'
 interface SelectorCmpProps {
     selector_placeholder: any;
     selector_list: any;
+    selector_type: any;
     selector_value: any;
 }
 
-export const SelectorCmp = ({ selector_value, selector_placeholder, selector_list }: SelectorCmpProps) => {
+export const SelectorCmp = ({ selector_placeholder, selector_value, selector_list, selector_type }: SelectorCmpProps) => {
     const [selectorValue, setSelectorState] = useState('')
     const [selectorList, setSelectorList] = useState(false)
+
+    
 
     const openSelectorList = () => {
         setSelectorList(!selectorList)
     }
 
     const setSelectorValue = (text: string) => {
-        setSelectorState(text)
-        selector_value(text)
+        setSelectorState(text)        
+        selector_value({value: text, type: selector_type})        
         setSelectorList(false)
     }
 
     const clearField = () => {
         setSelectorState('')
-        selector_value('')
+        selector_value({})
         setSelectorList(false)
     }
 
@@ -43,9 +46,11 @@ export const SelectorCmp = ({ selector_value, selector_placeholder, selector_lis
                         })}
                     </div>
                 }
-                <div className='selector__clear' onClick={clearField}>
-                    <div className='selector__clear__line'></div>
-                    <div className='selector__clear__line'></div>
+                <div className='selector-clear' onClick={clearField}>
+                    <div className='selector-clear__icon'>
+                        <div className='selector-clear__icon__line'></div>
+                        <div className='selector-clear__icon__line'></div>
+                    </div>
                 </div>
             </div>
         </>

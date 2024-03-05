@@ -1181,7 +1181,8 @@
             "label": "GPR|txt(xlsx)|скв.иссл|",
             "type": "txt(xlsx)",
             "class": "скв.иссл",
-            "group": "скв.иссл"
+            "group": "скв.иссл",
+            "data": "success"
         },
         {
             "id": 169,
@@ -1223,7 +1224,8 @@
             "label": "OPRT|txt(xlsx)|скв.иссл|",
             "type": "txt(xlsx)",
             "class": "скв.иссл",
-            "group": "скв.иссл"
+            "group": "скв.иссл",
+            "data": "success"
         },
         {
             "id": 175,
@@ -1265,7 +1267,8 @@
             "label": "Глубины_подвеса_насоса(дляРзаб)|txt(xlsx)|скв.иссл|",
             "type": "txt(xlsx)",
             "class": "скв.иссл",
-            "group": "скв.иссл"
+            "group": "скв.иссл",
+            "data": "success"
         },
         {
             "id": 181,
@@ -1314,7 +1317,8 @@
             "label": "Отчеты_по_ГТИ|txt(xlsx)|скв.иссл|",
             "type": "txt(xlsx)",
             "class": "скв.иссл",
-            "group": "скв.иссл"
+            "group": "скв.иссл",
+            "data": "success"
         },
         {
             "id": 188,

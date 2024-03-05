@@ -6,6 +6,7 @@ interface Props{
 }
 
 export const ButtonCmp =({OnClick, name}: Props) => {
+
     return (
         <button className='button' onClick={OnClick}>{name}</button>
     )

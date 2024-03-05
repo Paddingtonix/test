@@ -1,6 +1,6 @@
 import { SetStateAction, useCallback, useState, useEffect } from "react";
 import Graph from "react-graph-vis";
-import grapf from "../../grapf.json"
+const graph = require("../../graph.json")
 
 type Node = {
     id: number,
@@ -19,23 +19,25 @@ type Edge = {
 type graphData = { nodes: Node[], edges: Edge[] }
 
 interface Props {
-	filteredData: graphData,
+	filteredData: graphData | any,
 	selectedData: graphData | any,
 	setName: Function | any,
-	callBack: Function,
-	modalState: Function,
-	selectNode: Function
+	callBack: Function | any,
+	modalState: Function | any,
+	selectNode: Function | any,
+	defaultData: any
 }
 
 
-export const GraphPage = ({ callBack, filteredData, setName, modalState, selectNode }: Props, ) => {
-	const default_graph = grapf		
-	
-
+export const GraphPage = ({ callBack, filteredData, setName, modalState, selectNode, defaultData }: Props, ) => {	
     let searcher: SetStateAction<string[]> = []
+	let graph_data = graph
 
-    for (let i = 0; i < default_graph.nodes?.length; i ++){
-      	searcher.push(default_graph.nodes[i].label)
+	console.log(defaultData);
+
+	
+    for (let i = 0; i < defaultData.nodes?.length; i ++){
+      	searcher.push(defaultData.nodes[i].label)
     }
 
     //hooks
@@ -56,9 +58,28 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
     //callback func
     const getNodes = useCallback((a: any) => { //пофиксить тип
       	setNetwortNodes(a);
-		console.log(a);
 		
     }, []);
+
+	// for(let i = 0; i < graph_data.nodes.length; i++) {
+	// 	if(graph_data.nodes[i].data === "success") {
+	// 		Recolor([graph_data.nodes[i].id], 'sel')
+	// 		// RecolorEdges([graph_data.edges.forEach((edge: { from: any; }) => edge.from === graph_data.nodes[i].id)], 'sel')
+	// 		// mainNetwork.updateClusteredNode(graph_data.edges[i], {opacity: 1})
+	// 	}
+	// }
+
+	
+	// for (let i = 0; i < graph_data.nodes.length; i++) {
+	// 	if (graph_data.nodes[i].data === "success") {
+	// 		Recolor([graph_data.nodes[i].id], 'sel');	
+
+	// 		const edgesToRecolor = graph_data.edges.filter((edge: { from: any; }) => edge.from === graph_data.nodes[i].id);
+	// 		console.log(edgesToRecolor);
+			
+	// 		RecolorEdges([edgesToRecolor], 'sel');
+	// 	}
+	// }
     
     const handleGetNodes = useCallback(() => {
       	console.log(networkNodes);
@@ -143,9 +164,9 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
     };
 	
 	function GetNameByID(id: number){
-		for (let i = 0; i < default_graph.nodes?.length; i++){
-			if (default_graph.nodes[i].id == id){
-				return (default_graph.nodes[i].label)
+		for (let i = 0; i < defaultData.nodes?.length; i++){
+			if (defaultData.nodes[i].id == id){
+				return (defaultData.nodes[i].label)
 			}
 		}
 	}
@@ -164,23 +185,26 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 		},
         selectNode: function (params: { nodes: any; edges: any; }) {
 			Recolor(params.nodes, 'sel')
+			console.log(params.nodes);
+			
 			RecolorEdges(params.edges, 'sel')
 			setName(GetNameByID(params.nodes))
 			modalState(true)
 
 			mainNetwork.focus(params.nodes[0], {scale: 0.2})
-			console.log(params.nodes[0]);
 			
 			selectNode(params.nodes[0])
         },
 		init: (e: any) => {
-			console.log('qwerty', e);
 		}
     };
 
 	function Recolor(arr: string | any[], flag: string){
+		console.log(arr);
+		
 		for (let i = 0; i < arr?.length; i++){
 			if (flag == 'sel'){
+				
 				mainNetwork.updateClusteredNode(arr[i], {opacity: 1})
 			}
 			else {
@@ -204,12 +228,11 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 
     //graph camera mover
     function CameraMover(e: string){		
-        for (let i = 0; i < default_graph.nodes?.length; i++) {
-			if (default_graph.nodes[i].label.split('|')[0] === e) {				
-				let id = default_graph.nodes[i].id
+        for (let i = 0; i < defaultData.nodes?.length; i++) {
+			if (defaultData.nodes[i].label.split('|')[0] === e) {				
+				let id = defaultData.nodes[i].id
 
 
-				console.log(e, id);
 				
 				mainNetwork.focus(id, {scale: 1.5})
 				mainNetwork.selectNodes([id])
