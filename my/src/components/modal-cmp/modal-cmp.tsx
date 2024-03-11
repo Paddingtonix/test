@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ButtonCmp } from '../button-cmp/button-cmp';
 import { CheckboxCmp } from '../checkbox-cmp/checkbox-cmp';
 import axios from "axios";
+import HintIconCmp from "../hint-icon-cmp/hint-icon-cmp";
 
 interface Props {
     nameNodes: string,
@@ -192,6 +193,10 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                                             <CheckboxCmp
                                                 OnClick={undefined} name={test.name}
                                             ></CheckboxCmp>
+                                            <HintIconCmp
+                                                direction={"leftTop"}
+                                                title={"Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien"}
+                                            />
                                         </div>
                                     </>
                                 )
@@ -246,7 +251,6 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                                         <path d="M13 22H10V19H13V22ZM13 17H10V16.993C10 15.343 10 13.918 10.672 12.92C11.1948 12.2574 11.8453 11.7065 12.585 11.3C12.919 11.086 13.234 10.883 13.499 10.672C14.6604 9.77306 15.1826 8.27392 14.831 6.84799C14.2747 5.51815 12.8593 4.76357 11.4451 5.04296C10.0309 5.32236 9.00877 6.55851 9 7.99999H6C6 4.68629 8.68629 1.99997 12 1.99997C14.3053 1.99307 16.4134 3.29894 17.434 5.36599C18.3507 7.47212 17.9883 9.91642 16.5 11.666C16.0475 12.1675 15.5396 12.616 14.986 13.003C14.5016 13.3371 14.0597 13.729 13.67 14.17C13.1193 15.0045 12.8819 16.0071 13 17Z" fill="#f50f02"/>
                                     </svg>
                                 }
-                                
                             </div>
                         ))}
                         <h2 className='modal__tests__title'>Тесты для вершин</h2>

@@ -1,0 +1,21 @@
+@use "../../style/params.scss" as *;
+
+
+.hint-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: toRem(16);
+  width: toRem(16);
+  padding: toRem(3);
+  border-radius: 100%;
+  background-color: $dark-background-color;
+  color: $background-color;
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color;
+    opacity: 0.7;
+  }
+}
