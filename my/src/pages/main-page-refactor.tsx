@@ -16,21 +16,21 @@ export default function Main() {
         edges: [] as Array<Edge>
     });
     const [actualGraphData, setActualGraphData] = useState(() => defaultGraph);
-    const [displayOption, setDisplayOption] = useState(true);
+    const [displayOption, setDisplayOption] = useState<boolean>(true);
     const [graphTable, setGraphTable] = useState<GraphTable>();
-    const [openModal, setOpenModal] = useState(false);
-    const [modalOptionName, setModalOptionName] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [preloaderState, setPreloaderState] = useState(true)
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [modalOptionName, setModalOptionName] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true);
+    const [preloaderState, setPreloaderState] = useState<boolean>(true)
     const [filterParams, setFilterParams] = useState({
         type:'' as string,
         value: '' as string
     })
-    const [updateData, setUpdateData] = useState(false)
+    const [updateData, setUpdateData] = useState<boolean>(false)
     
     //login data
-    const [jwtToken, setJwtToken] = useState("");
-    const [refreshToken, setRefreshToken] = useState("")
+    const [jwtToken, setJwtToken] = useState<string>("");
+    const [refreshToken, setRefreshToken] = useState<string>("")
 
     const [urls] = useState([
         '/api/graph.json',

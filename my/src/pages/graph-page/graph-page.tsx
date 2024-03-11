@@ -68,18 +68,6 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 	// 		// mainNetwork.updateClusteredNode(graph_data.edges[i], {opacity: 1})
 	// 	}
 	// }
-
-	
-	// for (let i = 0; i < graph_data.nodes.length; i++) {
-	// 	if (graph_data.nodes[i].data === "success") {
-	// 		Recolor([graph_data.nodes[i].id], 'sel');	
-
-	// 		const edgesToRecolor = graph_data.edges.filter((edge: { from: any; }) => edge.from === graph_data.nodes[i].id);
-	// 		console.log(edgesToRecolor);
-			
-	// 		RecolorEdges([edgesToRecolor], 'sel');
-	// 	}
-	// }
     
     const handleGetNodes = useCallback(() => {
       	console.log(networkNodes);
