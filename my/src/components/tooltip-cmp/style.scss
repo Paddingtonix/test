@@ -75,7 +75,7 @@
 
     pointer-events: none;
     z-index: 100;
-    animation: appearanceAni .2s forwards;
+    animation: appearanceAnimation .2s forwards;
 
     &_direction_topLeft, &_direction_topRight, &_direction_top {
       bottom: calc(100% + 11px);
@@ -123,13 +123,13 @@
       transform: translateX(calc(-100% + 11px));
     }
   }
-}
 
-@keyframes appearanceAni {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 100%
+  @keyframes appearanceAnimation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 100%
+    }
   }
 }
