@@ -192,9 +192,9 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                         </div>
                         <h2 className='modal__tests__title'>Тесты для рёбер</h2>
                         <div className='modal__tests__container__test'>
-                            {testsModal.edges_test.map((test: any, index: number) => {
+                            {testsModal.edges_test.map((test: any) => {
                                 return (
-                                    <div className='modal__tests__container' key={index}>
+                                    <div className='modal__tests__container' key={test.id}>
                                         <CheckboxCmp
                                             OnClick={undefined} name={test.name}
                                         ></CheckboxCmp>
@@ -208,9 +208,9 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                         </div>
                         <h2 className='modal__tests__title'>Тесты для вершин</h2>
                         <div className='modal__tests__container__test'>
-                            {testsModal.vertex_test.map((test: any, index: number) => {
+                            {testsModal.vertex_test.map((test: any) => {
                                 return (
-                                    <div className='modal__tests__container' key={index}>
+                                    <div className='modal__tests__container' key={test.id}>
                                         <CheckboxCmp
                                             OnClick={undefined} name={test.name}
                                         ></CheckboxCmp>
