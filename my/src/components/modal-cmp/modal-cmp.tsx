@@ -29,16 +29,19 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
             {   
                 name: "Тест первого порядка",
                 success: true,
+                tooltip: "Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien",
                 id: 1
             },
             {   
                 name: "Тест второго порядка",
                 success: true,
+                tooltip: "Подсказка для теста второго порядка",
                 id: 2
             },
             {   
                 name: "Тест третьего порядка",
                 success: false,
+                tooltip: "Подсказка для теста третьего порядка",
                 id: 3
             }
         ],
@@ -46,16 +49,19 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
             {   
                 name: "Тест первого порядка",
                 success: false,
+                tooltip: "Подсказка для теста первого порядка",
                 id: 4
             },
             {   
                 name: "Тест второго порядка",
                 success: false,
+                tooltip: "Подсказка для теста второго порядка",
                 id: 5
             },
             {   
                 name: "Тест третьего порядка",
                 success: false,
+                tooltip: "Подсказка для теста третьего порядка",
                 id: 6
             }
         ]
@@ -186,33 +192,33 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                         </div>
                         <h2 className='modal__tests__title'>Тесты для рёбер</h2>
                         <div className='modal__tests__container__test'>
-                            {testsModal.edges_test.map((test: any) => {
+                            {testsModal.edges_test.map((test: any, index: number) => {
                                 return (
-                                    <>
-                                        <div className='modal__tests__container'>
-                                            <CheckboxCmp
-                                                OnClick={undefined} name={test.name}
-                                            ></CheckboxCmp>
-                                            <HintIconCmp
-                                                direction={"leftTop"}
-                                                title={"Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien"}
-                                            />
-                                        </div>
-                                    </>
+                                    <div className='modal__tests__container' key={index}>
+                                        <CheckboxCmp
+                                            OnClick={undefined} name={test.name}
+                                        ></CheckboxCmp>
+                                        <HintIconCmp
+                                            direction={"leftTop"}
+                                            title={test.tooltip}
+                                        />
+                                    </div>
                                 )
                             })}
                         </div>
                         <h2 className='modal__tests__title'>Тесты для вершин</h2>
                         <div className='modal__tests__container__test'>
-                            {testsModal.vertex_test.map((test: any) => {
+                            {testsModal.vertex_test.map((test: any, index: number) => {
                                 return (
-                                    <>
-                                        <div className='modal__tests__container'>
-                                            <CheckboxCmp
-                                                OnClick={undefined} name={test.name}
-                                            ></CheckboxCmp>
-                                        </div>
-                                    </>
+                                    <div className='modal__tests__container' key={index}>
+                                        <CheckboxCmp
+                                            OnClick={undefined} name={test.name}
+                                        ></CheckboxCmp>
+                                        <HintIconCmp
+                                            direction={"leftTop"}
+                                            title={test.tooltip}
+                                        />
+                                    </div>
                                 )
                             })}
                         </div>

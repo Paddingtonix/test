@@ -4,16 +4,19 @@
         {   
             "name": "Тест первого порядка",
             "success": true,
+            "tooltip": "Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat est velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien",
             "id": 1
         },
         {   
             "name": "Тест второго порядка",
             "success": true,
+            "tooltip": "sem viverra aliquet eget sit amet tellus cras adipiscing enim",
             "id": 2
         },
         {   
             "name": "Тест третьего порядка",
             "success": false,
+            "tooltip": "rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at augue eget arcu",
             "id": 3
         }
     ],
@@ -21,16 +24,19 @@
         {   
             "name": "Тест первого порядка",
             "success": false,
+            "tooltip": "donec massa sapien",
             "id": 4
         },
         {   
             "name": "Тест второго порядка",
             "success": false,
+            "tooltip": "in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare arcu dui vivamus arcu felis bibendum ut",
             "id": 5
         },
         {   
             "name": "Тест третьего порядка",
             "success": false,
+            "tooltip": "quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et odio pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus",
             "id": 6
         }
     ]
