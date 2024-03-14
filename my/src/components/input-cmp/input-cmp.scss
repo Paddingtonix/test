@@ -1,0 +1,48 @@
+@use "../../style/params.scss" as *;
+
+.input-cmp {
+  width: 100%;
+  position: relative;
+
+  &__value {
+    height: 100%;
+    padding: 20px 16px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid $dark-primary;
+    transition: border .2s;
+
+    &:focus {
+      border: 1px solid $primary-color;
+      + label {
+        top: 15px;
+        font-size: 12px;
+      }
+    }
+
+    &_error {
+      border-color: red;
+    }
+
+    &_error:focus {
+      border-color: red;
+    }
+  }
+
+   &__label {
+     position: absolute;
+     top: 50%;
+     left: 16px;
+     font-size: 16px;
+     transform: translateY(-50%);
+     transition: .2s;
+     pointer-events: none;
+     color: $text-color;
+     font-weight: normal;
+
+     &_fill {
+       font-size: 12px;
+       top: 15px;
+     }
+   }
+}
