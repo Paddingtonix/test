@@ -1,0 +1,33 @@
+@use "../../style/params.scss" as *;
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $background-color;
+
+  .login-modal {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: toRem(32);
+
+    background-color: $dark-background-color;
+
+    border-radius: toRem(16);
+
+    h5 {
+      margin: 0;
+
+      color: $headers-color;
+
+      font-size: toRem(24);
+    }
+  }
+}
