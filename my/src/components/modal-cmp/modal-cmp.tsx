@@ -200,7 +200,7 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                                         ></CheckboxCmp>
                                         <HintIconCmp
                                             direction={"leftTop"}
-                                            title={test.tooltip}
+                                            text={test.tooltip}
                                         />
                                     </div>
                                 )
@@ -216,7 +216,7 @@ export const ModalCmp = ({ nameNodes, modalState }: Props) => {
                                         ></CheckboxCmp>
                                         <HintIconCmp
                                             direction={"leftTop"}
-                                            title={test.tooltip}
+                                            text={test.tooltip}
                                         />
                                     </div>
                                 )
