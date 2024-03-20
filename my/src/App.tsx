@@ -4,7 +4,7 @@ import './App.css';
 
 //pages
 import Main from './pages/main-page-refactor';
-import ModalCmp from "./components/basic/modal-cmp/modal-cmp";
+import ModalCmp from "./components/modal-cmp/modal-cmp";
 import {ButtonCmp} from "./components/button-cmp/button-cmp";
 import {useState} from "react";
 
