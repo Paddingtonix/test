@@ -1,4 +1,4 @@
-import "./input-cmp.scss"
+import "./style.scss"
 import {useState} from "react";
 
 interface InputProps {

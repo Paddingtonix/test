@@ -38,22 +38,22 @@
       }
 
       &_error {
-        border-color: red;
+        border-color: $danger;
 
         + label {
-          color: red;
+          color: $danger;
         }
       }
 
       &_error:hover {
-        border-color: red;
+        border-color: $danger;
       }
 
       &_error:focus {
-        border-color: red;
+        border-color: $danger;
 
         + label {
-          color: red;
+          color: $danger;
         }
       }
     }
@@ -118,7 +118,7 @@
   .error-text {
     max-height: 0;
 
-    color: red;
+    color: $danger;
     font-size: toRem(12);
 
     overflow: hidden;
