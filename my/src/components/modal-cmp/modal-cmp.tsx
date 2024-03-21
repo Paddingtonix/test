@@ -62,16 +62,11 @@ const ModalCmp = (props: ModalProps) => {
     useEffect(() => {
         if (isOpen && closable) {
             window.addEventListener('keydown', onKeyDown);
-            const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
-            document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = `${scrollBarCompensation}px`;
         }
 
         return () => {
             clearTimeout(timerRef.current);
             window.removeEventListener('keydown', onKeyDown);
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
         };
     }, [isOpen, onKeyDown, closable]);
 
