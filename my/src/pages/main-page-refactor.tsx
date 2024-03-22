@@ -8,7 +8,7 @@ import { TablePage } from './table-page/table-page';
 
 //components
 import { NavbarCmp } from '../components/navbar-cmp/navbar-cmp';
-import { ModalCmp } from '../components/modal-cmp/modal-cmp';
+import {SidebarCmp} from "../components/sidebar-cmp/sidebar-cmp";
 
 export default function Main() {
     const [defaultGraph, setDefaultGraph] = useState({
@@ -226,10 +226,10 @@ export default function Main() {
                     <TablePage table={graphTable}></TablePage>
                 }
                 {openModal ? 
-                    <ModalCmp
+                    <SidebarCmp
                         modalState={openModalState}
                         nameNodes={modalOptionName}
-                    ></ModalCmp>
+                    ></SidebarCmp>
                     :
                     ''
                 }
