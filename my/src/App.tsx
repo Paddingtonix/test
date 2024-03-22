@@ -7,6 +7,7 @@ import Main from './pages/main-page-refactor';
 
 
 function App() {
+
   	return (
     	<>
 		<Main></Main>
