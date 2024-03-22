@@ -1,0 +1,54 @@
+@use "../../style/params.scss" as *;
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $background-color;
+
+}
+
+.login-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+
+  h5 {
+    margin: 0 0 20px 0;
+
+    color: $headers-color;
+    font-size: toRem(24);
+  }
+
+  &__error {
+    color: $error-color;
+  }
+
+  &__remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+
+    color: $headers-color;
+  }
+
+  button {
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  &__forgot-password {
+    display: flex;
+    justify-content: end;
+
+    span {
+      cursor: pointer;
+    }
+  }
+}

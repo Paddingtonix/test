@@ -1,5 +1,5 @@
 import React, { MutableRefObject, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import "./modal-cmp.scss";
+import "./style.scss";
 import {createPortal} from "react-dom";
 
 interface ModalProps {
