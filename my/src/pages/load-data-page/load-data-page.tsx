@@ -5,6 +5,7 @@ import ModalCmp from "../../components/modal-cmp/modal-cmp";
 import InputCmp from "../../components/input-cmp/input-cmp";
 import {CheckboxCmp} from "../../components/checkbox-cmp/checkbox-cmp";
 import axios from "axios";
+import {service} from "../../api/api";
 
 const LoadDataPage = () => {
 
@@ -22,10 +23,6 @@ const LoadDataPage = () => {
     )
 }
 
-type TokensResponse = {
-    access_token: string,
-    refresh_token: string
-}
 
 interface LoginModalProps {
     onLogin?(): void
@@ -45,7 +42,7 @@ const LoginModal = (props: LoginModalProps) => {
     const onSubmit = () => {
         setCheckForm(true);
         if (data.email && data.password)
-            axios.post<TokensResponse>("https://qa-qc-back.freydin.space/login", data)
+            service.login(data)
                 .then(res => {
                     axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
                     onLogin && onLogin();
