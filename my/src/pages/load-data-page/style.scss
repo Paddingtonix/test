@@ -33,7 +33,6 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    margin-top: 5px;
 
     color: $headers-color;
   }
@@ -49,6 +48,7 @@
 
     span {
       cursor: pointer;
+      font-size: toRem(14);
     }
   }
 }

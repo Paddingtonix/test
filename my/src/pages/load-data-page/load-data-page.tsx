@@ -76,10 +76,11 @@ const LoginModal = (props: LoginModalProps) => {
                     }}
                     checkRules={checkForm}
                 />
-                <span className={"login-modal__error"}>{error}</span>
+                {
+                    error && <span className={"login-modal__error"}>{error}</span>
+                }
                 <span className={"login-modal__remember-me"}>
-                    <CheckboxCmp OnClick={() => {
-                    }} name={""}/>
+                    <CheckboxCmp OnClick={() => {}} name={""}/>
                     Запомнить меня
                 </span>
                 <ButtonCmp OnClick={onSubmit} name={"Войти"}/>
