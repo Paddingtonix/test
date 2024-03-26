@@ -1,26 +1,27 @@
 import './App.css';
-// import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-
-
-//pages
 import Main from './pages/main-page-refactor';
-import {useState} from "react";
+import {Navigate, Route, Routes} from "react-router-dom";
+import LoadDataPage from "./pages/load-data-page/load-data-page";
+import {useInstanceInterceptors} from "./utils/api";
 
 
 function App() {
 
-	const [v, setV] = useState("")
+	useInstanceInterceptors();
 
   	return (
-    	<>
-		<Main></Main>
-		{/* <Router>
-			<Routes>
-				<Route path="/" element = {<Main></Main>}></Route>
-			</Routes>
-		</Router> */}
-		</>
+		<Routes>
+			<Route path={Links.LoadData} element={<LoadDataPage/>}/>
+			<Route path={Links.Main} element={<Main/>}/>
+			<Route path={Links.NotFound} element={<Navigate to={Links.LoadData}/>}/>
+		</Routes>
   	);
+}
+
+export const Links = {
+	LoadData: "/",
+	Main: "/test",
+	NotFound: "/*"
 }
 
 export default App;

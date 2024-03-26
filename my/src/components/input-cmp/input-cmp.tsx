@@ -6,6 +6,7 @@ interface InputProps {
     label?: string,
     error?: string,
     type?: "text" | "password" | "number" | "email",
+    name?: string,
     rules?: {
         required?: boolean,
         pattern?: string
@@ -21,6 +22,7 @@ const InputCmp = (props: InputProps) => {
         value,
         label,
         type,
+        name,
         rules,
         checkRules,
         onChange,
@@ -44,6 +46,7 @@ const InputCmp = (props: InputProps) => {
                     type={type === "password" && !hidePassword ? "text" : type}
                     className={`input-cmp__value ${isError() && "input-cmp__value_error"}`}
                     value={value}
+                    name={name}
                     onChange={(e) => onChange(e.target.value)}
                 />
                 <label className={`input-cmp__label ${value && "input-cmp__label_fill"}`}>{label}</label>

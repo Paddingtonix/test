@@ -6,10 +6,11 @@ interface Props{
     name: string
 }
 
-export const CheckboxCmp =({name}: Props) => {
+export const CheckboxCmp =({name, OnClick}: Props) => {
     const [checkboxActive, setCheckboxActive] = useState(false)
 
     function selectChecbox() {
+        OnClick();
         setCheckboxActive(!checkboxActive)
     }
 

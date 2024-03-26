@@ -2,13 +2,14 @@ import "../../index.scss"
 
 interface Props{
     OnClick:  any,
-    name: string
+    name: string,
+    disabled?: boolean
 }
 
-export const ButtonCmp =({OnClick, name}: Props) => {
+export const ButtonCmp =({OnClick, name, disabled}: Props) => {
 
     return (
-        <button className='button' onClick={OnClick}>{name}</button>
+        <button className='button' onClick={OnClick} disabled={disabled}>{name}</button>
     )
 }
 
