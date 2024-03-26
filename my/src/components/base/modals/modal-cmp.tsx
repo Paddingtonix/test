@@ -1,6 +1,8 @@
 import React, { MutableRefObject, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import "./style.scss";
 import {createPortal} from "react-dom";
+import LoginModalCmp from "./login-cmp/login-modal-cmp";
+import RememberPasswordModalCmp from "./remember-password-cmp/remember-password-modal-cmp";
 
 interface ModalProps {
     className?: string;
@@ -9,7 +11,14 @@ interface ModalProps {
     onClose?: () => void;
     withCloseButton?: boolean,
     closable?: boolean,
+    modalContent?: ModalContent
 }
+
+export interface ModalContentProps {
+    changeModalContent(content: ModalContent): void
+}
+
+type ModalContent = "loginForm" | "rememberPassword" | "custom";
 
 const ANIMATION_DELAY = 300;
 
@@ -19,11 +28,13 @@ const ModalCmp = (props: ModalProps) => {
         isOpen,
         onClose,
         closable = true,
-        withCloseButton = true
+        withCloseButton = true,
+        modalContent: modalContentProps = "custom"
     } = props;
 
     const [isClosing, setIsClosing] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [modalContent, setModalContent] = useState<ModalContent>(modalContentProps);
     const timerRef = useRef() as MutableRefObject<ReturnType<typeof setTimeout>>;
 
     useEffect(() => {
@@ -70,8 +81,18 @@ const ModalCmp = (props: ModalProps) => {
         };
     }, [isOpen, onKeyDown, closable]);
 
+    const changeModalContent = useCallback((content: ModalContent) => {
+        setModalContent(content);
+    }, []);
+
     if (!isMounted) {
         return null;
+    }
+
+    const ModalContentComponents: Record<ModalContent, React.ReactNode> = {
+        "loginForm": <LoginModalCmp changeModalContent={changeModalContent}/>,
+        "rememberPassword": <RememberPasswordModalCmp changeModalContent={changeModalContent}/>,
+        "custom": children
     }
 
     return createPortal(
@@ -81,7 +102,7 @@ const ModalCmp = (props: ModalProps) => {
                     className={"modal-basic__overlay__content"}
                     onClick={onContentClick}
                 >
-                    {children}
+                    { ModalContentComponents[modalContent] }
                     {
                         withCloseButton &&
                         <div className={"modal-basic__overlay__content__close-button"}
