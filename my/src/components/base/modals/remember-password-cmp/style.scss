@@ -35,7 +35,7 @@
     transition: .3s;
 
     img {
-      width: toRem(100);
+      width: toRem(120);
       border-radius: 100%;
     }
 
@@ -44,7 +44,7 @@
     }
 
     h5 {
-      font-size: toRem(18);
+      font-size: toRem(24);
       color: $headers-color;
       font-weight: bold;
     }
