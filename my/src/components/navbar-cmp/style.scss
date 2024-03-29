@@ -146,28 +146,27 @@
         width: max-content;
         position: absolute;
         right: 0;
-        top: 50px;
         z-index: 100;
         border: 1px solid $text-color;
         background-color: $dark-background-color;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
-        border-radius: 8px;
+        border-radius: toRem(8);
 
         ul {
             list-style: none;
-            border-radius: 8px;
+            border-radius: toRem(8);
             margin: 0;
             padding: 0;
 
             li {
                 display: flex;
                 align-items: center;
-                gap: 5px;
+                gap: toRem(5);
                 color: $headers-color;
-                padding: 10px;
+                padding: toRem(10);
                 cursor: pointer;
                 transition: .3s;
-                border-radius: 8px;
+                border-radius: toRem(8);
                 user-select: none;
 
                 &:hover {
@@ -175,7 +174,7 @@
                 }
 
                 svg {
-                    width: 18px;
+                    border-radius: toRem(18);
                 }
             }
         }
