@@ -119,17 +119,49 @@ export const NavbarCmp: React.FC<NavbarProps> = ({ graph_state, graph_data, upda
 					  ></SelectorCmp>
 				  ))}
 			  </div>
-			  <ButtonCmp
-				  OnClick={uploadFile}
-				  name={!selectedFile ? 'Загрузить данные' : 'Отправить файл'}
-			  ></ButtonCmp>
-  
-			  <input id='fileUpload' type="file" onChange={handleFileChange} ref={fileInputRef} style={{ display: 'none' }} />
+				<PersonalAccountDropdown/>
+			  {/*<ButtonCmp*/}
+				{/*  OnClick={uploadFile}*/}
+				{/*  name={!selectedFile ? 'Загрузить данные' : 'Отправить файл'}*/}
+			  {/*></ButtonCmp>*/}
+
+			  {/*<input id='fileUpload' type="file" onChange={handleFileChange} ref={fileInputRef} style={{ display: 'none' }} />*/}
 			  {/* <div className="elements">Выход</div> */}
 			</div>
 	  );
 	}
 };
+
+const PersonalAccountDropdown = () => {
+
+	const [isOpen, setIsOpen] = useState(false);
+
+	return (
+		<div className={"personal-account-dropdown"}>
+			<div className={"personal-account-dropdown__panel"}
+				 onClick={() => setIsOpen(!isOpen)}
+			>
+				<img alt={""} src={"https://ih1.redbubble.net/image.580238014.1198/st,small,507x507-pad,600x600,f8f8f8.u4.jpg"}/>
+				<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z" fill="#2E3A59"/>
+				</svg>
+			</div>
+			{
+				isOpen &&
+				<div className={"personal-account-dropdown__list"}>
+					<ul>
+						<li>
+							Загрузить данные
+						</li>
+						<li>
+							Выйти из профиля
+						</li>
+					</ul>
+				</div>
+			}
+		</div>
+	)
+}
   
 
 
