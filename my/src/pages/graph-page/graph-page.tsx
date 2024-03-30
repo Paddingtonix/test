@@ -29,6 +29,7 @@ interface Props {
 }
 
 
+
 export const GraphPage = ({ callBack, filteredData, setName, modalState, selectNode, defaultData }: Props, ) => {	
     let searcher: SetStateAction<string[]> = []
 	let graph_data = graph
@@ -72,7 +73,6 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
     const handleGetNodes = useCallback(() => {
       	console.log(networkNodes);
     }, [networkNodes]);
-
 
 	useEffect(() => {
 		if(physicsEnabled) {			

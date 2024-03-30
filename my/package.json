@@ -18,9 +18,9 @@
     "npm": "^10.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-graph-vis": "^1.0.7",
     "react-router-dom": "^6.20.0",
-    "react-scripts": "5.0.1",
     "sass": "^1.69.5",
     "vis-network": "^9.1.9"
   },
@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.1.0"
+    "gh-pages": "^6.1.0",
+    "react-scripts": "^5.0.1"
   }
 }
