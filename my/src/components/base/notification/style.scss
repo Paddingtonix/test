@@ -1,0 +1,84 @@
+.notification-container {
+  overflow: hidden;
+  max-height: 200px;
+  transition: max-height 0.3s ease-out;
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  &_shrink {
+    max-height: 0;
+  }
+}
+
+.notification {
+  max-width: 430px;
+  max-height: 200px;
+  overflow: hidden;
+  padding: 12px 48px 12px 12px;
+  z-index: 1000;
+  font-weight: bold;
+  position: relative;
+  color: #fff;
+  transition: transform 0.3s ease-out;
+
+  &__close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  &_info {
+    background-color: #2196f3;
+  }
+
+  &_success {
+    background-color: #4caf50;
+  }
+
+  &_warning {
+    background-color: #ff9800;
+  }
+
+  &_error {
+    background-color: #f44336;
+  }
+
+  &_slide-out {
+    transform: translateX(150%);
+    flex: 0;
+  }
+
+  &_slide-in {
+    animation-name: slideIn;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0%);
+    }
+  }
+}
+
+.notificationContainer {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+}
