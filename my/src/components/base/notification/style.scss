@@ -4,21 +4,24 @@
   position: fixed;
   display: flex;
   flex-direction: column-reverse;
-  bottom: 16px;
-  right: 16px;
+  bottom: toRem(16);
+  right: toRem(16);
+
   z-index: 10000;
 }
 
 .notification-cmp {
+  max-width: toRem(300);
+  min-width: toRem(100);
+  max-height: toRem(200);
+
+
+  border-radius: toRem(4);
   overflow: hidden;
-  max-width: 300px;
-  max-height: 200px;
-  min-width: 100px;
-  transition: max-height 0.3s ease-out;
-  border-radius: 4px;
+  transition: max-height .3s ease-out;
 
   &:not(:first-child) {
-    margin-bottom: 8px;
+    margin-bottom: toRem(8);
   }
 
   &_shrink {
@@ -26,39 +29,40 @@
   }
 
   .content {
-    overflow: hidden;
+    position: relative;
     display: flex;
     align-items: start;
     justify-content: space-between;
-    gap: 8px;
+    gap: toRem(8);
+    padding: toRem(16) toRem(8);
 
-    padding: 16px 8px;
-    z-index: 1000;
-    font-weight: bold;
-    position: relative;
-    border-left: 5px solid white;
     background-color: $dark-background-color;
-    border-radius: 4px;
-    color: #fff;
-    transition: transform 0.3s ease-out;
+    color: $headers-color;
+    font-weight: bold;
+    border-left: toRem(5) solid white;
+    border-radius: toRem(4);
+
+    overflow: hidden;
+    z-index: 1000;
+    transition: transform .3s ease-out;
 
     &__close-button {
+      background: transparent;
       border: none;
       cursor: pointer;
-      background: transparent;
 
       path {
-        fill: gray;
+        fill: $text-color;
       }
     }
 
     &__icon {
       display: flex;
-      width: 24px;
+      width: toRem(24);
     }
 
     &:not(:last-child) {
-      margin-bottom: 8px;
+      margin-bottom: toRem(8);
     }
 
     &_warning {
@@ -97,9 +101,7 @@
     }
 
     &_slide-in {
-      animation-name: slideIn;
-      animation-duration: 0.3s;
-      animation-timing-function: ease-in-out;
+      animation: slideIn ease-in-out .3s;
     }
 
     @keyframes slideIn {
