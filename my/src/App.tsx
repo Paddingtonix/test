@@ -1,28 +1,34 @@
 import './App.css';
-// import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-
-
-//pages
 import Main from './pages/main-page-refactor';
+import {Navigate, Route, Routes} from "react-router-dom";
+import LoadDataPage from "./pages/load-data-page/load-data-page";
+import {useInstanceInterceptors} from "./utils/api";
 import {
-	NotificationProvider,
-	useNotification
+    NotificationProvider,
+    useNotification
 } from "./components/base/notification/notification-provider";
 
 
 function App() {
 
-  	return (
-    	<NotificationProvider>
-			<Example/>
-		<Main></Main>
-		{/* <Router>
-			<Routes>
-				<Route path="/" element = {<Main></Main>}></Route>
-			</Routes>
-		</Router> */}
-		</NotificationProvider>
-  	);
+    useInstanceInterceptors();
+
+    return (
+        <NotificationProvider>
+            <Example/>
+            <Routes>
+                <Route path={Links.LoadData} element={<LoadDataPage/>}/>
+                <Route path={Links.Main} element={<Main/>}/>
+                <Route path={Links.NotFound} element={<Navigate to={Links.LoadData}/>}/>
+            </Routes>
+        </NotificationProvider>
+    );
+}
+
+export const Links = {
+    LoadData: "/",
+    Main: "/test",
+    NotFound: "/*"
 }
 
 const Example = () => {

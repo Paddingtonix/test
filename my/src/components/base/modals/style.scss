@@ -1,4 +1,4 @@
-@use "../../style/params" as *;
+@use "../../../style/params" as *;
 
 .modal-basic {
   position: fixed;
@@ -29,7 +29,7 @@
     &__content {
       max-width: 80%;
       position: relative;
-      padding: toRem(35);
+      padding: toRem(55);
 
       background: $background-color;
       border-radius: toRem(8);
