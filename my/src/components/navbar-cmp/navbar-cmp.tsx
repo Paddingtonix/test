@@ -2,7 +2,11 @@ import axios from "axios";
 import "../../index.scss"
 import {ButtonCmp} from "../button-cmp/button-cmp"
 import {SelectorCmp} from "../selector-cmp/selector-cmp";
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useRef} from 'react'
+import {useOutsideClick} from "../../utils/use-outside-click";
+import {useNavigate} from "react-router-dom";
+import {Links} from "../../App";
+import {useAuth} from "../../utils/AuthProvider";
 
 interface NavbarProps {
     graph_state: (state: boolean | ((prevState: boolean) => boolean)) => void;
@@ -136,6 +140,8 @@ export const NavbarCmp: React.FC<NavbarProps> = ({graph_state, graph_data, updat
 const PersonalAccountDropdown = () => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const {signOut} = useAuth();
     const ref = useOutsideClick(() => {
         setIsOpen(false);
     });
@@ -156,7 +162,7 @@ const PersonalAccountDropdown = () => {
                 isOpen &&
                 <div className={"personal-account-dropdown__list"}>
                     <ul>
-                        <li>
+                        <li onClick={() => navigate(Links.LoadData)}>
                             <svg width="16" height="16" viewBox="0 0 1024 1024" version="1.1"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -165,7 +171,7 @@ const PersonalAccountDropdown = () => {
                             </svg>
                             Загрузить данные
                         </li>
-                        <li>
+                        <li onClick={() => signOut()}>
                             <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M21 12L13 12" stroke="white" strokeWidth="2" strokeLinecap="round"
@@ -185,28 +191,3 @@ const PersonalAccountDropdown = () => {
         </div>
     )
 }
-
-export const useOutsideClick = (callback: () => void) => {
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
-                callback();
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [callback]);
-
-    return ref;
-};
-  
-
-
-
-

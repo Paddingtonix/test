@@ -8,11 +8,13 @@ import {useMutation} from "@tanstack/react-query";
 import "./style.scss";
 import {FormField, useForm} from "../../../../utils/use-form";
 import {ModalContentProps} from "../modal-cmp";
+import {useNotification} from "../../notification/notification-provider";
 
 
 const LoginModalCmp = (props: ModalContentProps) => {
     const {changeModalContent} = props;
     const {signIn} = useAuth();
+    const {toastSuccess} = useNotification();
 
     const {fields, checkForm, setFieldValue, handleSubmit} = useForm(FormLogin);
     const [rememberMe, setRememberMe] = useState(false);
@@ -21,6 +23,7 @@ const LoginModalCmp = (props: ModalContentProps) => {
         mutationFn: (data: LoginCredentials) => service.login(data),
         onSuccess: ({data}) => {
             signIn(data.access_token, data.refresh_token, rememberMe);
+            toastSuccess("Вы успешно вошли в систему!")
         }
     });
 

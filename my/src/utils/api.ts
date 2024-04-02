@@ -3,6 +3,7 @@ import {QueryClient, useMutation} from "@tanstack/react-query";
 import {useAuth} from "./AuthProvider";
 import {getAccessToken, getRefreshToken} from "./local-storage";
 import {service} from "./service";
+import {useNotification} from "../components/base/notification/notification-provider";
 
 export const instance = axios.create({
     baseURL: `https://qa-qc-back.freydin.space`,
@@ -24,6 +25,7 @@ export const queryClient = new QueryClient({
 export const useInstanceInterceptors = () => {
 
     const { signOut } = useAuth();
+    const {toastError} = useNotification();
 
     const {mutate: refreshToken } = useMutation({
         mutationFn: () => service.refreshToken(getRefreshToken()),
@@ -38,6 +40,7 @@ export const useInstanceInterceptors = () => {
 
     const onResponseError = (error: AxiosError): Promise<AxiosError> => {
         onUnauthorizedError(error);
+        onInternalServerError(error);
         return Promise.reject(error);
     }
 
@@ -45,6 +48,12 @@ export const useInstanceInterceptors = () => {
         if (error.response?.status === 401) {
             if (getAccessToken() && getRefreshToken()) refreshToken()
             else signOut();
+        }
+    }
+
+    const onInternalServerError = (error: AxiosError) => {
+        if (error.response?.status === 500 || error.response?.status === 502) {
+            toastError("Упс, что-то пошло не так, попробуйте позже")
         }
     }
 
