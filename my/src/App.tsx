@@ -4,11 +4,9 @@ import './App.css';
 
 //pages
 import Main from './pages/main-page-refactor';
-import {useState} from "react";
 import {
-	Notification,
 	NotificationProvider,
-	NotificationType, useNotification
+	useNotification
 } from "./components/base/notification/notification-provider";
 
 
@@ -29,14 +27,13 @@ function App() {
 
 const Example = () => {
 
-	const {toastInfo, toastWarning, toastSuccess, toastError} = useNotification()
+	const {toastWarning, toastSuccess, toastError} = useNotification()
 
 	return (
 		<div>
-			<button onClick={() => toastInfo("info")}>Info</button>
-			<button onClick={() => toastSuccess("success")}>Success</button>
-			<button onClick={() => toastWarning("warning")}>Warning</button>
-			<button onClick={() => toastError("error")}>Error</button>
+			<button onClick={() => toastWarning("Не забудьте сохранить изменения")}>Info</button>
+			<button onClick={() => toastSuccess("Вы успешно вошли в систему!")}>Success</button>
+			<button onClick={() => toastError("Упс, что-то пошло не так, попробуйте позже")}>Error</button>
 		</div>
 	)
 }

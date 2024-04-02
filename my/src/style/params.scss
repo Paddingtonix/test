@@ -7,6 +7,10 @@ $error-color: #1B686D;
 $not-color: #092B2E;
 $dark-primary:#1B686D;
 
+$notification-warning-color: #f3c221;
+$notification-success-color: #4caf50;
+$notification-error-color: #f44336;
+
 
 @function toRem($value) {
     $remValue: ($value / 16) + rem;

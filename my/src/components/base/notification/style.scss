@@ -1,84 +1,115 @@
-.notification-container {
-  overflow: hidden;
-  max-height: 200px;
-  transition: max-height 0.3s ease-out;
+@use "../../../style/params.scss" as *;
 
-  &:not(:last-child) {
+.notification-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column-reverse;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10000;
+}
+
+.notification-cmp {
+  overflow: hidden;
+  max-width: 300px;
+  max-height: 200px;
+  min-width: 100px;
+  transition: max-height 0.3s ease-out;
+  border-radius: 4px;
+
+  &:not(:first-child) {
     margin-bottom: 8px;
   }
 
   &_shrink {
     max-height: 0;
   }
-}
 
-.notification {
-  max-width: 430px;
-  max-height: 200px;
-  overflow: hidden;
-  padding: 12px 48px 12px 12px;
-  z-index: 1000;
-  font-weight: bold;
-  position: relative;
-  color: #fff;
-  transition: transform 0.3s ease-out;
+  .content {
+    overflow: hidden;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 8px;
 
-  &__close-button {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: transparent;
-    padding: 0;
-    border: none;
-    cursor: pointer;
+    padding: 16px 8px;
+    z-index: 1000;
+    font-weight: bold;
+    position: relative;
+    border-left: 5px solid white;
+    background-color: $dark-background-color;
+    border-radius: 4px;
     color: #fff;
-  }
+    transition: transform 0.3s ease-out;
 
-  &:not(:last-child) {
-    margin-bottom: 8px;
-  }
+    &__close-button {
+      border: none;
+      cursor: pointer;
+      background: transparent;
 
-  &_info {
-    background-color: #2196f3;
-  }
-
-  &_success {
-    background-color: #4caf50;
-  }
-
-  &_warning {
-    background-color: #ff9800;
-  }
-
-  &_error {
-    background-color: #f44336;
-  }
-
-  &_slide-out {
-    transform: translateX(150%);
-    flex: 0;
-  }
-
-  &_slide-in {
-    animation-name: slideIn;
-    animation-duration: 0.3s;
-    animation-timing-function: ease-in-out;
-  }
-
-  @keyframes slideIn {
-    from {
-      transform: translateX(100%);
+      path {
+        fill: gray;
+      }
     }
 
-    to {
-      transform: translateX(0%);
+    &__icon {
+      display: flex;
+      width: 24px;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    &_warning {
+      border-color: $notification-warning-color;
+
+      .content__icon {
+        path {
+          fill: $notification-warning-color;
+        }
+      }
+    }
+
+    &_success {
+      border-color: $notification-success-color;
+
+      .content__icon {
+        path {
+          fill: $notification-success-color;
+        }
+      }
+    }
+
+    &_error {
+      border-color: $notification-error-color;
+
+      .content__icon {
+        path {
+          fill: $notification-error-color;
+        }
+      }
+    }
+
+    &_slide-out {
+      transform: translateX(150%);
+      flex: 0;
+    }
+
+    &_slide-in {
+      animation-name: slideIn;
+      animation-duration: 0.3s;
+      animation-timing-function: ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(0%);
+      }
     }
   }
-}
-
-.notificationContainer {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 10000;
 }
