@@ -9,8 +9,23 @@ interface NotificationProviderProps {
 export type NotificationType = "warning" | "success" | "error";
 
 const TIME_TO_DELETE = 300; //Длительность периода времени перед удалением уведомления
-const TIME_TO_CLOSE = 5000; //Длительность периода времени перед автоматическим закрытием уведомления
 const MAX_COUNT = 4; //Максимальное кол-во уведомлений
+
+//Настройи параметров уведомлений
+const NotificationOptions = {
+    success: {
+        autoClose: true,
+        timeToClose: 5000
+    },
+    error: {
+        autoClose: true,
+        timeToClose: 5000
+    },
+    warning: {
+        autoClose: true,
+        timeToClose: 10000
+    }
+}
 
 export const NotificationProvider = ({children}: NotificationProviderProps) => {
     const [notifications, setNotifications] = React.useState<Notification[]>([]);
@@ -19,13 +34,11 @@ export const NotificationProvider = ({children}: NotificationProviderProps) => {
     const [index, setIndex] = useState(0);
 
     //Добавление уведомления
-    const createNotification = ({type, autoClose, children}: CreateNotification) => {
+    const createNotification = (options: CreateNotification) => {
         setNotifications([
             ...notifications,
             {
-                children,
-                type,
-                autoClose,
+                ...options,
                 id: index,
             },
         ])
@@ -42,17 +55,17 @@ export const NotificationProvider = ({children}: NotificationProviderProps) => {
 
     //Вызвать уведомление об успехе
     const toastSuccess = (text?: string) => {
-        createNotification({type: "success", children: text})
+        createNotification({type: "success", ...NotificationOptions.success, children: text})
     }
 
     //Вызвать уведомление об ошибке
     const toastError = (text?: string) => {
-        createNotification({type: "error", children: text})
+        createNotification({type: "error", ...NotificationOptions.error, children: text})
     }
 
     //Вызвать уведомление с предупреждением
     const toastWarning = (text?: string) => {
-        createNotification({type: "warning", children: text, autoClose: false})
+        createNotification({type: "warning", ...NotificationOptions.warning, children: text})
     }
 
     const value = {
@@ -67,12 +80,9 @@ export const NotificationProvider = ({children}: NotificationProviderProps) => {
                 notifications.map((notification, index) => (
                     <NotificationCmp
                         key={notification.id}
-                        id={notification.id}
                         onDelete={deleteNotification}
                         forcedClose={notifications.length > MAX_COUNT && index < notifications.length - MAX_COUNT}
-                        type={notification.type}
-                        children={notification.children}
-                        autoClose={notification.autoClose}
+                        {...notification}
                     />
                 ))
             }
@@ -107,6 +117,7 @@ interface NotificationCmpProps {
     children?: React.ReactNode,
     autoClose?: boolean,
     forcedClose?: boolean,
+    timeToClose?: number
 
     onDelete(id: number): void,
 }
@@ -118,6 +129,7 @@ type Notification = {
     type?: NotificationType,
     children?: React.ReactNode,
     autoClose?: boolean,
+    timeToClose?: number
 }
 
 const NotificationCmp = (props: NotificationCmpProps) => {
@@ -126,6 +138,7 @@ const NotificationCmp = (props: NotificationCmpProps) => {
         id,
         type = "success",
         autoClose = true,
+        timeToClose = 5000,
         forcedClose = false,
         children,
         onDelete
@@ -153,7 +166,7 @@ const NotificationCmp = (props: NotificationCmpProps) => {
     //Отслеживает, необходимо ли авто-закрытие. В позитивном случае по прошествии времени триггерит закрытие
     useEffect(() => {
         if (autoClose) {
-            const timeoutId = setTimeout(() => setIsClosing(true), TIME_TO_CLOSE);
+            const timeoutId = setTimeout(() => setIsClosing(true), timeToClose);
 
             return () => {
                 clearTimeout(timeoutId);
