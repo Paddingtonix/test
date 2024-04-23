@@ -7,7 +7,8 @@ type Node = {
     label: string,
     type: string,
     class: string,
-    group: string
+    group: string,
+	data: string
 }
 type Edge = {
     from: number,
@@ -306,4 +307,4 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 	);	  
 }
   
- 
+

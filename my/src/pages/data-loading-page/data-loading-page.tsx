@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import {useState} from 'react';
 import {FileWithPath, useDropzone} from 'react-dropzone'
 import '../../style/default.scss'
 import axios from 'axios';
-import { response } from 'express';
-
 
 interface Props {
     prop?: boolean;
@@ -14,28 +12,18 @@ function getExtension(file_name: string | undefined){
     return file_name?.split('.').reverse()[0];
 }
 
+interface Category{
+    category_name: string
+}
+
+
 export const DataLoadingPage = (props: Props) => {
 
     const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
 
     const [style, setStyle] = useState('dropdown-content-closed')
-
-    //т.к. запрос не отправляется 
-    const [categories, setCategories] = useState([{ 
-        "category_name" : 'Керн'
-    },      
-    { 
-        "category_name" : 'ПЕТРОФИЗИКА'
-    },  
-    {
-        "category_name" : 'PVT'
-    },
-    {
-        "category_name" : 'Сейсмика'
-    },
-    {
-        "category_name" : 'скв.иссл'
-    }])
+    const [categories, setCategories] = useState<Category[]>([])
+    const [dropdown, setDropdown] = useState(false)
 
     const [selectedCategory, setSelectedCategory] = useState<string>('Категория')
 
@@ -54,9 +42,8 @@ export const DataLoadingPage = (props: Props) => {
     const files = loadedFiles.map((file : FileWithPath) => (
       <div className = 'file-card' key={file.path}>
         <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18 22H6C4.89543 22 4 21.1046 4 20V4C4 2.89543 4.89543 2 6 2H13C13.0109 2.00047 13.0217 2.00249 13.032 2.006C13.0418 2.00902 13.0518 2.01103 13.062 2.012C13.1502 2.01765 13.2373 2.0348 13.321 2.063L13.349 2.072C13.3717 2.07968 13.3937 2.08904 13.415 2.1C13.5239 2.14842 13.6232 2.21618 13.708 2.3L19.708 8.3C19.7918 8.38479 19.8596 8.48406 19.908 8.593C19.918 8.615 19.925 8.638 19.933 8.661L19.942 8.687C19.9699 8.77039 19.9864 8.85718 19.991 8.945C19.9926 8.95418 19.9949 8.96322 19.998 8.972C19.9998 8.98122 20.0004 8.99062 20.0001 9V20C20.0001 21.1046 19.1046 22 18 22ZM6 4V20H18V10H13C12.4477 10 12 9.55228 12 9V4H6ZM14 5.414V8H16.586L14 5.414Z" fill="#22848b"/>
+            <path d="M18 22H6C4.89543 22 4 21.1046 4 20V4C4 2.89543 4.89543 2 6 2H13C13.0109 2.00047 13.0217 2.00249 13.032 2.006C13.0418 2.00902 13.0518 2.01103 13.062 2.012C13.1502 2.01765 13.2373 2.0348 13.321 2.063L13.349 2.072C13.3717 2.07968 13.3937 2.08904 13.415 2.1C13.5239 2.14842 13.6232 2.21618 13.708 2.3L19.708 8.3C19.7918 8.38479 19.8596 8.48406 19.908 8.593C19.918 8.615 19.925 8.638 19.933 8.661L19.942 8.687C19.9699 8.77039 19.9864 8.85718 19.991 8.945C19.9926 8.95418 19.9949 8.96322 19.998 8.972C19.9998 8.98122 20.0004 8.99062 20.0001 9V20C20.0001 21.1046 19.1046 22 18 22ZM6 4V20H18V10H13C12.4477 10 12 9.55228 12 9V4H6ZM14 5.414V8H16.586L14 5.414Z" fill="#22848b"/>
         </svg>
-
         <div className='card-info'>
             <div className='file-name'>{file.path}</div>
             <div className='file-info'>
@@ -66,7 +53,7 @@ export const DataLoadingPage = (props: Props) => {
         </div>
         <div>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41L17.59 5Z" fill="#22848b"/>
+            <path d="M17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41L17.59 5Z" fill="#22848b"/>
         </svg>
         </div>
       </div>
@@ -76,23 +63,28 @@ export const DataLoadingPage = (props: Props) => {
         setSelectedCategory(categoryName)
     }
 
-    const categoriesList = categories.map((category) => (<a onClick={() => selectCategory(category.category_name)}>{category.category_name}</a>))
+    //const categoriesList = categories.map)
     
     const changeDropdownState = () => {
-        if (style == 'dropdown-content-closed'){
+        if (dropdown == false){
             setStyle('dropdown-content-opened')
+            setDropdown(true)
+            console.log(dropdown)
+            
         }
         else{
             setStyle('dropdown-content-closed')
+            setDropdown(false)
+            console.log(dropdown)
         }
     }
 
     //Локальный запрос на список категорий возвращает 404 
 
-    /*const categoriesList = () => {
-        axios.defaults.baseURL = "http://localhost:3002/"
+    function categoriesList() {
+        axios.defaults.baseURL = "http://localhost:3000"
         axios
-            .get('my/public/api/categories.json', {
+            .get('test/api/categories.json', {
                 headers: {
                   Accept: 'application/json',
                 }})
@@ -101,8 +93,12 @@ export const DataLoadingPage = (props: Props) => {
                 setCategories(response.data)
             })
             .catch((err) => console.log(err))
-    }*/
+    }
 
+    categoriesList()
+    
+    console.log(categories)
+    
     return(
         <>
             <section className="loading-container">
@@ -112,25 +108,27 @@ export const DataLoadingPage = (props: Props) => {
                             {selectedCategory}
                         </div>
                         <div className='chevron' onClick={changeDropdownState}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z" fill="#ffffff"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={dropdown ? 'arrow up' : 'arrow'}>
+                                <path d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z" fill="#ffffff"/>
                             </svg>
                         </div>
                     </div>
                     <div className={style}>
-                        {categoriesList}
+                        {categories.map((item) => 
+                            <>{item.category_name}</>
+                        )}
                     </div>
                 </div>
-            <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
-                <input {...getInputProps()} />
-                <p>Перетащите файлы сюда, или кликните, чтобы выбрать файл</p>
-            </div>
-            <aside>
-                <h4>Загруженные файлы</h4>
-                <div className='files-container'>
-                {files}
+                <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
+                    <input {...getInputProps()} />
+                    <p>Перетащите файлы сюда, или кликните, чтобы выбрать файл</p>
                 </div>
-            </aside>
+                <aside>
+                    <h4>Загруженные файлы</h4>
+                    <div className='files-container'>
+                        {files}
+                    </div>
+                </aside>
             </section>
         </>
     )
