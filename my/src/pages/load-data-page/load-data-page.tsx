@@ -24,7 +24,7 @@ const LoadDataPage = () => {
             {
                 displayOption === "login"
                     ? <ModalCmp isOpen={true} closable={false} withCloseButton={false} modalContent={"loginForm"}/>
-                    :
+                    : <DataLoadingPage />
                     // <div className={"login-page__content"}>
                     //     <h1>Добро пожаловать <br/> в систему QA/QC!</h1>
                     //     <div>
@@ -34,7 +34,6 @@ const LoadDataPage = () => {
                     //     </div>
                     //     <ButtonCmp OnClick={signOut} name={"Выйти из системы"}/>
                     // </div>
-                    <DataLoadingPage />
             }
         </div>
     )

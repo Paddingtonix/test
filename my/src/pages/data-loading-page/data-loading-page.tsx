@@ -3,6 +3,9 @@ import {FileWithPath, useDropzone} from 'react-dropzone'
 import '../../style/default.scss'
 import {ButtonCmp} from "../../components/button-cmp/button-cmp"
 import axios from 'axios';
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {queryKeys, service, UploadTestFileDto} from "../../utils/service";
+import {useNotification} from "../../components/base/notification/notification-provider";
 
 interface Props {
     prop?: boolean;
@@ -19,6 +22,23 @@ interface Category{
 
 
 export const DataLoadingPage = (props: Props) => {
+
+    const {toastSuccess} = useNotification();
+
+    const {data: projects} = useQuery({
+        queryKey: queryKeys.projects(),
+        queryFn: () => service.getProjects(),
+        select: ({data}) => data.projects
+    })
+
+    const {mutate: uploadFile} = useMutation({
+        mutationFn: (data: UploadTestFileDto) => service.uploadTestFile(data),
+        onSuccess: () => {
+            toastSuccess("Файл загружен")
+        }
+    });
+
+    const [selectedProject, setSelectedProject] = useState("");
 
     const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
 
@@ -97,6 +117,13 @@ export const DataLoadingPage = (props: Props) => {
         }
     }
 
+    const onUpload = () => {
+        uploadFile({
+            projectID: selectedProject,
+            file: acceptedFiles[0]
+        })
+    }
+
     //Локальный запрос на список категорий возвращает 404 
 
     // function categoriesList() {
@@ -119,6 +146,18 @@ export const DataLoadingPage = (props: Props) => {
     return(
         <>
             <section className="loading-container">
+                <span>Выберите проект, нажав на название:</span>
+                <ul>
+                    {
+                        projects?.map(project =>
+                            <li key={project.id}
+                                style={selectedProject === project.id ? {color: "red", cursor: "pointer"} : {cursor: "pointer"}}
+                                onClick={() => setSelectedProject(project.id)}
+                            >
+                                {project.name}
+                            </li>)
+                    }
+                </ul>
                 <div className='dropdown-container'>
                     <div className='dropdown'>
                         <div className='category'>
@@ -143,7 +182,7 @@ export const DataLoadingPage = (props: Props) => {
                 <aside>
                     <div className='files-title'>
                         <h4>Загруженные файлы</h4>
-                        <ButtonCmp OnClick={undefined} name={'Загрузить данные'} />
+                        <ButtonCmp OnClick={onUpload} name={'Загрузить данные'} />
                     </div>
                     <div className='files-container'>
                         {files}

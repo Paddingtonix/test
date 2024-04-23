@@ -86,11 +86,11 @@ export const useRefreshToken = (isAuth: boolean) => {
 
     if (isSuccess) {
         if (data) {
-            setAuthHeaderToInstance(data.access_token);
-            setAccessToken(data.access_token);
+            setAuthHeaderToInstance(data.token);
+            setAccessToken(data.token);
 
-            if (!!getRefreshToken()) setRefreshToken(data.refresh_token);
-            else setSessionToken(data.refresh_token)
+            if (!!getRefreshToken()) setRefreshToken(data.refreshToken);
+            else setSessionToken(data.refreshToken)
         }
     }
 }
