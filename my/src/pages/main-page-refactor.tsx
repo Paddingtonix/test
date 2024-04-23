@@ -5,10 +5,12 @@ import { Node, Edge, GraphTable, FilterType } from '../types/types';
 //pages
 import { GraphPage } from './graph-page/graph-page';
 import { TablePage } from './table-page/table-page';
+import { DataLoadingPage } from './data-loading-page/data-loading-page'
 
 //components
 import { NavbarCmp } from '../components/navbar-cmp/navbar-cmp';
 import {SidebarCmp} from "../components/sidebar-cmp/sidebar-cmp";
+import { response } from 'express';
 
 export default function Main() {
     const [defaultGraph, setDefaultGraph] = useState({
@@ -197,6 +199,7 @@ export default function Main() {
         setModalOptionName(name);
     }
     
+    console.log(defaultGraph)
     return (
         <>
         {preloaderState ? 
@@ -213,17 +216,17 @@ export default function Main() {
                     graph_data={setFilterParams}
                     update_data={setUpdateData}
                 ></NavbarCmp>
-                {displayOption ? 
-                    <GraphPage
-                        filteredData={actualGraphData}
-                        selectedData={undefined}
-                        setName={setNameNodes}
-                        defaultData={defaultGraph}
-                        modalState={openModalState}
-                        selectNode={selectNode} callBack={undefined}                
-                    ></GraphPage>
-                    :
-                    <TablePage table={graphTable}></TablePage>
+                {displayOption == true ? 
+                <GraphPage
+                filteredData={actualGraphData}
+                selectedData={undefined}
+                setName={setNameNodes}
+                defaultData={defaultGraph}
+                modalState={openModalState}
+                selectNode={selectNode} callBack={undefined}                
+                ></GraphPage>
+                : 
+                <TablePage table={graphTable}></TablePage>
                 }
                 {openModal ? 
                     <SidebarCmp

@@ -7,7 +7,8 @@ type Node = {
     label: string,
     type: string,
     class: string,
-    group: string
+    group: string,
+	data: string
 }
 type Edge = {
     from: number,
@@ -27,6 +28,7 @@ interface Props {
 	selectNode: Function | any,
 	defaultData: any
 }
+
 
 
 export const GraphPage = ({ callBack, filteredData, setName, modalState, selectNode, defaultData }: Props, ) => {	
@@ -72,7 +74,6 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
     const handleGetNodes = useCallback(() => {
       	console.log(networkNodes);
     }, [networkNodes]);
-
 
 	useEffect(() => {
 		if(physicsEnabled) {			
@@ -306,4 +307,4 @@ export const GraphPage = ({ callBack, filteredData, setName, modalState, selectN
 	);	  
 }
   
- 
+
