@@ -65,9 +65,9 @@ export default function Main() {
         // });
 
         axios
-            .post('https://qa-qc-back.freydin.space/login', {
-                email: "test@mail.ru",
-                password: 'contrelspawn123'
+            .post('https://qa-qc-api.freydin.space/user/login', {
+                email: "admin@example.com",
+                password: 'admin'
             })
             .then((response_login: any) => {
                 setJwtToken(response_login.data.access_token)
@@ -171,7 +171,7 @@ export default function Main() {
     };
     
     const loadData = () => {
-        axios.defaults.baseURL = "https://qa-qc-back.freydin.space"
+        axios.defaults.baseURL = "https://qa-qc-api.freydin.space/api/v1"
             axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`
 
             axios.all(

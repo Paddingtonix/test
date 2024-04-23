@@ -6,7 +6,7 @@ import {service} from "./service";
 import {useNotification} from "../components/base/notification/notification-provider";
 
 export const instance = axios.create({
-    baseURL: `https://qa-qc-back.freydin.space`,
+    baseURL: `https://qa-qc-api.freydin.space/api/v1`,
     headers: {'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}
 });
 

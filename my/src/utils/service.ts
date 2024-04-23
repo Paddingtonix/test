@@ -3,7 +3,7 @@ import {instance} from "./api";
 class Service {
 
     async login(data: LoginCredentials) {
-        return instance.post<TokensResponse>(`/login`, data)
+        return instance.post<TokensResponse>(`/user/login`, data)
     }
 
     async refreshToken(refreshToken: string | null) {
