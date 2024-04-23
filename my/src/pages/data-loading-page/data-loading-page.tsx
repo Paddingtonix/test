@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {FileWithPath, useDropzone} from 'react-dropzone'
 import '../../style/default.scss'
+import {ButtonCmp} from "../../components/button-cmp/button-cmp"
 import axios from 'axios';
 
 interface Props {
@@ -22,7 +23,23 @@ export const DataLoadingPage = (props: Props) => {
     const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
 
     const [style, setStyle] = useState('dropdown-content-closed')
-    const [categories, setCategories] = useState<Category[]>([])
+    const [categories, setCategories] = useState<Category[]>([
+        { 
+            category_name : "Керн"
+        },      
+        { 
+            category_name : "ПЕТРОФИЗИКА"
+        },  
+        {
+            category_name : "PVT"
+        },
+        {
+            category_name : "Сейсмика"
+        },
+        {
+            category_name : "скв.иссл"
+        }
+    ])
     const [dropdown, setDropdown] = useState(false)
 
     const [selectedCategory, setSelectedCategory] = useState<string>('Категория')
@@ -61,9 +78,10 @@ export const DataLoadingPage = (props: Props) => {
 
     function selectCategory(categoryName : string) {
         setSelectedCategory(categoryName)
+
+        changeDropdownState()
     }
 
-    //const categoriesList = categories.map)
     
     const changeDropdownState = () => {
         if (dropdown == false){
@@ -81,23 +99,22 @@ export const DataLoadingPage = (props: Props) => {
 
     //Локальный запрос на список категорий возвращает 404 
 
-    function categoriesList() {
-        axios.defaults.baseURL = "http://localhost:3000"
-        axios
-            .get('test/api/categories.json', {
-                headers: {
-                  Accept: 'application/json',
-                }})
-            .then((response) => {
-                console.log(response.data)
-                setCategories(response.data)
-            })
-            .catch((err) => console.log(err))
-    }
+    // function categoriesList() {
+    //     axios.defaults.baseURL = "http://localhost:3000"
+    //     axios
+    //         .get('test/api/categories.json', {
+    //             headers: {
+    //               Accept: 'application/json',
+    //             }})
+    //         .then((response) => {
+    //             console.log(response.data)
+    //             setCategories(response.data)
+    //         })
+    //         .catch((err) => console.log(err))
+    // }
 
-    categoriesList()
+    // categoriesList()
     
-    console.log(categories)
     
     return(
         <>
@@ -115,16 +132,19 @@ export const DataLoadingPage = (props: Props) => {
                     </div>
                     <div className={style}>
                         {categories.map((item) => 
-                            <>{item.category_name}</>
+                            <span onClick={() => selectCategory(item.category_name)}>{item.category_name}</span>
                         )}
                     </div>
                 </div>
                 <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
                     <input {...getInputProps()} />
-                    <p>Перетащите файлы сюда, или кликните, чтобы выбрать файл</p>
+                    <p>Перетащите файлы сюда или кликните, чтобы выбрать файл</p>
                 </div>
                 <aside>
-                    <h4>Загруженные файлы</h4>
+                    <div className='files-title'>
+                        <h4>Загруженные файлы</h4>
+                        <ButtonCmp OnClick={undefined} name={'Загрузить данные'} />
+                    </div>
                     <div className='files-container'>
                         {files}
                     </div>
