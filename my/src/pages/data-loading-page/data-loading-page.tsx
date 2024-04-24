@@ -2,10 +2,10 @@ import {useState} from 'react';
 import {FileWithPath, useDropzone} from 'react-dropzone'
 import '../../style/default.scss'
 import {ButtonCmp} from "../../components/button-cmp/button-cmp"
-import axios from 'axios';
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {queryKeys, service, UploadTestFileDto} from "../../utils/service";
 import {useNotification} from "../../components/base/notification/notification-provider";
+import {Link} from "react-router-dom";
 
 interface Props {
     prop?: boolean;
@@ -24,6 +24,8 @@ interface Category{
 export const DataLoadingPage = (props: Props) => {
 
     const {toastSuccess} = useNotification();
+    const queryClient = useQueryClient();
+    const [selectedProject, setSelectedProject] = useState("");
 
     const {data: projects} = useQuery({
         queryKey: queryKeys.projects(),
@@ -31,34 +33,30 @@ export const DataLoadingPage = (props: Props) => {
         select: ({data}) => data.projects
     })
 
+    const {data: projectFiles} = useQuery({
+        queryKey: queryKeys.projectFiles(selectedProject),
+        queryFn: () => service.getProjectFiles(selectedProject),
+        select: ({data}) => data.files,
+        enabled: !!selectedProject
+    })
+
     const {mutate: uploadFile} = useMutation({
         mutationFn: (data: UploadTestFileDto) => service.uploadTestFile(data),
         onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: queryKeys.projectFiles(selectedProject)})
             toastSuccess("Файл загружен")
         }
     });
-
-    const [selectedProject, setSelectedProject] = useState("");
 
     const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
 
     const [style, setStyle] = useState('dropdown-content-closed')
     const [categories, setCategories] = useState<Category[]>([
-        { 
-            category_name : "Керн"
-        },      
-        { 
-            category_name : "ПЕТРОФИЗИКА"
-        },  
-        {
-            category_name : "PVT"
-        },
-        {
-            category_name : "Сейсмика"
-        },
-        {
-            category_name : "скв.иссл"
-        }
+        { category_name : "Керн" },
+        { category_name : "ПЕТРОФИЗИКА" },
+        { category_name : "PVT" },
+        { category_name : "Сейсмика" },
+        { category_name : "скв.иссл" }
     ])
     const [dropdown, setDropdown] = useState(false)
 
@@ -104,7 +102,7 @@ export const DataLoadingPage = (props: Props) => {
 
     
     const changeDropdownState = () => {
-        if (dropdown == false){
+        if (!dropdown){
             setStyle('dropdown-content-opened')
             setDropdown(true)
             console.log(dropdown)
@@ -142,7 +140,6 @@ export const DataLoadingPage = (props: Props) => {
 
     // categoriesList()
     
-    
     return(
         <>
             <section className="loading-container">
@@ -152,42 +149,61 @@ export const DataLoadingPage = (props: Props) => {
                         projects?.map(project =>
                             <li key={project.id}
                                 style={selectedProject === project.id ? {color: "red", cursor: "pointer"} : {cursor: "pointer"}}
-                                onClick={() => setSelectedProject(project.id)}
+                                onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
                             >
                                 {project.name}
                             </li>)
                     }
                 </ul>
-                <div className='dropdown-container'>
-                    <div className='dropdown'>
-                        <div className='category'>
-                            {selectedCategory}
+                {
+                    selectedProject &&
+                    <>
+                        <div className='dropdown-container'>
+                            <div className='dropdown'>
+                                <div className='category'>
+                                    {selectedCategory}
+                                </div>
+                                <div className='chevron' onClick={changeDropdownState}>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={dropdown ? 'arrow up' : 'arrow'}>
+                                        <path d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z" fill="#ffffff"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className={style}>
+                                {categories.map((item) =>
+                                    <span key={item.category_name} onClick={() => selectCategory(item.category_name)}>{item.category_name}</span>
+                                )}
+                            </div>
                         </div>
-                        <div className='chevron' onClick={changeDropdownState}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={dropdown ? 'arrow up' : 'arrow'}>
-                                <path d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z" fill="#ffffff"/>
-                            </svg>
+                        {
+                            projectFiles &&
+                            <>
+                                <span>Документы проекта:</span>
+                                <ul>
+                                    {
+                                        projectFiles?.map((file, index) =>
+                                            <li key={index} >
+                                                <Link to={file.path} target={"_blank"}>{file.name}</Link>
+                                            </li>)
+                                    }
+                                </ul>
+                            </>
+                        }
+                        <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
+                            <input {...getInputProps()} />
+                            <p>Перетащите файлы сюда или кликните, чтобы выбрать файл</p>
                         </div>
-                    </div>
-                    <div className={style}>
-                        {categories.map((item) => 
-                            <span onClick={() => selectCategory(item.category_name)}>{item.category_name}</span>
-                        )}
-                    </div>
-                </div>
-                <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
-                    <input {...getInputProps()} />
-                    <p>Перетащите файлы сюда или кликните, чтобы выбрать файл</p>
-                </div>
-                <aside>
-                    <div className='files-title'>
-                        <h4>Загруженные файлы</h4>
-                        <ButtonCmp OnClick={onUpload} name={'Загрузить данные'} />
-                    </div>
-                    <div className='files-container'>
-                        {files}
-                    </div>
-                </aside>
+                        <aside>
+                            <div className='files-title'>
+                                <h4>Загруженные файлы</h4>
+                                <ButtonCmp OnClick={onUpload} name={'Загрузить данные'} />
+                            </div>
+                            <div className='files-container'>
+                                {files}
+                            </div>
+                        </aside>
+                    </>
+                }
             </section>
         </>
     )

@@ -7,6 +7,10 @@ class Service {
         return instance.get<{projects: ProjectDto[]}>(`/project/get`)
     }
 
+    async getProjectFiles(projectId: string) {
+        return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/file/get`)
+    }
+
     async uploadTestFile(data: UploadTestFileDto) {
 
         const formData = new FormData();
@@ -29,6 +33,7 @@ export const service = new Service();
 
 export const queryKeys = {
     projects: () => ["GET_PROJECTS"],
+    projectFiles: (projectId?: string) => ["GET_PROJECT_FILES", projectId],
     refreshToken: () => ["REFRESH_TOKEN"],
 }
 
@@ -45,6 +50,12 @@ export type TokensResponse = {
 export type UploadTestFileDto = {
     projectID: string,
     file: File
+}
+
+export type ProjectFileDto = {
+    name: string,
+    path: string,
+    type: string
 }
 
 export type ProjectDto = {
