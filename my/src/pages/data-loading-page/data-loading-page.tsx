@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {FileWithPath, useDropzone} from 'react-dropzone'
-import '../../style/default.scss'
 import "./style.scss"
 import {ButtonCmp} from "../../components/button-cmp/button-cmp"
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
@@ -9,15 +8,26 @@ import {useNotification} from "../../components/base/notification/notification-p
 import {Link} from "react-router-dom";
 
 type Category = {
-    category_name: string
+    name: string
 }
 
+const CATEGORIES: Category[] = [
+    {name: "КЕРН"},
+    {name: "ПЕТРОФИЗИКА"},
+    {name: "PVT"},
+    {name: "СЕЙСМИКА"},
+    {name: "СКВ.ИССЛЕДОВАНИЕ"}
+]
 
 export const DataLoadingPage = () => {
 
-    const {toastSuccess} = useNotification();
     const queryClient = useQueryClient();
     const [selectedProject, setSelectedProject] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState<string>('КЕРН')
+    const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
+    const [openDropdown, setOpenDropdown] = useState(false)
+
+    const {toastSuccess, toastWarning} = useNotification();
 
     const {data: projects} = useQuery({
         queryKey: queryKeys.projects(),
@@ -40,20 +50,6 @@ export const DataLoadingPage = () => {
         }
     });
 
-    const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
-
-    const [style, setStyle] = useState('dropdown-content-closed')
-    const [categories, setCategories] = useState<Category[]>([
-        {category_name: "Керн"},
-        {category_name: "ПЕТРОФИЗИКА"},
-        {category_name: "PVT"},
-        {category_name: "Сейсмика"},
-        {category_name: "скв.иссл"}
-    ])
-    const [dropdown, setDropdown] = useState(false)
-
-    const [selectedCategory, setSelectedCategory] = useState<string>('Категория')
-
     const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
         accept: {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
@@ -66,78 +62,75 @@ export const DataLoadingPage = () => {
         }
     });
 
-    function selectCategory(categoryName: string) {
-        setSelectedCategory(categoryName)
-
-        changeDropdownState()
-    }
-
-
-    const changeDropdownState = () => {
-        if (!dropdown) {
-            setStyle('dropdown-content-opened')
-            setDropdown(true)
-            console.log(dropdown)
-
-        } else {
-            setStyle('dropdown-content-closed')
-            setDropdown(false)
-            console.log(dropdown)
-        }
+    const selectCategory = (name: string) => {
+        setSelectedCategory(name)
+        setOpenDropdown(false)
     }
 
     const onUpload = () => {
+        if (!selectedProject) {
+            toastWarning("Выберите проект, в который будут загружены данные");
+            return;
+        }
         uploadFile({
             projectID: selectedProject,
             file: acceptedFiles[0]
         })
+        setLoadedFiles([]);
     }
 
     return (
         <div className="data-loading-page">
-            <div>
-                <span>Выберите проект, нажав на название:</span>
-                <ul>
-                    {
-                        projects?.map(project =>
-                            <li key={project.id}
-                                style={selectedProject === project.id ? {
-                                    color: "red",
-                                    cursor: "pointer"
-                                } : {cursor: "pointer"}}
-                                onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
-                            >
-                                {project.name}
-                            </li>)
-                    }
-                </ul>
+            <div className={"projects"}>
+                {
+                    projects?.map(project =>
+                        <div key={project.id}
+                             className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}
+                             onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
+                        >
+                            {project.name}
+                        </div>)
+                }
+                <button className={`projects__item`} onClick={() => toastWarning("Создание проектов в разработке")}>
+                    Создать +
+                </button>
             </div>
             <div className={"project-content"}>
                 <div className={"categories-files-container"}>
-                    <CategoryFiles name={"КЕРН"} files={projectFiles}/>
-                    <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
-                    <CategoryFiles name={"PVT"} files={[]}/>
+                    {
+                        selectedProject ?
+                            <>
+                                <CategoryFiles name={"КЕРН"} files={projectFiles}/>
+                                <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
+                                <CategoryFiles name={"PVT"} files={[]}/>
+                                <CategoryFiles name={"СЕЙСМИКА"} files={[]}/>
+                                <CategoryFiles name={"СКВ.ИССЛЕДОВАНИЕ"} files={[]}/>
+                            </>
+                            : <div className={"categories-files-container__empty"}>Выберите проект</div>
+                    }
+
                 </div>
                 <div className={"upload-files-container"}>
                     <h4>Загрузить новые данные</h4>
                     <div className='dropdown-container'>
-                        <div className='dropdown'>
+                        <div className='dropdown' onClick={() => setOpenDropdown(!openDropdown)}>
                             <div className='category'>
                                 {selectedCategory}
                             </div>
-                            <div className='chevron' onClick={changeDropdownState}>
+                            <div className='chevron'>
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg" className={dropdown ? 'arrow up' : 'arrow'}>
+                                     xmlns="http://www.w3.org/2000/svg" className={!openDropdown ? 'arrow up' : 'arrow'}>
                                     <path
                                         d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z"
                                         fill="#ffffff"/>
                                 </svg>
                             </div>
                         </div>
-                        <div className={style}>
-                            {categories.map((item) =>
-                                <span key={item.category_name}
-                                      onClick={() => selectCategory(item.category_name)}>{item.category_name}</span>
+                        <div className={!openDropdown ? "dropdown-content-closed" : "dropdown-content-opened"}>
+                            {CATEGORIES.map((item) =>
+                                <span key={item.name} onClick={() => selectCategory(item.name)}>
+                                    {item.name}
+                                </span>
                             )}
                         </div>
                     </div>
@@ -148,12 +141,17 @@ export const DataLoadingPage = () => {
                     <div className='files-container'>
                         {
                             loadedFiles.map((file: FileWithPath, index) => (
-                                <FileCard path={file.path} size={file.size} key={index}/>
+                                <FileCard name={file.path} size={file.size} key={index}/>
                             ))
                         }
                     </div>
                     {
-                        loadedFiles.length ? <ButtonCmp OnClick={onUpload} name={'Загрузить данные'}/> : null
+                        loadedFiles.length ?
+                            <>
+                                <ButtonCmp OnClick={onUpload} name={'Загрузить данные'}/>
+                                <ButtonCmp OnClick={() => setLoadedFiles([])} name={'Отмена'}/>
+                            </>
+                             : null
                     }
                 </div>
             </div>
@@ -169,9 +167,9 @@ interface CategoryFilesProps {
 const CategoryFiles = ({name, files}: CategoryFilesProps) => {
 
     const [isOpen, setOpen] = useState(false);
-    console.log(files)
+
     return (
-        <div className={`category-files`}>
+        <div className={`category-files ${isOpen ? "category-files_open" : ""}`}>
             <span onClick={() => setOpen(!isOpen)}>
                 {name}
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -184,8 +182,9 @@ const CategoryFiles = ({name, files}: CategoryFilesProps) => {
             <div className={`category-files__list ${isOpen ? "category-files__list_open" : ""}`}>
                 {
                     files?.length ?
-                    files?.map((file, index) =>
-                        <FileCard size={0} path={file.name} key={index}/>) : "Файлов нет"
+                        files?.map((file, index) =>
+                            <FileCard name={file.name} path={file.path} key={index}/>)
+                        : <span>Файлов нет</span>
                 }
             </div>
         </div>
@@ -193,11 +192,12 @@ const CategoryFiles = ({name, files}: CategoryFilesProps) => {
 }
 
 interface FileCardProps {
-    path?: string,
-    size: number
+    name?: string,
+    path?: string
+    size?: number
 }
 
-const FileCard = ({path, size}: FileCardProps) => {
+const FileCard = ({name, path, size}: FileCardProps) => {
     return (
         <div className='file-card'>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -206,10 +206,12 @@ const FileCard = ({path, size}: FileCardProps) => {
                     fill="#8d8d8d"/>
             </svg>
             <div className='file-card__info'>
-                <h5>{path}</h5>
+                {
+                    path ? <Link to={path} target={"_blank"}>{name}</Link> : <h5>{name}</h5>
+                }
                 <div>
-                    <span>{`${getExtension(path)} | `}</span>
-                    <span>{size} Байт</span>
+                    <span>{`${getExtension(name)} | `}</span>
+                    <span>{size || "-"} Байт</span>
                 </div>
             </div>
             {/*<div>*/}

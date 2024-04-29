@@ -6,9 +6,42 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 200px;
   gap: 10px;
-  color: white;
+  color: $headers-color;
+
+  .projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: toRem(5);
+    padding: toRem(10) 0 0 0;
+    width: toRem(1040);
+
+    .projects__item {
+      border: 1px solid $text-color;
+      border-radius: toRem(16);
+      padding: toRem(5) toRem(10);
+      background-color: transparent;
+      cursor: pointer;
+      color: $text-color;
+      transition: .3s;
+
+      &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+      }
+
+      &_selected {
+        background-color: $primary-color;
+        color: $background-color;
+        border-color: transparent;
+        font-weight: bold;
+      }
+
+      &_selected:hover {
+        color: $background-color;
+      }
+    }
+  }
 
   .project-content {
     display: flex;
@@ -19,16 +52,38 @@
       padding: toRem(20);
       border-radius: toRem(8);
       width: toRem(600);
+      overflow-y: auto;
+      max-height: 600px;
+      scrollbar-color: $background-color $dark-background-color;
+      scrollbar-width: thin;
+
+      &__empty {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $text-color;
+      }
 
       .category-files {
+
+        &_open > span {
+          color: $primary-color;
+        }
 
         &__list {
           display: none;
           grid-template-columns: repeat(2, 1fr);
           gap: 10px;
+          padding: toRem(10) 0;
 
           &_open {
             display: grid;
+          }
+
+          > span {
+            padding: toRem(10) toRem(5);
+            color: $text-color;
           }
         }
 
@@ -39,7 +94,7 @@
           align-items: center;
           width: 100%;
           padding: toRem(5);
-          background-color: $background-color;
+          transition: .3s;
         }
       }
     }
@@ -49,106 +104,113 @@
       display: flex;
       flex-direction: column;
       gap: toRem(10);
+      height: max-content;
 
       background-color: $dark-background-color;
       padding: toRem(20);
       border-radius: toRem(8);
 
+      .files-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+
       h4 {
         margin: 0 0 10px 0;
         font-size: toRem(18);
+        letter-spacing: 1px;
+        font-weight: normal;
       }
 
       button {
         width: 100%;
       }
-    }
-  }
 
-  .dropdown-container {
-    width: 100%;
-    position: relative;
-  }
+      .dropdown-container {
+        width: 100%;
+        position: relative;
 
-  .dropdown {
-    background-color: #22848b;
-    border-radius: toRem(8);
-    display: flex;
-    position: relative;
-  }
+        .dropdown {
+          background-color: #22848b;
+          border-radius: toRem(8);
+          display: flex;
+          position: relative;
+          cursor: pointer;
+        }
 
-  .category {
-    padding: toRem(15) toRem(20);
-    position: relative;
-  }
+        .category {
+          padding: toRem(15) toRem(20);
+          position: relative;
+        }
 
-  .chevron {
-    position: absolute;
-    top: 50%;
-    right: 25px;
-    transform: translateY(-50%);
-    cursor: pointer;
-  }
+        .chevron {
+          position: absolute;
+          top: 50%;
+          right: 25px;
+          transform: translateY(-50%);
+          cursor: pointer;
+        }
 
-  .arrow {
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-    opacity: 1;
-    transition: all .3s;
-  }
+        .arrow {
+          transform-origin: 50% 50%;
+          transform-box: fill-box;
+          opacity: 1;
+          transition: all .3s;
+        }
 
-  .arrow.up {
-    opacity: 1;
-    transform: rotate(180deg);
-  }
+        .arrow.up {
+          opacity: 1;
+          transform: rotate(180deg);
+        }
 
-  .dropdown-content-closed {
-    display: none;
-    flex-direction: column;
-  }
+        .dropdown-content-closed {
+          display: none;
+          flex-direction: column;
+        }
 
-  .dropdown-content-opened {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: #1D1D1D;
-    gap: 12px;
-    padding: 16px 32px;
-    border-radius: 12px;
+        .dropdown-content-opened {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          background-color: $dark-background-color;
+          border-radius: 12px;
+          width: 100%;
 
-    span {
-      font-size: 16px;
-      cursor: pointer;
+          span {
+            font-size: toRem(16);
+            border-radius: toRem(8);
+            cursor: pointer;
+            transition: .3s;
+            padding: toRem(15);
+            color: $headers-color;
 
-      &:hover {
-        color: white;
+            &:hover {
+              background-color: $background-color;
+            }
+          }
+        }
+      }
+
+      .custom-dropzone {
+        border: 2px dotted $primary-color;
+        color: #8d8d8d;
+        padding: toRem(15);
+        text-align: center;
+        transition: .3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #3f3f3f;
+          color: $headers-color;
+        }
+
+        p {
+          margin: 0;
+        }
       }
     }
-  }
-
-  .custom-dropzone {
-    border: 2px dotted #22848b;
-    color: #8d8d8d;
-    padding: toRem(15);
-    text-align: center;
-    transition: .3s;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #4b4c4d;
-      color: white;
-    }
-
-    p {
-      margin: 0;
-    }
-  }
-
-  .files-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
   }
 
   .file-card {
@@ -169,9 +231,19 @@
       padding: toRem(5);
 
       h5 {
-        color: white;
+        color: $headers-color;
         font-weight: normal;
         margin: 0;
+      }
+
+      a {
+        color: $headers-color;
+        font-weight: normal;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
     }
   }
