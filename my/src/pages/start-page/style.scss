@@ -1,7 +1,6 @@
 @use "../../style/params.scss" as *;
 
-.login-page {
-  // width: 100vw;
+.start-page {
   height: 100vh;
 
   display: flex;
@@ -16,12 +15,16 @@
     align-items: center;
     gap: toRem(10);
 
+    background-color: $dark-background-color;
+    padding: toRem(55);
+    border-radius: toRem(8);
+
     h1 {
       color: $headers-color;
       text-align: center;
     }
 
-    button {
+    button a {
       width: 100%;
     }
   }

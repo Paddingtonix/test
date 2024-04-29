@@ -6,6 +6,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ProjectFileDto, queryKeys, service, UploadTestFileDto} from "../../utils/service";
 import {useNotification} from "../../components/base/notification/notification-provider";
 import {Link} from "react-router-dom";
+import AccountCmp from "../../components/account-cmp/account-cmp";
 
 type Category = {
     name: string
@@ -81,19 +82,22 @@ export const DataLoadingPage = () => {
 
     return (
         <div className="data-loading-page">
-            <div className={"projects"}>
-                {
-                    projects?.map(project =>
-                        <div key={project.id}
-                             className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}
-                             onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
-                        >
-                            {project.name}
-                        </div>)
-                }
-                <button className={`projects__item`} onClick={() => toastWarning("Создание проектов в разработке")}>
-                    Создать +
-                </button>
+            <div className={"data-loading-page__header"}>
+                <div className={"projects"}>
+                    {
+                        projects?.map(project =>
+                            <div key={project.id}
+                                 className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}
+                                 onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
+                            >
+                                {project.name}
+                            </div>)
+                    }
+                    <button className={`projects__item`} onClick={() => toastWarning("Создание проектов в разработке")}>
+                        Создать +
+                    </button>
+                </div>
+                <AccountCmp/>
             </div>
             <div className={"project-content"}>
                 <div className={"categories-files-container"}>
@@ -172,8 +176,7 @@ const CategoryFiles = ({name, files}: CategoryFilesProps) => {
         <div className={`category-files ${isOpen ? "category-files_open" : ""}`}>
             <span onClick={() => setOpen(!isOpen)}>
                 {name}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                     className={isOpen ? 'arrow up' : 'arrow'}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z"
                         fill="#ffffff"/>

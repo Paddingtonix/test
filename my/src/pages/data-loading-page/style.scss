@@ -9,36 +9,45 @@
   gap: 10px;
   color: $headers-color;
 
-  .projects {
+  &__header {
+
     display: flex;
-    flex-wrap: wrap;
-    gap: toRem(5);
-    padding: toRem(10) 0 0 0;
+    justify-content: space-between;
+
     width: toRem(1040);
+    gap: toRem(10);
+    padding: toRem(10) 0 0 0;
 
-    .projects__item {
-      border: 1px solid $text-color;
-      border-radius: toRem(16);
-      padding: toRem(5) toRem(10);
-      background-color: transparent;
-      cursor: pointer;
-      color: $text-color;
-      transition: .3s;
+    .projects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: toRem(5);
+      padding: toRem(10) 0 0 0;
 
-      &:hover {
-        border-color: $primary-color;
-        color: $primary-color;
-      }
+      .projects__item {
+        border: 1px solid $text-color;
+        border-radius: toRem(16);
+        padding: toRem(5) toRem(10);
+        background-color: transparent;
+        cursor: pointer;
+        color: $text-color;
+        transition: .3s;
 
-      &_selected {
-        background-color: $primary-color;
-        color: $background-color;
-        border-color: transparent;
-        font-weight: bold;
-      }
+        &:hover {
+          border-color: $primary-color;
+          color: $primary-color;
+        }
 
-      &_selected:hover {
-        color: $background-color;
+        &_selected {
+          background-color: $primary-color;
+          color: $background-color;
+          border-color: transparent;
+          font-weight: bold;
+        }
+
+        &_selected:hover {
+          color: $background-color;
+        }
       }
     }
   }
@@ -69,6 +78,10 @@
 
         &_open > span {
           color: $primary-color;
+
+          svg {
+            rotate: 180deg;
+          }
         }
 
         &__list {
@@ -158,11 +171,12 @@
           transform-box: fill-box;
           opacity: 1;
           transition: all .3s;
+          transform: rotate(180deg);
         }
 
         .arrow.up {
           opacity: 1;
-          transform: rotate(180deg);
+          transform: rotate(0deg);
         }
 
         .dropdown-content-closed {

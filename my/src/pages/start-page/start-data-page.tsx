@@ -5,11 +5,10 @@ import ModalCmp from "../../components/base/modals/modal-cmp";
 import {useAuth} from "../../utils/AuthProvider";
 import {Link} from "react-router-dom";
 import {Links} from "../../App";
-import { DataLoadingPage } from "../data-loading-page/data-loading-page"
 
 type DisplayOption = "login" | "loaded_data";
 
-const LoadDataPage = () => {
+const StartDataPage = () => {
 
     const {isAuth, signOut} = useAuth();
     const [displayOption, setDisplayOption]
@@ -20,23 +19,21 @@ const LoadDataPage = () => {
     }, [isAuth]);
 
     return (
-        <div className={"login-page"}>
+        <div className={"start-page"}>
             {
                 displayOption === "login"
                     ? <ModalCmp isOpen={true} closable={false} withCloseButton={false} modalContent={"loginForm"}/>
-                    : <DataLoadingPage />
-                    // <div className={"login-page__content"}>
-                    //     <h1>Добро пожаловать <br/> в систему QA/QC!</h1>
-                    //     <div>
-                    //         <Link to={Links.Main}>
-                    //             <ButtonCmp OnClick={() => {}} name={"Перейти на страницу графа"}/>
-                    //         </Link>
-                    //     </div>
-                    //     <ButtonCmp OnClick={signOut} name={"Выйти из системы"}/>
-                    // </div>
+                    :
+                    <div className={"start-page__content"}>
+                        <h1>Добро пожаловать <br/> в систему QA/QC!</h1>
+                        <Link to={Links.LoadData}>
+                            <ButtonCmp OnClick={() => {}} name={"Загрузить данные"}/>
+                        </Link>
+                        <ButtonCmp OnClick={signOut} name={"Выйти из системы"}/>
+                    </div>
             }
         </div>
     )
 }
 
-export default LoadDataPage;
+export default StartDataPage;
