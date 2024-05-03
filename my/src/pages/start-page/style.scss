@@ -1,19 +1,18 @@
 @use "../../style/params.scss" as *;
 
 .start-page {
-  height: 100vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: $background-color;
 
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: toRem(10);
+    margin-top: 100px;
+    width: max-content;
 
     background-color: $dark-background-color;
     padding: toRem(55);

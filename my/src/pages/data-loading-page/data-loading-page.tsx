@@ -6,7 +6,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ProjectFileDto, queryKeys, service, UploadTestFileDto} from "../../utils/service";
 import {useNotification} from "../../components/base/notification/notification-provider";
 import {Link} from "react-router-dom";
-import AccountCmp from "../../components/account-cmp/account-cmp";
+import LayoutCmp from "../../components/layout-cmp/layout-cmp";
 
 type Category = {
     name: string
@@ -81,85 +81,86 @@ export const DataLoadingPage = () => {
     }
 
     return (
-        <div className="data-loading-page">
-            <div className={"data-loading-page__header"}>
-                <div className={"projects"}>
-                    {
-                        projects?.map(project =>
-                            <div key={project.id}
-                                 className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}
-                                 onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
-                            >
-                                {project.name}
-                            </div>)
-                    }
-                    <button className={`projects__item`} onClick={() => toastWarning("Создание проектов в разработке")}>
-                        Создать +
-                    </button>
+        <LayoutCmp>
+            <div className="data-loading-page">
+                <div className={"data-loading-page__header"}>
+                    <div className={"projects"}>
+                        {
+                            projects?.map(project =>
+                                <div key={project.id}
+                                     className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}
+                                     onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
+                                >
+                                    {project.name}
+                                </div>)
+                        }
+                        <button className={`projects__item`} onClick={() => toastWarning("Создание проектов в разработке")}>
+                            Создать +
+                        </button>
+                    </div>
                 </div>
-                <AccountCmp/>
-            </div>
-            <div className={"project-content"}>
-                <div className={"categories-files-container"}>
-                    {
-                        selectedProject ?
-                            <>
-                                <CategoryFiles name={"КЕРН"} files={projectFiles}/>
-                                <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
-                                <CategoryFiles name={"PVT"} files={[]}/>
-                                <CategoryFiles name={"СЕЙСМИКА"} files={[]}/>
-                                <CategoryFiles name={"СКВ.ИССЛЕДОВАНИЕ"} files={[]}/>
-                            </>
-                            : <div className={"categories-files-container__empty"}>Выберите проект</div>
-                    }
+                <div className={"project-content"}>
+                    <div className={"categories-files-container"}>
+                        {
+                            selectedProject ?
+                                <>
+                                    <CategoryFiles name={"КЕРН"} files={projectFiles}/>
+                                    <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
+                                    <CategoryFiles name={"PVT"} files={[]}/>
+                                    <CategoryFiles name={"СЕЙСМИКА"} files={[]}/>
+                                    <CategoryFiles name={"СКВ.ИССЛЕДОВАНИЕ"} files={[]}/>
+                                </>
+                                : <div className={"categories-files-container__empty"}>Выберите проект</div>
+                        }
 
-                </div>
-                <div className={"upload-files-container"}>
-                    <h4>Загрузить новые данные</h4>
-                    <div className='dropdown-container'>
-                        <div className='dropdown' onClick={() => setOpenDropdown(!openDropdown)}>
-                            <div className='category'>
-                                {selectedCategory}
+                    </div>
+                    <div className={"upload-files-container"}>
+                        <h4>Загрузить новые данные</h4>
+                        <div className='dropdown-container'>
+                            <div className='dropdown' onClick={() => setOpenDropdown(!openDropdown)}>
+                                <div className='category'>
+                                    {selectedCategory}
+                                </div>
+                                <div className='chevron'>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg" className={!openDropdown ? 'arrow up' : 'arrow'}>
+                                        <path
+                                            d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z"
+                                            fill="#ffffff"/>
+                                    </svg>
+                                </div>
                             </div>
-                            <div className='chevron'>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg" className={!openDropdown ? 'arrow up' : 'arrow'}>
-                                    <path
-                                        d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z"
-                                        fill="#ffffff"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div className={!openDropdown ? "dropdown-content-closed" : "dropdown-content-opened"}>
-                            {CATEGORIES.map((item) =>
-                                <span key={item.name} onClick={() => selectCategory(item.name)}>
+                            <div className={!openDropdown ? "dropdown-content-closed" : "dropdown-content-opened"}>
+                                {CATEGORIES.map((item) =>
+                                        <span key={item.name} onClick={() => selectCategory(item.name)}>
                                     {item.name}
                                 </span>
-                            )}
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
-                        <input {...getInputProps()} />
-                        <span>Перетащите файлы сюда или <br/> кликните, чтобы выбрать файл</span>
-                    </div>
-                    <div className='files-container'>
+                        <div {...getRootProps({className: 'dropzone'})} className='custom-dropzone'>
+                            <input {...getInputProps()} />
+                            <span>Перетащите файлы сюда или <br/> кликните, чтобы выбрать файл</span>
+                        </div>
+                        <div className='files-container'>
+                            {
+                                loadedFiles.map((file: FileWithPath, index) => (
+                                    <FileCard name={file.path} size={file.size} key={index}/>
+                                ))
+                            }
+                        </div>
                         {
-                            loadedFiles.map((file: FileWithPath, index) => (
-                                <FileCard name={file.path} size={file.size} key={index}/>
-                            ))
+                            loadedFiles.length ?
+                                <>
+                                    <ButtonCmp OnClick={onUpload} name={'Загрузить данные'}/>
+                                    <ButtonCmp OnClick={() => setLoadedFiles([])} name={'Отмена'}/>
+                                </>
+                                : null
                         }
                     </div>
-                    {
-                        loadedFiles.length ?
-                            <>
-                                <ButtonCmp OnClick={onUpload} name={'Загрузить данные'}/>
-                                <ButtonCmp OnClick={() => setLoadedFiles([])} name={'Отмена'}/>
-                            </>
-                             : null
-                    }
                 </div>
             </div>
-        </div>
+        </LayoutCmp>
     )
 }
 

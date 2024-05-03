@@ -14,7 +14,7 @@
     display: flex;
     justify-content: space-between;
 
-    width: toRem(1040);
+    width: toRem(1140);
     gap: toRem(10);
     padding: toRem(10) 0 0 0;
 
@@ -60,7 +60,7 @@
       background-color: $dark-background-color;
       padding: toRem(20);
       border-radius: toRem(8);
-      width: toRem(600);
+      width: toRem(700);
       overflow-y: auto;
       max-height: 600px;
       scrollbar-color: $background-color $dark-background-color;
