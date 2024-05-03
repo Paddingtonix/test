@@ -52,7 +52,7 @@ export const NavbarCmp: React.FC<NavbarProps> = ({graph_state, graph_data, updat
             type: 'type_nodes',
             list: [
                 {text: 'PVT'},
-                {text: 'Керн'},
+                {text: 'Core'},
                 {text: 'ПЕТРОФИЗИКА'},
                 {text: 'Сейсмика'},
                 {text: 'скв.иссл'},

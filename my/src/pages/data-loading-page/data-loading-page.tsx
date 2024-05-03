@@ -13,7 +13,7 @@ type Category = {
 }
 
 const CATEGORIES: Category[] = [
-    {name: "КЕРН"},
+    {name: "Core"},
     {name: "ПЕТРОФИЗИКА"},
     {name: "PVT"},
     {name: "СЕЙСМИКА"},
@@ -24,7 +24,7 @@ export const DataLoadingPage = () => {
 
     const queryClient = useQueryClient();
     const [selectedProject, setSelectedProject] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState<string>('КЕРН')
+    const [selectedCategory, setSelectedCategory] = useState<string>('Core')
     const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
     const [openDropdown, setOpenDropdown] = useState(false)
 
@@ -104,7 +104,7 @@ export const DataLoadingPage = () => {
                         {
                             selectedProject ?
                                 <>
-                                    <CategoryFiles name={"КЕРН"} files={projectFiles}/>
+                                    <CategoryFiles name={"Core"} files={projectFiles}/>
                                     <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
                                     <CategoryFiles name={"PVT"} files={[]}/>
                                     <CategoryFiles name={"СЕЙСМИКА"} files={[]}/>
