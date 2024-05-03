@@ -1,0 +1,19 @@
+{
+    [
+        { 
+            "category_name" : “Core”
+        },      
+        { 
+            "category_name" : “ПЕТРОФИЗИКА”
+        },  
+        {
+            "category_name" : “PVT”
+        },
+        {
+            "category_name" : “Сейсмика”
+        },
+        {
+            "category_name" : “скв.иссл”
+        }
+    ]
+}
