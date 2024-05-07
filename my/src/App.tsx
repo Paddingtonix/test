@@ -14,7 +14,7 @@ function App() {
     return (
         <Routes>
             <Route path={Links.Start} element={<StartDataPage/>}/>
-            <Route path={Links.LoadData} element={<PrivateRoute><DataLoadingPage/></PrivateRoute>}/>
+            <Route path={Links.Project} element={<PrivateRoute><DataLoadingPage/></PrivateRoute>}/>
             {/* <Route path={Links.Main} element={<PrivateRoute><Main/></PrivateRoute>}/> */}
             <Route path={Links.NotFound} element={<Navigate to={Links.Start}/>}/>
         </Routes>
@@ -24,6 +24,7 @@ function App() {
 export const Links = {
     Start: "/",
     LoadData: "/data",
+    Project: "/project/:id",
     Main: "/test",
     NotFound: "/*"
 }

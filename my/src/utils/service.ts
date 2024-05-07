@@ -11,6 +11,18 @@ class Service {
         return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/file/get`)
     }
 
+    async getProjectTests(projectId: string) {
+        return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/test/get`)
+    }
+
+    async getProjectNodes(projectId: string) {
+        return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/node/get`)
+    }
+
+    async createProject(data: CreateProjectDto) {
+        return instance.post(`/project/create`, data)
+    }
+
     async uploadTestFile(data: UploadTestFileDto) {
 
         const formData = new FormData();
@@ -32,8 +44,10 @@ class Service {
 export const service = new Service();
 
 export const queryKeys = {
-    projects: () => ["GET_PROJECTS"],
-    projectFiles: (projectId?: string) => ["GET_PROJECT_FILES", projectId],
+    projects: () => ["PROJECTS"],
+    projectFiles: (projectId?: string) => ["PROJECT_FILES", projectId],
+    projectTests: (projectId?: string) => ["PROJECT_TESTS", projectId],
+    projectNodes: (projectId?: string) => ["PROJECT_NODES", projectId],
     refreshToken: () => ["REFRESH_TOKEN"],
 }
 
@@ -63,4 +77,8 @@ export type ProjectDto = {
     id: string,
     name: string,
     updatedAt: string
+}
+
+export type CreateProjectDto = {
+    name: string
 }

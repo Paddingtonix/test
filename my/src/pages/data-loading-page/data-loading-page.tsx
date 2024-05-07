@@ -5,7 +5,7 @@ import {ButtonCmp} from "../../components/button-cmp/button-cmp"
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ProjectFileDto, queryKeys, service, UploadTestFileDto} from "../../utils/service";
 import {useNotification} from "../../components/base/notification/notification-provider";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import LayoutCmp from "../../components/layout-cmp/layout-cmp";
 
 type Category = {
@@ -23,7 +23,7 @@ const CATEGORIES: Category[] = [
 export const DataLoadingPage = () => {
 
     const queryClient = useQueryClient();
-    const [selectedProject, setSelectedProject] = useState("");
+    const {id: projectId} = useParams()
     const [selectedCategory, setSelectedCategory] = useState<string>('Core')
     const [loadedFiles, setLoadedFiles] = useState<FileWithPath[]>([])
     const [openDropdown, setOpenDropdown] = useState(false)
@@ -37,16 +37,30 @@ export const DataLoadingPage = () => {
     })
 
     const {data: projectFiles} = useQuery({
-        queryKey: queryKeys.projectFiles(selectedProject),
-        queryFn: () => service.getProjectFiles(selectedProject),
+        queryKey: queryKeys.projectFiles(projectId),
+        queryFn: () => service.getProjectFiles(projectId || ""),
         select: ({data}) => data.files,
-        enabled: !!selectedProject
+        enabled: !!projectId
+    })
+
+    const {data: projectTests} = useQuery({
+        queryKey: queryKeys.projectTests(projectId),
+        queryFn: () => service.getProjectTests(projectId || ""),
+        select: ({data}) => data.files,
+        enabled: !!projectId
+    })
+
+    const {data: projectNodes} = useQuery({
+        queryKey: queryKeys.projectNodes(projectId),
+        queryFn: () => service.getProjectNodes(projectId || ""),
+        select: ({data}) => data.files,
+        enabled: !!projectId
     })
 
     const {mutate: uploadFile} = useMutation({
         mutationFn: (data: UploadTestFileDto) => service.uploadTestFile(data),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: queryKeys.projectFiles(selectedProject)})
+            queryClient.invalidateQueries({queryKey: queryKeys.projectFiles(projectId)})
             toastSuccess("Файл загружен")
         }
     });
@@ -69,12 +83,8 @@ export const DataLoadingPage = () => {
     }
 
     const onUpload = () => {
-        if (!selectedProject) {
-            toastWarning("Выберите проект, в который будут загружены данные");
-            return;
-        }
         uploadFile({
-            projectID: selectedProject,
+            projectID: projectId || "",
             file: acceptedFiles[0]
         })
         setLoadedFiles([]);
@@ -85,34 +95,24 @@ export const DataLoadingPage = () => {
             <div className="data-loading-page">
                 <div className={"data-loading-page__header"}>
                     <div className={"projects"}>
-                        {
-                            projects?.map(project =>
-                                <div key={project.id}
-                                     className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}
-                                     onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}
-                                >
-                                    {project.name}
-                                </div>)
-                        }
-                        <button className={`projects__item`} onClick={() => toastWarning("Создание проектов в разработке")}>
-                            Создать +
-                        </button>
+                        {/*{*/}
+                        {/*    projects?.map(project =>*/}
+                        {/*        <div key={project.id}*/}
+                        {/*             className={`projects__item ${project.id === selectedProject ? "projects__item_selected" : null}`}*/}
+                        {/*             onClick={() => project.id !== selectedProject ? setSelectedProject(project.id) : setSelectedProject("")}*/}
+                        {/*        >*/}
+                        {/*            {project.name}*/}
+                        {/*        </div>)*/}
+                        {/*}*/}
                     </div>
                 </div>
                 <div className={"project-content"}>
                     <div className={"categories-files-container"}>
-                        {
-                            selectedProject ?
-                                <>
-                                    <CategoryFiles name={"Core"} files={projectFiles}/>
-                                    <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
-                                    <CategoryFiles name={"PVT"} files={[]}/>
-                                    <CategoryFiles name={"СЕЙСМИКА"} files={[]}/>
-                                    <CategoryFiles name={"СКВ.ИССЛЕДОВАНИЕ"} files={[]}/>
-                                </>
-                                : <div className={"categories-files-container__empty"}>Выберите проект</div>
-                        }
-
+                        <CategoryFiles name={"Core"} files={projectFiles}/>
+                        <CategoryFiles name={"ПЕТРОФИЗИКА"} files={[]}/>
+                        <CategoryFiles name={"PVT"} files={[]}/>
+                        <CategoryFiles name={"СЕЙСМИКА"} files={[]}/>
+                        <CategoryFiles name={"СКВ.ИССЛЕДОВАНИЕ"} files={[]}/>
                     </div>
                     <div className={"upload-files-container"}>
                         <h4>Загрузить новые данные</h4>
@@ -123,7 +123,8 @@ export const DataLoadingPage = () => {
                                 </div>
                                 <div className='chevron'>
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg" className={!openDropdown ? 'arrow up' : 'arrow'}>
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         className={!openDropdown ? 'arrow up' : 'arrow'}>
                                         <path
                                             d="M3.51501 8.465L12 16.95L20.485 8.465L19.071 7.05L12 14.122L4.92901 7.05L3.51501 8.465Z"
                                             fill="#ffffff"/>
@@ -229,6 +230,8 @@ const FileCard = ({name, path, size}: FileCardProps) => {
         </div>
     )
 }
+
+
 
 //Получение типа файла
 function getExtension(file_name: string | undefined) {
