@@ -16,7 +16,7 @@ class Service {
     }
 
     async getProjectNodes(projectId: string) {
-        return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/node/get`)
+        return instance.get<{nodes: NodeDto[]}>(`/project/${projectId}/node/get`)
     }
 
     async createProject(data: CreateProjectDto) {
@@ -80,5 +80,13 @@ export type ProjectDto = {
 }
 
 export type CreateProjectDto = {
+    name: string
+}
+
+export type NodeDto = {
+    attributes: string[],
+    category: string,
+    domain: string,
+    id: string,
     name: string
 }

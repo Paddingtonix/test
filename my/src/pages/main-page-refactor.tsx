@@ -5,7 +5,6 @@ import { Node, Edge, GraphTable, FilterType } from '../types/types';
 //pages
 import { GraphPage } from './graph-page/graph-page';
 import { TablePage } from './table-page/table-page';
-import { DataLoadingPage } from './data-loading-page/data-loading-page'
 
 //components
 import { NavbarCmp } from '../components/navbar-cmp/navbar-cmp';
