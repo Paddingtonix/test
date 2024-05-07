@@ -12,7 +12,7 @@ class Service {
     }
 
     async getProjectTests(projectId: string) {
-        return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/test/get`)
+        return instance.get<{result: {message: string, tests: TestDto[]}}>(`/project/${projectId}/test/get`)
     }
 
     async getProjectNodes(projectId: string) {
@@ -89,4 +89,17 @@ export type NodeDto = {
     domain: string,
     id: string,
     name: string
+}
+
+export type TestDto = {
+    nodes: {
+        id: string,
+        name: string,
+        values_attributes: any[]
+    }[],
+    test: {
+        test_id: string,
+        test_name: string
+    },
+    test_order: number
 }

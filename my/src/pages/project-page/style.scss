@@ -227,7 +227,7 @@
     }
 
     .nodes-container {
-      width: 970px;
+      width: 1000px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
@@ -265,6 +265,68 @@
 
           path {
             stroke: $text-color;
+          }
+        }
+      }
+    }
+
+    .test-container {
+      width: 1000px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      &__item {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(5);
+        background-color: $dark-background-color;
+        padding: toRem(20);
+        border-radius: toRem(8);
+
+        &__order {
+          color: $text-color;
+          text-transform: uppercase;
+          font-size: toRem(14);
+        }
+
+        &__name {
+          color: $headers-color;
+          font-size: toRem(20);
+          border-bottom: 1px solid #545454;
+          padding-bottom: toRem(5);
+          margin: 0 0 toRem(5) 0;
+          text-transform: uppercase;
+        }
+
+        &__nodes {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+
+          > div {
+            display: flex;
+            flex-direction: column;
+            gap: toRem(5);
+            text-transform: uppercase;
+
+            h5 {
+              margin: 0;
+              color: $headers-color;
+              font-size: toRem(14);
+            }
+
+            > div {
+              color: $text-color;
+              display: flex;
+              align-items: center;
+              gap: toRem(5);
+              font-size: toRem(14);
+            }
+
+            path {
+              stroke: $text-color;
+            }
           }
         }
       }
