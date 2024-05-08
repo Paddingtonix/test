@@ -266,7 +266,7 @@
         &__name {
           color: $headers-color;
           font-size: toRem(20);
-          border-bottom: 1px solid #545454;
+          border-bottom: 1px solid $primary-color;
           padding-bottom: toRem(5);
           margin: 0 0 toRem(5) 0;
           text-transform: uppercase;
@@ -310,7 +310,7 @@
         &__name {
           color: $headers-color;
           font-size: toRem(20);
-          border-bottom: 1px solid #545454;
+          border-bottom: 1px solid $primary-color;
           padding-bottom: toRem(5);
           margin: 0 0 toRem(5) 0;
           text-transform: uppercase;
