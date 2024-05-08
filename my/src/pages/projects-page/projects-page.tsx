@@ -7,10 +7,11 @@ import {Links} from "../../App";
 import {useNotification} from "../../components/base/notification/notification-provider";
 import {useState} from "react";
 import TooltipCmp from "../../components/tooltip-cmp/tooltip-cmp";
+import LoaderCmp from "../../components/loader-cmp/loader-cmp";
 
 const ProjectsPage = () => {
 
-    const {data: projects} = useQuery({
+    const {data: projects, isLoading} = useQuery({
         queryKey: queryKeys.projects(),
         queryFn: () => service.getProjects(),
         select: ({data}) => data.projects
@@ -22,14 +23,18 @@ const ProjectsPage = () => {
                 <div>
                     <h2>Мои проекты</h2>
                     <div className={"projects-page__projects-list"}>
-                        <CreateProjectButton/>
-                        {
-                            projects?.map(project =>
-                                <Link to={generatePath(Links.Project, {id: project.id})}
-                                      className={"projects-page__project-card"} key={project.id}>
-                                    {project.name}
-                                </Link>
-                            )
+                        { isLoading ? <LoaderCmp/> :
+                            <>
+                                <CreateProjectButton/>
+                                {
+                                    projects?.map(project =>
+                                        <Link to={generatePath(Links.Project, {id: project.id})}
+                                              className={"projects-page__project-card"} key={project.id}>
+                                            {project.name}
+                                        </Link>
+                                    )
+                                }
+                            </>
                         }
                     </div>
                 </div>

@@ -27,6 +27,7 @@
   }
 
   &__project-card {
+    background-color: $dark-background-color;
     color: $headers-color;
     font-size: toRem(20);
     text-decoration: none;
@@ -44,6 +45,7 @@
   }
 
   &__create-button {
+    min-height: 74px;
     display: flex;
     align-items: center;
     gap: toRem(5);
