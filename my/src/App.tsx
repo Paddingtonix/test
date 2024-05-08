@@ -2,7 +2,7 @@ import './App.css';
 import {Navigate, Route, Routes} from "react-router-dom";
 import StartDataPage from "./pages/start-page/start-data-page";
 import {useInstanceInterceptors} from "./utils/api";
-import {DataLoadingPage} from "./pages/data-loading-page/data-loading-page";
+import {ProjectPage} from "./pages/project-page/project-page";
 import {useAuth} from "./utils/AuthProvider";
 import React from "react";
 
@@ -14,7 +14,7 @@ function App() {
     return (
         <Routes>
             <Route path={Links.Start} element={<StartDataPage/>}/>
-            <Route path={Links.LoadData} element={<PrivateRoute><DataLoadingPage/></PrivateRoute>}/>
+            <Route path={Links.Project} element={<PrivateRoute><ProjectPage/></PrivateRoute>}/>
             {/* <Route path={Links.Main} element={<PrivateRoute><Main/></PrivateRoute>}/> */}
             <Route path={Links.NotFound} element={<Navigate to={Links.Start}/>}/>
         </Routes>
@@ -24,6 +24,7 @@ function App() {
 export const Links = {
     Start: "/",
     LoadData: "/data",
+    Project: "/project/:id",
     Main: "/test",
     NotFound: "/*"
 }

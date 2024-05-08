@@ -11,13 +11,25 @@ class Service {
         return instance.get<{files: ProjectFileDto[]}>(`/project/${projectId}/file/get`)
     }
 
+    async getProjectTests(projectId: string) {
+        return instance.get<{result: {message: string, tests: TestDto[]}}>(`/project/${projectId}/test/get`)
+    }
+
+    async getProjectNodes(projectId: string) {
+        return instance.get<{nodes: NodeDto[]}>(`/project/${projectId}/node/get`)
+    }
+
+    async createProject(data: CreateProjectDto) {
+        return instance.post(`/project/create`, data)
+    }
+
     async uploadTestFile(data: UploadTestFileDto) {
 
         const formData = new FormData();
         formData.append("projectID", data.projectID);
         formData.append("file", data.file);
 
-        return instance.post(`/project/testUpload`, formData)
+        return instance.post<{date: {errorNodes: string}}>(`/project/testUpload`, formData)
     }
     async login(data: LoginCredentials) {
         return instance.post<TokensResponse>(`/user/login`, data)
@@ -32,8 +44,10 @@ class Service {
 export const service = new Service();
 
 export const queryKeys = {
-    projects: () => ["GET_PROJECTS"],
-    projectFiles: (projectId?: string) => ["GET_PROJECT_FILES", projectId],
+    projects: () => ["PROJECTS"],
+    projectFiles: (projectId?: string) => ["PROJECT_FILES", projectId],
+    projectTests: (projectId?: string) => ["PROJECT_TESTS", projectId],
+    projectNodes: (projectId?: string) => ["PROJECT_NODES", projectId],
     refreshToken: () => ["REFRESH_TOKEN"],
 }
 
@@ -63,4 +77,29 @@ export type ProjectDto = {
     id: string,
     name: string,
     updatedAt: string
+}
+
+export type CreateProjectDto = {
+    name: string
+}
+
+export type NodeDto = {
+    attributes: string[],
+    category: string,
+    domain: string,
+    id: string,
+    name: string
+}
+
+export type TestDto = {
+    nodes: {
+        id: string,
+        name: string,
+        values_attributes: any[]
+    }[],
+    test: {
+        test_id: string,
+        test_name: string
+    },
+    test_order: number
 }

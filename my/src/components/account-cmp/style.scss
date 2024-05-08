@@ -44,7 +44,7 @@
     position: absolute;
     right: 0;
     z-index: 100;
-    border: 1px solid $text-color;
+
     background-color: $dark-background-color;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
     border-radius: toRem(8);
@@ -58,9 +58,9 @@
       li {
         display: flex;
         align-items: center;
-        gap: toRem(5);
+        gap: toRem(10);
         color: $headers-color;
-        padding: toRem(10);
+        padding: toRem(15) toRem(20);
         cursor: pointer;
         transition: .3s;
         border-radius: toRem(8);
