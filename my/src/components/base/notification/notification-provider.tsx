@@ -22,7 +22,7 @@ const NotificationOptions = {
         timeToClose: 5000
     },
     warning: {
-        autoClose: true,
+        autoClose: false,
         timeToClose: 10000
     }
 }

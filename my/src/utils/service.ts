@@ -29,7 +29,7 @@ class Service {
         formData.append("projectID", data.projectID);
         formData.append("file", data.file);
 
-        return instance.post(`/project/testUpload`, formData)
+        return instance.post<{date: {errorNodes: string}}>(`/project/testUpload`, formData)
     }
     async login(data: LoginCredentials) {
         return instance.post<TokensResponse>(`/user/login`, data)

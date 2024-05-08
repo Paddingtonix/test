@@ -76,11 +76,28 @@
 
       .category-files {
 
+        > span {
+
+          .category-files__dropdown {
+            display: flex;
+            gap: toRem(10);
+
+            > div {
+              display: flex;
+              align-items: center;
+              gap: toRem(3);
+              color: $text-color;
+            }
+          }
+        }
+
         &_open > span {
           color: $primary-color;
 
-          svg {
-            rotate: 180deg;
+          .category-files__dropdown {
+            > svg {
+              rotate: 180deg;
+            }
           }
         }
 

@@ -11,7 +11,7 @@
 }
 
 .notification-cmp {
-  max-width: toRem(300);
+  max-width: toRem(450);
   min-width: toRem(100);
   max-height: toRem(200);
 
@@ -38,7 +38,7 @@
 
     background-color: $dark-background-color;
     color: $headers-color;
-    font-weight: bold;
+    font-weight: normal;
     border-left: toRem(5) solid white;
     border-radius: toRem(4);
 
